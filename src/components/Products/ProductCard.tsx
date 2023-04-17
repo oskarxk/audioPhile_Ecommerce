@@ -21,6 +21,8 @@ type Product = {
 	name: string;
 	price: number;
 	description: string;
+	feature1: string;
+	feature2: string;
 	imageDesktop: string;
 	imageMobile: string;
 	category: {
@@ -28,8 +30,8 @@ type Product = {
 	};
 };
 
-export const Zx9Product = (props: Props) => {
-	const [zx9speaker, setProduct] = useState<Product | null>(null);
+export const ProductCard = (props: Props) => {
+	const [product, setProduct] = useState<Product | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const { id } = useParams();
@@ -58,6 +60,8 @@ export const Zx9Product = (props: Props) => {
 					price,
 					  slug,
 					description,
+					feature1,
+					feature2,
 					"imageDesktop": imageDesktop.asset->url,
 					"imageMobile": imageMobile.asset->url,
 					category[]->{
@@ -95,20 +99,20 @@ export const Zx9Product = (props: Props) => {
 			<div className='flex flex-col w-full justify-between items-center'>
 				<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl'>
 					<img
-						src={zx9speaker?.imageMobile}
+						src={product?.imageMobile}
 						alt='speakers'
 						className='mt-4 rounded-xl'
 					/>
 					<div className='flex flex-col items-start'>
 						<p className='py-4  text-[#fbaf85] tracking-widest'>NEW PRODUCT</p>
 						<p className='text-[#101010] text-2xl font-bold pb-4 text-left'>
-							{zx9speaker?.name}
+							{product?.name}
 						</p>
 						<p className='text-[#808080] text-sm text-left'>
-							{zx9speaker?.description}
+							{product?.description}
 						</p>
 						<p className='text-[#101010] text-2xl font-bold pt-4'>
-							$ {zx9speaker?.price?.toLocaleString('en-US')}
+							$ {product?.price?.toLocaleString('en-US')}
 						</p>
 					</div>
 				</div>
@@ -139,21 +143,10 @@ export const Zx9Product = (props: Props) => {
 				<div className='w-3/4 flex flex-col'>
 					<p className='font-bold text-2xl text-left'>FEATURES</p>
 					<p className='text-left text-[#808080] my-4 text-base'>
-						{/* Connect via Bluetooth or nearly any wired source. This speaker
-						features optical, digital coaxial, USB Type-B, stereo RCA, and
-						stereo XLR inputs, allowing you to have up to five wired source
-						devices connected for easy switching. Improved bluetooth technology
-						offers near lossless audio quality at up to 328ft (100m). */}
-						YOLOOOO!!!!!!
+						{product?.feature1}
 					</p>
 					<p className='text-left text-[#808080] my-4 text-base'>
-						Discover clear, more natural sounding highs than the competition
-						with ZX9's signature planar diaphragm tweeter. Equally important is
-						its powerful room-shaking bass courtesy of a 6.5” aluminum alloy
-						bass unit. You'll be able to enjoy equal sound quality whether in a
-						large room or small den. Furthermore, you will experience new
-						sensations from old songs since it can respond to even the subtle
-						waveforms.
+						{product?.feature2}
 					</p>
 				</div>
 				<div className='w-3/4 flex flex-col'>

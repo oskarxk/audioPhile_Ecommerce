@@ -170,7 +170,7 @@ const SpeakersDesktop = (props: Props) => {
 	);
 };
 
-const SpeakersMobile = (props: Props) => {
+export const Speakers = (props: Props) => {
 	const colors = {
 		theme: {
 			orage: '#D87D4A',
@@ -185,139 +185,152 @@ const SpeakersMobile = (props: Props) => {
 	return (
 		<div className='flex flex-col w-full mb-4'>
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
-				<p className='text-[#FFFFFF] font-bold text-2xl tracking-widest'>
+				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest'>
 					SPEAKERS
 				</p>
 			</div>
-			<div className='flex flex-col justify-between items-center my-32'>
-				<div className='h-96 w-3/4 flex flex-col justify-center items-center rounded-xl pt-8'>
-					<img src={ZX9} alt='speakers' className='mt-2 rounded-xl' />
-					<p className=' px-2 py-4  text-[#fbaf85] tracking-widest'>
-						NEW PRODUCT
-					</p>
-					<p className='text-[#101010] text-2xl font-bold pb-4 px-20'>
-						ZX9 SPEAKER
-					</p>
-					<p className='text-[#808080] text-sm'>
-						Upgrade your sound system with the all new ZX9 active speaker. It's
-						a bookshelf speaker system that offers truly wireless connectivity
-						-- creating new possibilities for more pleasing and practical audio
-						setups.
-					</p>
-					<Link className='h-25 w-1/2 my-4 py-2' to={'zx9'}>
-						<button className='py-2 w-full bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
-							SEE PRODUCT
-						</button>
-					</Link>
+			<div className='flex flex-col justify-between items-center my-2 lg:flex-row lg:justify-around lg:my-8'>
+				<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl lg:flex-row lg:justify-between'>
+					<div className='flex justify-center items-center rounded-xl pt-8 lg:w-2/5'>
+						<img
+							src={ZX9}
+							srcSet={`${ZX9} 1024w, ${ZX9Desktop} 1280w`}
+							alt='speakers'
+							className='mt-2 rounded-xl'
+						/>
+					</div>
+					<div className='lg:flex lg:flex-col lg:justify-center lg:items-start lg:w-2/5'>
+						<p className=' px-2 lg:px-0 py-4 lg:text-xl text-[#fbaf85] tracking-widest'>
+							NEW PRODUCT
+						</p>
+						<p className='text-[#101010] text-2xl lg:text-4xl lg:text-left font-bold pb-4 lg:w-1/2'>
+							ZX9 SPEAKER
+						</p>
+						<p className='text-[#808080] text-sm lg:text-left lg:w-4/5'>
+							Upgrade your sound system with the all new ZX9 active speaker.
+							It's a bookshelf speaker system that offers truly wireless
+							connectivity -- creating new possibilities for more pleasing and
+							practical audio setups.
+						</p>
+						<Link to={'/headphones/zx9'}>
+							<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
+								SEE PRODUCT
+							</button>
+						</Link>
+					</div>
 				</div>
 			</div>
-			<div className='flex flex-col justify-between items-center my-32'>
-				<div className='h-96 w-3/4 flex flex-col justify-center items-center rounded-xl'>
-					<img src={ZX7} alt='speakers' className='mt-4 rounded-xl' />
-					<p className=' px-2 py-4  text-[#fbaf85] tracking-widest'>
-						NEW PRODUCT
-					</p>
-					<p className='text-[#101010] text-2xl font-bold pb-4 px-20'>
-						ZX7 SPEAKER
-					</p>
-					<p className='text-[#808080] text-sm'>
-						Stream high quality sound wirelessly with minimal loss. The ZX7
-						bookshelf speaker uses high-end audiophile components that
-						represents the top of the line powered speakers for home or studio
-						use.
-					</p>
-					<Link className='h-25 w-1/2 my-4 py-2' to={'zx7'}>
-						<button className='py-2 w-full bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
-							SEE PRODUCT
-						</button>
-					</Link>
+			<div className='flex flex-col justify-between items-center my-2 lg:flex-row lg:justify-around lg:my-8'>
+				<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl lg:flex-row lg:justify-between'>
+					<div className='flex justify-center items-center rounded-xl pt-8 lg:w-2/5 lg:order-1'>
+						<img
+							src={ZX7}
+							srcSet={`${ZX7} 1024w, ${ZX7Desktop} 1280w`}
+							alt='speakers'
+							className='mt-2 rounded-xl'
+						/>
+					</div>
+					<div className='lg:flex lg:flex-col lg:justify-center lg:items-start lg:w-2/5'>
+						<p className=' px-2 lg:px-0 py-4 lg:text-xl text-[#fbaf85] tracking-widest'>
+							NEW PRODUCT
+						</p>
+						<p className='text-[#101010] text-2xl lg:text-4xl lg:text-left font-bold pb-4 lg:w-1/2'>
+							ZX7 SPEAKER
+						</p>
+						<p className='text-[#808080] text-sm lg:text-left lg:w-4/5'>
+							Stream high quality sound wirelessly with minimal loss. The ZX7
+							bookshelf speaker uses high-end audiophile components that
+							represents the top of the line powered speakers for home or studio
+							use.
+						</p>
+						<Link to={'/headphones/zx7'}>
+							<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
+								SEE PRODUCT
+							</button>
+						</Link>
+					</div>
 				</div>
 			</div>
-			<div className='flex flex-col justify-evenly items-center mt-8'>
-				<div className='h-36 w-3/4 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-					<img
-						className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-						src={itemHeadphones}
-						alt='headphones'
-					/>
-					<p className='text-[#101010] font-bold tracking-wider	'>HEADPHONES</p>
-					<div className='flex flex-row items-center'>
-						<Link className='py-4' to={'/headphones'}>
-							<a href='' className=' text-[#808080] font-bold'>
-								SHOP
-							</a>
-						</Link>
-						<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+			<div className='flex justify-center items-center lg:flex-row'>
+				<div className='flex flex-col lg:flex-row justify-between items-center my-8 w-3/4'>
+					<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
+						<img
+							className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
+							src={itemHeadphones}
+							alt='headphones'
+						/>
+						<p className='text-[#101010] font-bold tracking-wider	'>
+							HEADPHONES
+						</p>
+						<div className='flex flex-row items-center'>
+							<Link className='py-4' to={'/headphones'}>
+								<a href='' className=' text-[#808080] font-bold'>
+									SHOP
+								</a>
+							</Link>
+							<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+						</div>
+					</div>
+					<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
+						<img
+							className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
+							src={itemSpeakers}
+							alt='speakers'
+						/>
+						<p className='text-[#101010] font-bold tracking-wider	'>SPEAKERS</p>
+						<div className='flex flex-row items-center'>
+							<Link className='py-4' to={'/speakers'}>
+								<a href='' className=' text-[#808080] font-bold'>
+									SHOP
+								</a>
+							</Link>
+							<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+						</div>
+					</div>
+					<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
+						<img
+							className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
+							src={itemEarphones}
+							alt='earphones'
+						/>
+						<p className='text-[#101010] font-bold tracking-wider	'>EARPHONES</p>
+						<div className='flex flex-row items-center'>
+							<Link className='py-4' to={'/earphones'}>
+								<a href='' className=' text-[#808080] font-bold'>
+									SHOP
+								</a>
+							</Link>
+							<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+						</div>
 					</div>
 				</div>
-				<div className='h-36 w-3/4 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-					<img
-						className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-						src={itemSpeakers}
-						alt='speakers'
-					/>
-					<p className='text-[#101010] font-bold tracking-wider	'>SPEAKERS</p>
-					<div className='flex flex-row items-center'>
-						<Link className='py-4' to={'/speakers'}>
-							<a href='' className=' text-[#808080] font-bold'>
-								SHOP
-							</a>
-						</Link>
-						<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+			</div>
+			<div className='flex justify-center items-center lg:flex-row lg:justify-around'>
+				<div className='flex flex-col lg:flex-row justify-center items-center lg:w-3/4'>
+					<div className=' w-3/4 my-8 flex flex-col justify-center items-center lg:items-end lg:order-1'>
+						<img src={photoMan} alt='Man' className='rounded-xl' />
 					</div>
-				</div>
-				<div className='h-36 w-3/4 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-					<img
-						className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-						src={itemEarphones}
-						alt='earphones'
-					/>
-					<p className='text-[#101010] font-bold tracking-wider	'>EARPHONES</p>
-					<div className='flex flex-row items-center'>
-						<Link className='py-4' to={'/earphones'}>
-							<a href='' className=' text-[#808080] font-bold'>
-								SHOP
-							</a>
-						</Link>
-						<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+					<div className=' w-3/4 flex flex-col justify-between items-center lg:items-start'>
+						<p className='lg:w-1/2 text-2xl lg:text-3xl lg:text-left font-bold my-2 lg:my-6 text-[#101010] tracking-normal'>
+							BRINGING YOU THE
+							<span className='text-2xl lg:text-3xl font-bold text-[#fbaf85] tracking-normal'>
+								{' '}
+								BEST{' '}
+							</span>
+							AUDIO GEAR
+						</p>
+						<p className=' mb-8 text-[#808080] lg:text-lg lg:text-left'>
+							Located at the heart of New York City, Audiophile is the premier
+							store for high end headphones, earphones, speakers, and audio
+							accessories. We have a large showroom and luxury demonstration
+							rooms available for you to browse and experience a wide range of
+							our products. Stop by our store to meet some of the fantastic
+							people who make Audiophile the best place to buy your portable
+							audio equipment.
+						</p>
 					</div>
-				</div>
-				<div className='h-64 w-3/4 my-8 flex flex-col justify-center items-center'>
-					<img src={photoMan} alt='Man' className='rounded-xl' />
-				</div>
-				<div className='h-96 w-3/4 flex flex-col justify-between items-center'>
-					<p className='text-2xl font-bold my-2 text-[#101010] tracking-normal'>
-						BRINGING YOU THE
-						<span className='text-2xl font-bold text-[#fbaf85] tracking-normal'>
-							{' '}
-							BEST{' '}
-						</span>
-						AUDIO GEAR
-					</p>
-					<p className=' mb-8 text-[#808080]'>
-						Located at the heart of New York City, Audiophile is the premier
-						store for high end headphones, earphones, speakers, and audio
-						accessories. We have a large showroom and luxury demonstration rooms
-						available for you to browse and experience a wide range of our
-						products. Stop by our store to meet some of the fantastic people who
-						make Audiophile the best place to buy your portable audio equipment.
-					</p>
 				</div>
 			</div>
 		</div>
-	);
-};
-
-export const Speakers = () => {
-	return (
-		<>
-			<div className='hidden sm:block'>
-				<SpeakersDesktop />
-			</div>
-
-			<div className='block sm:hidden'>
-				<SpeakersMobile />
-			</div>
-		</>
 	);
 };

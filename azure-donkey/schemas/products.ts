@@ -25,6 +25,16 @@ export default {
       title: 'Desription',
     },
     {
+      name: 'feature1',
+      type: 'string',
+      title: 'feature1',
+    },
+    {
+      name: 'feature2',
+      type: 'string',
+      title: 'feature2',
+    },
+    {
       title: 'Slug',
       name: 'slug',
       type: 'slug',
