@@ -2,7 +2,6 @@ import React from 'react';
 import { AiOutlineRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
-
 const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg');
 const headerImageTablet = require('../../Assets/home/tablet/image-header.jpg');
 const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg');
@@ -45,9 +44,11 @@ const DesktopMenu = () => {
 						made for the passionate music enthusiast
 					</p>
 					<div className='w-full flex justify-start mt-14'>
-						<button className='h-25 w-1/6 bg-[#D87D4A] text-white font-bold py-2 px-4 hover:bg-[#fbaf85]'>
-							SEE PRODUCT
-						</button>
+						<Link className='py-4' to={'/headphones/xx99m2'}>
+							<button className='h-25 bg-[#D87D4A] text-white font-bold py-2 px-4 hover:bg-[#fbaf85]'>
+								SEE PRODUCT
+							</button>
+						</Link>
 					</div>
 				</div>
 				<img className='block w-full' src={headerImageDesktop} alt='' />

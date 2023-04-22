@@ -35,7 +35,36 @@ export default {
               "name": "description",
               "title": "Description",
               "type": "string"
-            }
+            },
+            {
+              "name": "router",
+              "title": "Router",
+              "type": "string"
+            },
+            {
+              name: 'imageDesktop',
+              title: 'image-desktop',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'imageTablet',
+              title: 'image-tablet',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'imageMobile',
+              title: 'image-mobile',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
           ]
         }
       ]

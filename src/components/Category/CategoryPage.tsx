@@ -1,6 +1,9 @@
-import React from 'react';
-import { AiOutlineRight } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import sanityClient from '../../client';
+
+import { CategoryLink } from '../CategoryLink/CategoryLink';
+import { AboutUs } from '../Aboutus/AboutUs';
 
 const XX99M2 = require('../../Assets/products/product-xx99-mark-two-headphones/mobile/image-category-page-preview.jpg');
 const XX99M2Desktop = require('../../Assets/products/product-xx99-mark-two-headphones/desktop/image-category-page-preview.jpg');
@@ -8,34 +11,67 @@ const XX99M1 = require('../../Assets/products/product-xx99-mark-one-headphones/m
 const XX99M1Desktop = require('../../Assets/products/product-xx99-mark-one-headphones/desktop/image-category-page-preview.jpg');
 const XX59 = require('../../Assets/products/product-xx59-headphones/mobile/image-category-page-preview.jpg');
 const XX59Desktop = require('../../Assets/products/product-xx59-headphones/desktop/image-category-page-preview.jpg');
-const itemHeadphones = require('../../Assets/home/cart/image-removebg-headphones.png');
-const itemSpeakers = require('../../Assets/home/cart/image-removebg-speaker.png');
-const itemSpeakersMobile = require('../../Assets/home/cart/image-removebg-speaker.png');
-const itemEarphones = require('../../Assets/home/cart/image-removebg-earphones.png');
-const photoMan = require('../../Assets/home/mobile/image-best-gear.jpg');
 
 type Props = {};
 
-export const HeadPhones = (props: Props) => {
-	const colors = {
-		theme: {
-			orage: '#D87D4A',
-			black: '#101010',
-			grey: '#F1F1F1',
-			lightGrey: '#FAFAFA',
-			orangeHover: '#fbaf85',
-			white: '#FFFFFF',
-			moreBlack: '#000000',
-		},
+type Category = {
+	name: string;
+	categories: {
+		name: string;
+		description: string;
+		router: string;
 	};
+};
+
+export const CategoryPage = (props: Props) => {
+	const { categoryid } = useParams();
+	const [category, setCategory] = useState<Category | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(false);
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			if (!categoryid) {
+				return null;
+			}
+			setIsLoading(true);
+			const query = `*[_type == "category" && slug.current == "${categoryid}"]{ name,
+				categories,
+    "imageDesktop": imageDesktop.asset->url,
+  "imageTablet": imageTablet.asset->url,
+  "imageMobile": imageMobile.asset->url,
+				  }[0]`;
+			const response = await sanityClient.fetch(query);
+			if (!response) {
+				setError(true);
+				setIsLoading(false);
+			} else {
+				setCategory(response);
+				setIsLoading(false);
+			}
+		};
+
+		fetchProducts();
+	}, [categoryid]);
+
+	console.log(category);
+
+	if (isLoading) {
+		return <h1>Loading...............</h1>;
+	}
+
+	if (error) {
+		return <h1>Mordo, nie mam takiego produktu</h1>;
+	}
 
 	return (
 		<div className='flex flex-col w-full mb-4'>
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
-				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest'>
-					HEADPHONES
+				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
+					{category?.name}
 				</p>
 			</div>
+
 			<div className='flex flex-col justify-between items-center my-2 lg:flex-row lg:justify-around lg:my-8'>
 				<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl lg:flex-row lg:justify-between'>
 					<div className='flex justify-center items-center rounded-xl pt-8 lg:w-2/5'>
@@ -58,7 +94,7 @@ export const HeadPhones = (props: Props) => {
 							It redefines your premium headphone experience by reproducing the
 							balanced depth and precision of studio-quality sound.
 						</p>
-						<Link to={'/headphones/xx99m2'}>
+						<Link to={'/:categoryid/xx99m2'}>
 							<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
 								SEE PRODUCT
 							</button>
@@ -89,7 +125,7 @@ export const HeadPhones = (props: Props) => {
 							mixing engineers, and music aficionados alike in studios and on
 							the go.
 						</p>
-						<Link to={'/headphones/xx99m1'}>
+						<Link to={'/:categoryid/xx99m1'}>
 							<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
 								SEE PRODUCT
 							</button>
@@ -119,7 +155,7 @@ export const HeadPhones = (props: Props) => {
 							tastes with the XX59 headphones. The stylish yet durable versatile
 							wireless headset is a brilliant companion at home or on the move.
 						</p>
-						<Link to={'/headphones/xx59'}>
+						<Link to={'/:categoryid/xx59'}>
 							<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
 								SEE PRODUCT
 							</button>
@@ -127,86 +163,8 @@ export const HeadPhones = (props: Props) => {
 					</div>
 				</div>
 			</div>
-			<div className='flex justify-center items-center lg:flex-row'>
-				<div className='flex flex-col lg:flex-row justify-between items-center my-8 w-3/4'>
-					<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-						<img
-							className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-							src={itemHeadphones}
-							alt='headphones'
-						/>
-						<p className='text-[#101010] font-bold tracking-wider	'>
-							HEADPHONES
-						</p>
-						<div className='flex flex-row items-center'>
-							<Link className='py-4' to={'/headphones'}>
-								<a href='' className=' text-[#808080] font-bold'>
-									SHOP
-								</a>
-							</Link>
-							<AiOutlineRight className=' text-[#D87D4A] font-bold' />
-						</div>
-					</div>
-					<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-						<img
-							className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-							src={itemSpeakers}
-							alt='speakers'
-						/>
-						<p className='text-[#101010] font-bold tracking-wider	'>SPEAKERS</p>
-						<div className='flex flex-row items-center'>
-							<Link className='py-4' to={'/speakers'}>
-								<a href='' className=' text-[#808080] font-bold'>
-									SHOP
-								</a>
-							</Link>
-							<AiOutlineRight className=' text-[#D87D4A] font-bold' />
-						</div>
-					</div>
-					<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-						<img
-							className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-							src={itemEarphones}
-							alt='earphones'
-						/>
-						<p className='text-[#101010] font-bold tracking-wider	'>EARPHONES</p>
-						<div className='flex flex-row items-center'>
-							<Link className='py-4' to={'/earphones'}>
-								<a href='' className=' text-[#808080] font-bold'>
-									SHOP
-								</a>
-							</Link>
-							<AiOutlineRight className=' text-[#D87D4A] font-bold' />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className='flex justify-center items-center lg:flex-row lg:justify-around'>
-				<div className='flex flex-col lg:flex-row justify-center items-center lg:w-3/4'>
-					<div className=' w-3/4 my-8 flex flex-col justify-center items-center lg:items-end lg:order-1'>
-						<img src={photoMan} alt='Man' className='rounded-xl' />
-					</div>
-					<div className=' w-3/4 flex flex-col justify-between items-center lg:items-start'>
-						<p className='lg:w-1/2 text-2xl lg:text-3xl lg:text-left font-bold my-2 lg:my-6 text-[#101010] tracking-normal'>
-							BRINGING YOU THE
-							<span className='text-2xl lg:text-3xl font-bold text-[#fbaf85] tracking-normal'>
-								{' '}
-								BEST{' '}
-							</span>
-							AUDIO GEAR
-						</p>
-						<p className=' mb-8 text-[#808080] lg:text-lg lg:text-left'>
-							Located at the heart of New York City, Audiophile is the premier
-							store for high end headphones, earphones, speakers, and audio
-							accessories. We have a large showroom and luxury demonstration
-							rooms available for you to browse and experience a wide range of
-							our products. Stop by our store to meet some of the fantastic
-							people who make Audiophile the best place to buy your portable
-							audio equipment.
-						</p>
-					</div>
-				</div>
-			</div>
+			<CategoryLink />
+			<AboutUs />
 		</div>
 	);
 };

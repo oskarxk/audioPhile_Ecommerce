@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
 import { Link, useParams } from 'react-router-dom';
-import { AiOutlineRight } from 'react-icons/ai';
 // import { Product, cartActions } from '../store/Cart';
 
-const itemHeadphones = require('../../Assets/home/cart/image-removebg-headphones.png');
-const itemSpeakers = require('../../Assets/home/cart/image-removebg-speaker.png');
-const itemEarphones = require('../../Assets/home/cart/image-removebg-earphones.png');
+import { CategoryLink } from '../CategoryLink/CategoryLink';
+
+
 const photoMan = require('../../Assets/home/mobile/image-best-gear.jpg');
 const photo1 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-1.jpg');
 const photo2 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-2.jpg');
@@ -224,55 +223,8 @@ export const ProductCard = (props: Props) => {
 					</button>
 				</div>
 			</div>
+			<CategoryLink/>
 			<div className='flex flex-col justify-evenly items-center '>
-				<div className='h-36 w-3/4 bg-[#F1F1F1] mt-28 mb-8 flex flex-col justify-end items-center relative rounded-xl'>
-					<img
-						className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-						src={itemHeadphones}
-						alt='headphones'
-					/>
-					<p className='text-[#101010] font-bold tracking-wider	'>HEADPHONES</p>
-					<div className='flex flex-row items-center'>
-						<Link className='py-4' to={'/headphones'}>
-							<a href='' className=' text-[#808080] font-bold'>
-								SHOP
-							</a>
-						</Link>
-						<AiOutlineRight className=' text-[#D87D4A] font-bold' />
-					</div>
-				</div>
-				<div className='h-36 w-3/4 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-					<img
-						className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-						src={itemSpeakers}
-						alt='speakers'
-					/>
-					<p className='text-[#101010] font-bold tracking-wider	'>SPEAKERS</p>
-					<div className='flex flex-row items-center'>
-						<Link className='py-4' to={'/speakers'}>
-							<a href='' className=' text-[#808080] font-bold'>
-								SHOP
-							</a>
-						</Link>
-						<AiOutlineRight className=' text-[#D87D4A] font-bold' />
-					</div>
-				</div>
-				<div className='h-36 w-3/4 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
-					<img
-						className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
-						src={itemEarphones}
-						alt='earphones'
-					/>
-					<p className='text-[#101010] font-bold tracking-wider	'>EARPHONES</p>
-					<div className='flex flex-row items-center'>
-						<Link className='py-4' to={'/earphones'}>
-							<a href='' className=' text-[#808080] font-bold'>
-								SHOP
-							</a>
-						</Link>
-						<AiOutlineRight className=' text-[#D87D4A] font-bold' />
-					</div>
-				</div>
 				<div className='h-64 w-3/4 my-8 flex flex-col justify-center items-center'>
 					<img src={photoMan} alt='Man' className='rounded-xl' />
 				</div>
