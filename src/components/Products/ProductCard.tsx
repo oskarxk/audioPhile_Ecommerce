@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
 import { Link, useParams } from 'react-router-dom';
 import { AiOutlineRight } from 'react-icons/ai';
+// import { Product, cartActions } from '../store/Cart';
 
 const itemHeadphones = require('../../Assets/home/cart/image-removebg-headphones.png');
 const itemSpeakers = require('../../Assets/home/cart/image-removebg-speaker.png');
@@ -25,6 +26,10 @@ type Product = {
 	feature2: string;
 	imageDesktop: string;
 	imageMobile: string;
+	contents: {
+		name: string;
+		quantity: number;
+	};
 	category: {
 		name: string;
 	};
@@ -36,6 +41,7 @@ export const ProductCard = (props: Props) => {
 	const [error, setError] = useState(false);
 	const { id } = useParams();
 	const [quantity, setQuantity] = useState(1);
+
 
 	console.log(id);
 	const colors = {
@@ -50,6 +56,11 @@ export const ProductCard = (props: Props) => {
 		},
 	};
 
+	// const addToCart = () => {
+	// 	dispatch(cartActions.addItem({ quantity, product: props }));
+	// 	setQuantity(1);
+	// };
+
 	useEffect(() => {
 		const fetchProducts = async () => {
 			if (!id) {
@@ -62,6 +73,7 @@ export const ProductCard = (props: Props) => {
 					description,
 					feature1,
 					feature2,
+					contents,
 					"imageDesktop": imageDesktop.asset->url,
 					"imageMobile": imageMobile.asset->url,
 					category[]->{
@@ -88,6 +100,8 @@ export const ProductCard = (props: Props) => {
 	if (error) {
 		return <h1>Mordo, nie mam takiego produktu</h1>;
 	}
+
+
 
 	return (
 		<div className='flex flex-col items-center w-full mb-4'>
@@ -151,7 +165,7 @@ export const ProductCard = (props: Props) => {
 				</div>
 				<div className='w-3/4 flex flex-col'>
 					<p className='font-bold text-2xl text-left my-2'>IN THE BOX</p>
-					<ul>
+					<ul>	
 						<li className='flex justify-between mb-2'>
 							<p className='w-1/5 text-left text-[#fbaf85]'>2x</p>
 							<p className='w-4/5 text-left text-[#808080]'>Speaker unit</p>

@@ -27,12 +27,35 @@ export default {
     {
       name: 'feature1',
       type: 'string',
-      title: 'feature1',
+      title: 'Feature1',
     },
     {
       name: 'feature2',
       type: 'string',
-      title: 'feature2',
+      title: 'Feature2',
+    },
+    {
+      "name": "contents",
+      "type": "array",
+      "of": [
+        {
+          "name": "content",
+          "title": "Product",
+          "type": "object",
+          "fields": [
+            {
+              "name": "name",
+              "title": "Name",
+              "type": "string"
+            },
+            {
+              "name": "quantity",
+              "title": "Quantity",
+              "type": "number"
+            }
+          ]
+        }
+      ]
     },
     {
       title: 'Slug',

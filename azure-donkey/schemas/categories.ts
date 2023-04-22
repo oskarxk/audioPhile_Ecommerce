@@ -9,34 +9,36 @@ export default {
       title: 'name',
     },
     {
-      name: 'product1',
-      type: 'string',
-      title: 'product1',
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 200, // will be ignored if slugify is set
+      },
     },
     {
-      name: 'descriptionProduct1',
-      type: 'string',
-      title: 'descriptionProduct1',
-    },
-    {
-      name: 'product2',
-      type: 'string',
-      title: 'product2',
-    },
-    {
-      name: 'descriptionProduct2',
-      type: 'string',
-      title: 'descriptionProduct2',
-    },
-    {
-      name: 'product3',
-      type: 'string',
-      title: 'product3',
-    },
-    {
-      name: 'descriptionProduct3',
-      type: 'string',
-      title: 'descriptionProduct3',
+      "name": "categories",
+      "type": "array",
+      "of": [
+        {
+          "name": "category",
+          "title": "Product",
+          "type": "object",
+          "fields": [
+            {
+              "name": "name",
+              "title": "Name",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "title": "Description",
+              "type": "string"
+            }
+          ]
+        }
+      ]
     },
   ],
 }
