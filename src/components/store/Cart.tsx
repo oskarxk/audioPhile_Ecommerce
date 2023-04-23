@@ -27,7 +27,7 @@ const initialState: State = {
 };
 
 const cart = createSlice({
-	name: 'cartMechanism',
+	name: 'cm',
 	initialState,
 	reducers: {
 		addItem: (

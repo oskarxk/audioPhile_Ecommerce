@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
 import { Link, useParams } from 'react-router-dom';
-// import { Product, cartActions } from '../store/Cart';
+import { useAppDispatch } from '../hooks/useTypedSelector';
 
 import { CategoryLink } from '../CategoryLink/CategoryLink';
+import { cartActions } from '../store/Cart';
+import { AboutUs } from '../Aboutus/AboutUs';
 
-
-const photoMan = require('../../Assets/home/mobile/image-best-gear.jpg');
 const photo1 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-1.jpg');
 const photo2 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-2.jpg');
 const photo3 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-3.jpg');
 const shared1 = require('../../Assets/shared/mobile/image-zx7-speaker.jpg');
 const shared2 = require('../../Assets/shared/mobile/image-xx99-mark-one-headphones.jpg');
 const shared3 = require('../../Assets/shared/mobile/image-xx59-headphones.jpg');
-
-type Props = {};
 
 type Product = {
 	_id: number;
@@ -28,37 +26,26 @@ type Product = {
 	contents: {
 		name: string;
 		quantity: number;
-	};
+	}[];
 	category: {
 		name: string;
 	};
 };
 
-export const ProductCard = (props: Props) => {
+export const ProductCard = () => {
 	const [product, setProduct] = useState<Product | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const { id } = useParams();
 	const [quantity, setQuantity] = useState(1);
-
-
-	console.log(id);
-	const colors = {
-		theme: {
-			orage: '#D87D4A',
-			black: '#101010',
-			grey: '#F1F1F1',
-			lightGrey: '#FAFAFA',
-			orangeHover: '#fbaf85',
-			white: '#FFFFFF',
-			moreBlack: '#000000',
-		},
-	};
+	const dispatch = useAppDispatch();
 
 	// const addToCart = () => {
 	// 	dispatch(cartActions.addItem({ quantity, product: props }));
 	// 	setQuantity(1);
 	// };
+
+	console.log(product);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -99,8 +86,6 @@ export const ProductCard = (props: Props) => {
 	if (error) {
 		return <h1>Mordo, nie mam takiego produktu</h1>;
 	}
-
-
 
 	return (
 		<div className='flex flex-col items-center w-full mb-4'>
@@ -164,33 +149,13 @@ export const ProductCard = (props: Props) => {
 				</div>
 				<div className='w-3/4 flex flex-col'>
 					<p className='font-bold text-2xl text-left my-2'>IN THE BOX</p>
-					<ul>	
-						<li className='flex justify-between mb-2'>
-							<p className='w-1/5 text-left text-[#fbaf85]'>2x</p>
-							<p className='w-4/5 text-left text-[#808080]'>Speaker unit</p>
-						</li>
-						<li className='flex justify-between mb-2'>
-							<p className='w-1/5 text-left text-[#fbaf85]'>2x</p>
-							<p className='w-4/5 text-left text-[#808080]'>
-								Speaker cloth panel
-							</p>
-						</li>
-						<li className='flex justify-between mb-2'>
-							<p className='w-1/5 text-left text-[#fbaf85]'>1x</p>
-							<p className='w-4/5 text-left text-[#808080]'>User Manual</p>
-						</li>
-						<li className='flex justify-between mb-2'>
-							<p className='w-1/5 text-left text-[#fbaf85]'>1x</p>
-							<p className='w-4/5 text-left text-[#808080]'>
-								3.5mm 10m Audio Cable
-							</p>
-						</li>
-						<li className='flex justify-between mb-2'>
-							<p className='w-1/5 text-left text-[#fbaf85]'>1x</p>
-							<p className='w-4/5 text-left text-[#808080]'>
-								10m Optical Cable
-							</p>
-						</li>
+					<ul>
+						{product?.contents.map((item) => (
+							<li className='flex justify-between mb-2'>
+								<p className='w-1/5 text-left text-[#fbaf85]'>{`${item.quantity}x`}</p>
+								<p className='w-4/5 text-left text-[#808080]'>{item.name}</p>
+							</li>
+						))}
 					</ul>
 				</div>
 				<div className='w-3/4 flex flex-col justify-between my-8'>
@@ -223,29 +188,9 @@ export const ProductCard = (props: Props) => {
 					</button>
 				</div>
 			</div>
-			<CategoryLink/>
+			<CategoryLink />
 			<div className='flex flex-col justify-evenly items-center '>
-				<div className='h-64 w-3/4 my-8 flex flex-col justify-center items-center'>
-					<img src={photoMan} alt='Man' className='rounded-xl' />
-				</div>
-				<div className='h-96 w-3/4 flex flex-col justify-between items-center'>
-					<p className='text-2xl font-bold my-2 text-[#101010] tracking-normal'>
-						BRINGING YOU THE
-						<span className='text-2xl font-bold text-[#fbaf85] tracking-normal'>
-							{' '}
-							BEST{' '}
-						</span>
-						AUDIO GEAR
-					</p>
-					<p className=' mb-8 text-[#808080]'>
-						Located at the heart of New York City, Audiophile is the premier
-						store for high end headphones, earphones, speakers, and audio
-						accessories. We have a large showroom and luxury demonstration rooms
-						available for you to browse and experience a wide range of our
-						products. Stop by our store to meet some of the fantastic people who
-						make Audiophile the best place to buy your portable audio equipment.
-					</p>
-				</div>
+				<AboutUs />
 			</div>
 		</div>
 	);

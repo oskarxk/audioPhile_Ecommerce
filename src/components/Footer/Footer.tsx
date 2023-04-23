@@ -17,18 +17,10 @@ export const Footer = () => {
 				<Logo />
 			</div>
 			<div className='flex flex-col space-y-4 px-4 py-8'>
-				<a href='#' className='text-[#FAFAFA] font-bold'>
-					HOME
-				</a>
-				<a href='#' className='text-[#FAFAFA] font-bold'>
-					SPEAKERS
-				</a>
-				<a href='#' className='text-[#FAFAFA] font-bold'>
-					HEADPHONES
-				</a>
-				<a href='#' className='text-[#FAFAFA] font-bold'>
-					EARPHONES
-				</a>
+				<p className='text-[#FAFAFA] font-bold'>HOME</p>
+				<p className='text-[#FAFAFA] font-bold'>SPEAKERS</p>
+				<p className='text-[#FAFAFA] font-bold'>HEADPHONES</p>
+				<p className='text-[#FAFAFA] font-bold'>EARPHONES</p>
 			</div>
 			<p className='text-[#FAFAFA] mx-7'>
 				Audiophile is an all in one stop to fulfill your audio needs. We're a
