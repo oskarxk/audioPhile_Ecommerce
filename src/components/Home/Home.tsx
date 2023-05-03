@@ -2,24 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { AboutUs } from '../Aboutus/AboutUs';
 import { CategoryLink } from '../CategoryLink/CategoryLink';
+import { Cart } from '../Cart/Cart';
+
+import { useSelector } from 'react-redux';
 
 const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg');
-const headerImageTablet = require('../../Assets/home/tablet/image-header.jpg');
 const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg');
-const itemHeadphones = require('../../Assets/home/cart/image-removebg-headphones.png');
 const itemSpeakersMobile = require('../../Assets/home/cart/image-removebg-speaker.png');
 const itemSpeakersDesktop = require('../../Assets/home//tablet/image-speaker-zx9.png');
 
-const itemEarphones = require('../../Assets/home/cart/image-removebg-earphones.png');
 const photoSpeaker = require('../../Assets/home/mobile/image-speaker-zx7.jpg');
 const photoSpeakerDesktop = require('../../Assets/home/desktop/image-speaker-zx7.jpg');
 const photoEarphones = require('../../Assets/home/mobile/image-earphones-yx1.jpg');
 const photoEarphonesDesktop = require('../../Assets/home/desktop/image-earphones-yx1.jpg');
 
-
 export const Home = () => {
+	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
 	return (
-		<div className='flex flex-col'>
+		<div className='flex flex-col relative'>
+			{showCart && <Cart />}
 			<div className='relative lg:mb-8'>
 				<div className='absolute inset-0 flex flex-col justify-center lg:px-40'>
 					<p className='text-sm lg:text-5xl font-semibold lg:font-bold text-center lg:text-left mb-2 lg:mb-4 tracking-widest text-[#808080]'>
@@ -88,8 +89,12 @@ export const Home = () => {
 				</div>
 				<div className='flex flex-col lg:flex-row w-3/4 lg:w-3/4 justify-center lg:justify-between items-center'>
 					<div className='w-3/4 lg:w-full my-2 lg:my-0 flex flex-col justify-center items-center rounded-xl relative'>
-						<img src={photoEarphones}
-						srcSet={`${photoEarphones} 1024w, ${photoEarphonesDesktop} 1280w`} alt='speakers' className='rounded-xl' />
+						<img
+							src={photoEarphones}
+							srcSet={`${photoEarphones} 1024w, ${photoEarphonesDesktop} 1280w`}
+							alt='speakers'
+							className='rounded-xl'
+						/>
 					</div>
 					<div className='w-3/4 lg:w-4/6 lg:h-full bg-[#F1F1F1] my-2 lg:my-0 flex flex-col justify-evenly lg:justify-center items-left relative rounded-xl'>
 						<p className='text-[#101010] font-bold tracking-wider	text-left ml-4 lg:ml-16 text-2xl lg:text-3xl'>

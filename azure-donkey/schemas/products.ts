@@ -9,6 +9,11 @@ export default {
       title: 'Name',
     },
     {
+      name: 'shortName',
+      type: 'string',
+      title: 'Short Name',
+    },
+    {
       name: 'price',
       type: 'number',
       title: 'Price',
@@ -85,6 +90,14 @@ export default {
     {
       name: 'imageMobile',
       title: 'image-mobile',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'imageCart',
+      title: 'image-cart',
       type: 'image',
       options: {
         hotspot: true,

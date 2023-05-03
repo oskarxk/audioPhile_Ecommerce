@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import sanityClient from '../../client';
 
+import { Cart } from '../Cart/Cart';
 import { CategoryLink } from '../CategoryLink/CategoryLink';
 import { AboutUs } from '../Aboutus/AboutUs';
-
-const XX99M2 = require('../../Assets/products/product-xx99-mark-two-headphones/mobile/image-category-page-preview.jpg');
-const XX99M2Desktop = require('../../Assets/products/product-xx99-mark-two-headphones/desktop/image-category-page-preview.jpg');
-const XX99M1 = require('../../Assets/products/product-xx99-mark-one-headphones/mobile/image-category-page-preview.jpg');
-const XX99M1Desktop = require('../../Assets/products/product-xx99-mark-one-headphones/desktop/image-category-page-preview.jpg');
-const XX59 = require('../../Assets/products/product-xx59-headphones/mobile/image-category-page-preview.jpg');
-const XX59Desktop = require('../../Assets/products/product-xx59-headphones/desktop/image-category-page-preview.jpg');
 
 type Props = {};
 
@@ -31,6 +26,7 @@ export const CategoryPage = (props: Props) => {
 	const [category, setCategory] = useState<Category | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
+	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -79,10 +75,11 @@ export const CategoryPage = (props: Props) => {
 					{category?.name}
 				</p>
 			</div>
+			{showCart && <Cart />}
 			{category?.categories.map((item) => (
 				<div className='flex flex-col justify-between items-center my-2 lg:flex-row lg:justify-around lg:my-8'>
 					<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl lg:flex-row lg:justify-between'>
-						<div className='flex justify-center items-center rounded-xl pt-8 lg:w-2/5'>
+						<div className='flex justify-center items-center rounded-xl pt-8 lg:w-2/5 odd:order-1 even:order-2'>
 							<img
 								src={item.imageMobile}
 								srcSet={`${item.imageMobile} 1024w, ${item.imageDesktop} 1280w`}
@@ -90,7 +87,7 @@ export const CategoryPage = (props: Props) => {
 								className='mt-2 rounded-xl'
 							/>
 						</div>
-						<div className='lg:flex lg:flex-col lg:justify-center lg:items-start lg:w-2/5'>
+						<div className='lg:flex lg:flex-col lg:justify-center lg:items-start lg:w-2/5 odd:order-2 even:order-1'>
 							<p className=' px-2 lg:px-0 py-4 lg:text-xl text-[#fbaf85] tracking-widest'>
 								NEW PRODUCT
 							</p>

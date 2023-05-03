@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
-import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/useTypedSelector';
 
+import { Cart } from '../Cart/Cart';
 import { CategoryLink } from '../CategoryLink/CategoryLink';
 import { cartActions } from '../store/Cart';
 import { AboutUs } from '../Aboutus/AboutUs';
@@ -17,12 +19,14 @@ const shared3 = require('../../Assets/shared/mobile/image-xx59-headphones.jpg');
 type Product = {
 	_id: number;
 	name: string;
+	shortName: string;
 	price: number;
 	description: string;
 	feature1: string;
 	feature2: string;
 	imageDesktop: string;
 	imageMobile: string;
+	imageCart: string;
 	contents: {
 		name: string;
 		quantity: number;
@@ -33,19 +37,21 @@ type Product = {
 };
 
 export const ProductCard = () => {
-	const [product, setProduct] = useState<Product | null>(null);
+	const [product, setProduct] = useState<Product | undefined>(undefined);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const { id } = useParams();
 	const [quantity, setQuantity] = useState(1);
 	const dispatch = useAppDispatch();
+	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
+	const navigate = useNavigate();
 
-	// const addToCart = () => {
-	// 	dispatch(cartActions.addItem({ quantity, product: props }));
-	// 	setQuantity(1);
-	// };
-
-	console.log(product);
+	const addToCart = () => {
+		if (product) {
+			dispatch(cartActions.addItem({ quantity, product: product as Product }));
+			setQuantity(1);
+		}
+	};
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -53,7 +59,7 @@ export const ProductCard = () => {
 				return null;
 			}
 			setIsLoading(true);
-			const query = `*[_type == "products" && slug.current == "${id}"]{_id,name,
+			const query = `*[_type == "products" && slug.current == "${id}"]{_id,name,shortName,
 					price,
 					  slug,
 					description,
@@ -62,6 +68,7 @@ export const ProductCard = () => {
 					contents,
 					"imageDesktop": imageDesktop.asset->url,
 					"imageMobile": imageMobile.asset->url,
+					"imageCart": imageCart.asset->url,
 					category[]->{
 					  name,
 					}
@@ -89,16 +96,20 @@ export const ProductCard = () => {
 
 	return (
 		<div className='flex flex-col items-center w-full mb-4'>
+			{showCart && <Cart />}
 			<div className='flex w-full items-center justify-center py-4'>
-				<Link className='w-3/4' to={'/speakers'}>
-					<p className=' text-[#808080] text-sm text-left'>Go Back</p>
-				</Link>
+				<button
+					onClick={() => navigate(-1)}
+					className='w-3/4 text-[#808080] text-sm text-left'
+				>
+					Go Back
+				</button>
 			</div>
 			<div className='flex flex-col w-full justify-between items-center'>
 				<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl'>
 					<img
 						src={product?.imageMobile}
-						alt='speakers'
+						alt='Zdjecie produktu'
 						className='mt-4 rounded-xl'
 					/>
 					<div className='flex flex-col items-start'>
@@ -133,7 +144,10 @@ export const ProductCard = () => {
 						</button>
 					</div>
 					<div className=' flex justify-start w-2/4'>
-						<button className='w-full py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
+						<button
+							className='w-full py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'
+							onClick={addToCart}
+						>
 							<p>Add to cart</p>
 						</button>
 					</div>

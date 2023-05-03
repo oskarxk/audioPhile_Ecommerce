@@ -6,6 +6,7 @@ import { Home } from './components/Home/Home';
 import { Footer } from './components/Footer/Footer';
 import { CategoryPage } from './components/Category/CategoryPage';
 import { ProductCard } from './components/Products/ProductCard';
+import { PaymentFinalization } from './components/PaymentFinalization/PaymentFinalization';
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 				<Route path='/' element={<Home />} />
 				<Route path='/:categoryid' element={<CategoryPage />} />
 				<Route path='/:categoryid/:id' element={<ProductCard />} />
+				<Route path='/payment' element={<PaymentFinalization />} />
 			</Routes>
 			<Footer />
 		</div>

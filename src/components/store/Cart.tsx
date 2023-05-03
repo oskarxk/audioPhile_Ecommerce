@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type Product = {
 	_id: number;
 	name: string;
+	shortName: string;
 	price: number;
 	description: string;
 	feature1: string;
 	feature2: string;
 	imageDesktop: string;
 	imageMobile: string;
+	imageCart: string;
 	category: {
 		name: string;
 	};
@@ -31,7 +33,7 @@ const cart = createSlice({
 	initialState,
 	reducers: {
 		addItem: (
-			state,
+			state: State,
 			action: PayloadAction<{ quantity: number; product: Product }>
 		) => {
 			const { quantity, product } = action.payload;
@@ -44,20 +46,57 @@ const cart = createSlice({
 					products: [...state.products, { ...product, quantity }],
 				};
 			} else {
-				existingProduct.quantity = quantity + existingProduct.quantity;
+				state = {
+					...state,
+					products: [
+						...state.products.filter((item) => item._id !== product._id),
+						{ ...existingProduct, quantity },
+					],
+				};
 			}
+			console.log(state);
+			return state;
 		},
-		removeItem: (state, action: PayloadAction<number>) => {
+		addItemToCart: (state: State, action: PayloadAction<number>) => {
 			const itemId = action.payload;
 			const cartItem = state.products.find((item) => item._id === itemId);
 			if (!cartItem) {
 				return state;
 			}
-			if (cartItem.quantity === 1) {
-				state.products = [];
-			} else {
-				cartItem.quantity = cartItem.quantity - 1;
+			const cartItemRest = state.products.filter((item) => item._id !== itemId);
+			state = {
+				...state,
+				products: [
+					...cartItemRest,
+					{ ...cartItem, quantity: cartItem.quantity + 1 },
+				],
+			};
+			return state;
+		},
+		removeItem: (state: State, action: PayloadAction<number>) => {
+			const itemId = action.payload;
+			const cartItem = state.products.find((item) => item._id === itemId);
+			if (!cartItem) {
+				return state;
 			}
+			const cartItemRest = state.products.filter((item) => item._id !== itemId);
+			state = {
+				...state,
+				products: [
+					...cartItemRest,
+					...(cartItem.quantity === 1
+						? []
+						: [{ ...cartItem, quantity: cartItem.quantity - 1 }]),
+				],
+			};
+			return state;
+		},
+		removeAll: (state: State) => {
+			state = {
+				...state,
+				products: [],
+			};
+			return state;
 		},
 	},
 });

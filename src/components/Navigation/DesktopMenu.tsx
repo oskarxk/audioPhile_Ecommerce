@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Logo } from './Logo/Logo';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { uiActions } from '../store/CartVisibility';
-import { Cart } from '../Cart/Cart';
+
 
 export const DesktopMenu = () => {
 	const dispatch = useDispatch();
@@ -13,7 +13,6 @@ export const DesktopMenu = () => {
 		dispatch(uiActions.toggle());
 	};
 
-	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
 
 	return (
 		<nav className={`flex items-center justify-around bg-[#101010] py-6`}>
@@ -39,7 +38,6 @@ export const DesktopMenu = () => {
 			<div onClick={toggleCartHandler} className='cursor-pointer'>
 				<AiOutlineShoppingCart className='text-white text-2xl' />
 			</div>
-			{showCart && <Cart />}
 		</nav>
 	);
 };
