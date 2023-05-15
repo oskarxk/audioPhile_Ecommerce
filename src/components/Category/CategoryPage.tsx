@@ -64,7 +64,7 @@ export const CategoryPage = (props: Props) => {
 		return <h1>Loading...............</h1>;
 	}
 
-	if (error) {
+	if (error || !category) {
 		return <h1>Mordo, nie mam takiego produktu</h1>;
 	}
 

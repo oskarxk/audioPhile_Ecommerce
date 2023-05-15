@@ -25,7 +25,7 @@ type State = {
 };
 
 const initialState: State = {
-	products: [],
+	products: JSON.parse(sessionStorage.getItem('cartItems') || '[]'),
 };
 
 const cart = createSlice({
@@ -55,48 +55,56 @@ const cart = createSlice({
 				};
 			}
 			console.log(state);
+			sessionStorage.setItem('cartItems', JSON.stringify(state.products));
 			return state;
 		},
 		addItemToCart: (state: State, action: PayloadAction<number>) => {
 			const itemId = action.payload;
-			const cartItem = state.products.find((item) => item._id === itemId);
+			const cartItemIndex: number = state.products.findIndex(
+				(item) => item._id === itemId
+			);
+			const cartItem = state.products[cartItemIndex];
 			if (!cartItem) {
 				return state;
 			}
-			const cartItemRest = state.products.filter((item) => item._id !== itemId);
-			state = {
-				...state,
-				products: [
-					...cartItemRest,
-					{ ...cartItem, quantity: cartItem.quantity + 1 },
-				],
+			const newState = JSON.parse(JSON.stringify(state)) as State;
+			newState.products[cartItemIndex] = {
+				...cartItem,
+				quantity: cartItem.quantity + 1,
 			};
-			return state;
+
+			return newState;
 		},
 		removeItem: (state: State, action: PayloadAction<number>) => {
 			const itemId = action.payload;
-			const cartItem = state.products.find((item) => item._id === itemId);
+
+			const cartItemIndex: number = state.products.findIndex(
+				(item) => item._id === itemId
+			);
+			const cartItem = state.products[cartItemIndex];
 			if (!cartItem) {
 				return state;
 			}
-			const cartItemRest = state.products.filter((item) => item._id !== itemId);
-			state = {
-				...state,
-				products: [
-					...cartItemRest,
-					...(cartItem.quantity === 1
-						? []
-						: [{ ...cartItem, quantity: cartItem.quantity - 1 }]),
-				],
-			};
-			return state;
+
+			const newState = JSON.parse(JSON.stringify(state)) as State;
+
+			if (cartItem.quantity === 1)
+				newState.products = newState.products.filter(
+					(product) => product._id !== cartItem._id
+				);
+			else
+				newState.products[cartItemIndex] = {
+					...cartItem,
+					quantity: cartItem.quantity - 1,
+				};
+
+			return newState;
 		},
 		removeAll: (state: State) => {
-			state = {
+			return {
 				...state,
 				products: [],
 			};
-			return state;
 		},
 	},
 });
