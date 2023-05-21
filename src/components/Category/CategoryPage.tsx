@@ -99,7 +99,7 @@ export const CategoryPage = (_: Props) => {
                 {item.description}
               </p>
               <Link to={`/:categoryid/${item.router}`}>
-                <button className="h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]">
+                <button data-testid="redirect-product" className="h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]">
                   SEE PRODUCT
                 </button>
               </Link>
