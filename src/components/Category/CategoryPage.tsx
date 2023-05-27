@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import sanityClient from '../../client';
 
-import { Cart } from '../Cart/Cart';
-import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { AboutUs } from '../Aboutus/AboutUs';
+import { Cart } from 'components/Cart/Cart';
+import { CategoryLink } from 'components/CategoryLink/CategoryLink';
+import { AboutUs } from 'components/Aboutus/AboutUs';
 
 type Props = {};
 
@@ -22,7 +22,7 @@ type Category = {
 };
 
 export const CategoryPage = (props: Props) => {
-	const { categoryid } = useParams();
+	const { categoryName } = useParams();
 	const [category, setCategory] = useState<Category | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
@@ -30,11 +30,11 @@ export const CategoryPage = (props: Props) => {
 
 	useEffect(() => {
 		const fetchProducts = async () => {
-			if (!categoryid) {
+			if (!categoryName) {
 				return null;
 			}
 			setIsLoading(true);
-			const query = `*[_type == "category" && slug.current == "${categoryid}"]{
+			const query = `*[_type == "category" && slug.current == "${categoryName}"]{
 				name,
 				categories[]{
 				  name,
@@ -56,7 +56,7 @@ export const CategoryPage = (props: Props) => {
 		};
 
 		fetchProducts();
-	}, [categoryid]);
+	}, [categoryName]);
 
 	console.log(category);
 
@@ -97,7 +97,7 @@ export const CategoryPage = (props: Props) => {
 							<p className='text-[#808080] text-sm lg:text-left lg:w-4/5'>
 								{item.description}
 							</p>
-							<Link to={`/:categoryid/${item.router}`}>
+							<Link to={`/:categoryName/${item.router}`}>
 								<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
 									SEE PRODUCT
 								</button>

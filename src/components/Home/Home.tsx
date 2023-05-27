@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AboutUs } from '../Aboutus/AboutUs';
-import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { Cart } from '../Cart/Cart';
+import { AboutUs } from 'components/Aboutus/AboutUs';
+import { CategoryLink } from 'components/CategoryLink/CategoryLink';
+import { Cart } from 'components/Cart/Cart';
 
 import { useSelector } from 'react-redux';
 

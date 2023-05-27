@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks/useTypedSelector';
+import { useAppSelector } from 'components/hooks/useTypedSelector';
 import { Link } from 'react-router-dom';
 
 export const PaymentFinalization = () => {

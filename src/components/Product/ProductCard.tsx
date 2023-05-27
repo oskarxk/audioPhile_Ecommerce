@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../hooks/useTypedSelector';
+import { useAppDispatch } from 'components/hooks/useTypedSelector';
 
-import { Cart } from '../Cart/Cart';
-import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { cartActions } from '../store/Cart';
-import { AboutUs } from '../Aboutus/AboutUs';
+import { Cart } from 'components/Cart/Cart';
+import { CategoryLink } from 'components/CategoryLink/CategoryLink';
+import { cartActions } from 'components/store/Cart';
+import { AboutUs } from 'components/Aboutus/AboutUs';
 
 const photo1 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-1.jpg');
 const photo2 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-2.jpg');
@@ -40,7 +40,7 @@ export const ProductCard = () => {
 	const [product, setProduct] = useState<Product | undefined>(undefined);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
-	const { id } = useParams();
+	const { productName } = useParams();
 	const [quantity, setQuantity] = useState(1);
 	const dispatch = useAppDispatch();
 	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
@@ -55,11 +55,11 @@ export const ProductCard = () => {
 
 	useEffect(() => {
 		const fetchProducts = async () => {
-			if (!id) {
+			if (!productName) {
 				return null;
 			}
 			setIsLoading(true);
-			const query = `*[_type == "products" && slug.current == "${id}"]{_id,name,shortName,
+			const query = `*[_type == "products" && slug.current == "${productName}"]{_id,name,shortName,
 					price,
 					  slug,
 					description,
@@ -84,7 +84,7 @@ export const ProductCard = () => {
 		};
 
 		fetchProducts();
-	}, [id]);
+	}, [productName]);
 
 	if (isLoading) {
 		return <h1>Loading...............</h1>;

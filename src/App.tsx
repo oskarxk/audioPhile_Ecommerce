@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import { Navigation } from './components/Navigation/Navigation';
-import { Home } from './components/Home/Home';
-import { Footer } from './components/Footer/Footer';
-import { CategoryPage } from './components/Category/CategoryPage';
-import { ProductCard } from './components/Products/ProductCard';
-import { PaymentFinalization } from './components/PaymentFinalization/PaymentFinalization';
+import { Navigation } from 'components/Navigation/Navigation';
+import { Home } from 'components/Home/Home';
+import { Footer } from 'components/Footer/Footer';
+import { CategoryPage } from 'components/Category/CategoryPage';
+import { ProductCard } from 'components/Product/ProductCard';
+import { PaymentFinalization } from 'components/PaymentFinalization/PaymentFinalization';
 
 function App() {
 	return (
@@ -14,8 +14,8 @@ function App() {
 			<Navigation />
 			<Routes>
 				<Route path='/' element={<Home />} />
-				<Route path='/:categoryid' element={<CategoryPage />} />
-				<Route path='/:categoryid/:id' element={<ProductCard />} />
+				<Route path='/:categoryName' element={<CategoryPage />} />
+				<Route path='/:categoryName/:productName' element={<ProductCard />} />
 				<Route path='/payment' element={<PaymentFinalization />} />
 			</Routes>
 			<Footer />
