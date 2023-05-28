@@ -5,10 +5,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
-import type { AppStore, RootState } from '../components/store';
+import type { AppStore, RootState } from '../../store';
 // As a basic setup, import your same slice reducers
-import uiSlice from '../components/store/CartVisibility';
-import cart from '../components/store/Cart';
+import uiSlice from '../../store/CartVisibility';
+import cart from '../../store/Cart';
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.

@@ -17,5 +17,17 @@
 		"jsx": "react-jsx",
 		"baseUrl": "src"
 	},
-	"include": ["src"]
+	"include": [
+		"src",
+		"modules/Cart",
+		"modules/Product",
+		"shared/Footer",
+		"store",
+		"shared/Aboutus",
+		"containers/Category/CategoryLink",
+		"containers/Home",
+		"containers/PaymentFinalization",
+		"hooks",
+		"containers/Category/CategoryPage.test.jsx"
+	]
 }

@@ -2,11 +2,11 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navigation } from './components/Navigation/Navigation';
-import { Home } from './components/Home/Home';
-import { Footer } from './components/Footer/Footer';
+import { Home } from '../containers/Home/Home';
+import { Footer } from '../shared/Footer/Footer';
 import { CategoryPage } from './components/Category/CategoryPage';
-import { ProductCard } from './components/Products/ProductCard';
-import { PaymentFinalization } from './components/PaymentFinalization/PaymentFinalization';
+import { ProductCard } from '../modules/Product/ProductCard';
+import { PaymentFinalization } from '../containers/PaymentFinalization/PaymentFinalization';
 
 function App() {
 	return (

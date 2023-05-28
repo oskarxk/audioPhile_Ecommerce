@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiFillFacebook, AiOutlineTwitter } from 'react-icons/ai';
 import { BsInstagram } from 'react-icons/bs';
-import { Logo } from '../Navigation/Logo/Logo';
+import { Logo } from '../../src/components/Navigation/Logo/Logo';
 
 export const Footer = () => {
 	function getCurrentYear(): number {

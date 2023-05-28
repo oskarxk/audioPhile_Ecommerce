@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import sanityClient from '../../client';
+import sanityClient from '../../src/client';
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
 
 import { Cart } from '../Cart/Cart';
-import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { cartActions } from '../store/Cart';
-import { AboutUs } from '../Aboutus/AboutUs';
+import { CategoryLink } from '../../containers/Category/CategoryLink/CategoryLink';
+import { cartActions } from '../../store/Cart';
+import { AboutUs } from '../../shared/Aboutus/AboutUs';
 
 const photo1 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-1.jpg');
 const photo2 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-2.jpg');

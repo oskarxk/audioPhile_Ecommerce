@@ -4,15 +4,13 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Logo } from './Logo/Logo';
 
 import { useDispatch } from 'react-redux';
-import { uiActions } from '../store/CartVisibility';
-
+import { uiActions } from '../../../store/CartVisibility';
 
 export const DesktopMenu = () => {
 	const dispatch = useDispatch();
 	const toggleCartHandler = () => {
 		dispatch(uiActions.toggle());
 	};
-
 
 	return (
 		<nav className={`flex items-center justify-around bg-[#101010] py-6`}>

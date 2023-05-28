@@ -10,7 +10,7 @@ import {
 import { renderWithProviders } from 'utils/test-utils';
 import { CategoryPage } from 'components/Category/CategoryPage';
 import { MemoryRouter, Route, Router, Routes } from 'react-router';
-import sanityClient from '../client';
+import sanityClient from '../../src/client';
 
 const helperRenderFunction = async () =>
 	renderWithProviders(

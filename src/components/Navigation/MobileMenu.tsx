@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { HiMenu } from 'react-icons/hi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Logo } from './Logo/Logo';
-import { Cart } from '../Cart/Cart';
+import { Cart } from '../../../modules/Cart/Cart';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { uiActions } from '../store/CartVisibility';
+import { uiActions } from '../../../store/CartVisibility';
 
 export const MobileMenu = () => {
 	const [showMenu, setShowMenu] = useState(false);
