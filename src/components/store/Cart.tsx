@@ -93,8 +93,10 @@ const cart = createSlice({
 			return newState;
 		},
 		removeAll: produce((state: State) => {
-			state.products = [];
-			return state;
+			return {
+				state,
+				products: [],
+			};
 		}),
 	},
 });
