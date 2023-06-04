@@ -1,33 +1,33 @@
 {
-	"compilerOptions": {
-		"target": "es5",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"allowJs": true,
-		"skipLibCheck": true,
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"jsx": "react-jsx",
-		"baseUrl": "src"
-	},
-	"include": [
-		"src",
-		"modules/Cart",
-		"modules/Product",
-		"shared/Footer",
-		"store",
-		"shared/Aboutus",
-		"containers/Category/CategoryLink",
-		"containers/Home",
-		"containers/PaymentFinalization",
-		"hooks",
-		"containers/Category/CategoryPage.test.jsx"
-	]
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": "src"
+  },
+  "include": [
+    "src",
+    "modules/Cart",
+    "modules/Product",
+    "shared/Footer",
+    "src/store",
+    "shared/Aboutus",
+    "containers/Category/CategoryLink",
+    "containers/Home",
+    "containers/PaymentFinalization",
+    "hooks",
+    "containers/Category/CategoryPage.test.jsx"
+  ]
 }

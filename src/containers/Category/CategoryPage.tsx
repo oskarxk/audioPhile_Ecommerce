@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import sanityClient from '../../client';
 
-import { Cart } from '../../../modules/Cart/Cart';
-import { CategoryLink } from '../CategoryLink/CategoryLink';
-import { AboutUs } from '../../../shared/Aboutus/AboutUs';
+import { Cart } from 'modules/Cart/Cart';
+import { CategoryLink } from './CategoryLink/CategoryLink';
+import { AboutUs } from 'shared/Aboutus/AboutUs';
 
 type Props = {};
 
