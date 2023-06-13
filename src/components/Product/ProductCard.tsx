@@ -59,7 +59,7 @@ export const ProductCard = () => {
 				return null;
 			}
 			setIsLoading(true);
-			const query = `*[_type == "products" && slug.current == "${productName}"]{_id,name,shortName,
+			const productQuery = `*[_type == "products" && slug.current == "${productName}"]{_id,name,shortName,
 					price,
 					  slug,
 					description,
@@ -73,7 +73,7 @@ export const ProductCard = () => {
 					  name,
 					}
 				  }[0]`;
-			const response = await sanityClient.fetch(query);
+			const response = await sanityClient.fetch(productQuery);
 			if (!response) {
 				setError(true);
 				setIsLoading(false);
