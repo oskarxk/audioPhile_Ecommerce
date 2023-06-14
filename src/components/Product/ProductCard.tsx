@@ -9,13 +9,6 @@ import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { cartActions } from 'components/store/Cart';
 import { AboutUs } from 'components/Aboutus/AboutUs';
 
-const photo1 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-1.jpg');
-const photo2 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-2.jpg');
-const photo3 = require('../../Assets/products/product-zx9-speaker/mobile/image-gallery-3.jpg');
-const shared1 = require('../../Assets/shared/mobile/image-zx7-speaker.jpg');
-const shared2 = require('../../Assets/shared/mobile/image-xx99-mark-one-headphones.jpg');
-const shared3 = require('../../Assets/shared/mobile/image-xx59-headphones.jpg');
-
 type Product = {
 	_id: number;
 	name: string;
@@ -27,6 +20,12 @@ type Product = {
 	imageDesktop: string;
 	imageMobile: string;
 	imageCart: string;
+	photoGalleryDesktop1: string;
+	photoGalleryDesktop2: string;
+	photoGalleryDesktop3: string;
+	photoGalleryMobile1: string;
+	photoGalleryMobile2: string;
+	photoGalleryMobile3: string;
 	contents: {
 		name: string;
 		quantity: number;
@@ -69,6 +68,12 @@ export const ProductCard = () => {
 					"imageDesktop": imageDesktop.asset->url,
 					"imageMobile": imageMobile.asset->url,
 					"imageCart": imageCart.asset->url,
+					"photoGalleryDesktop1": photoGalleryDesktop1.asset->url,
+					"photoGalleryDesktop2": photoGalleryDesktop2.asset->url,
+                    "photoGalleryDesktop3": photoGalleryDesktop3.asset->url,
+					"photoGalleryMobile1": photoGalleryMobile1.asset->url,
+					"photoGalleryMobile2": photoGalleryMobile2.asset->url,
+                    "photoGalleryMobile3": photoGalleryMobile3.asset->url,
 					category[]->{
 					  name,
 					}
@@ -173,33 +178,24 @@ export const ProductCard = () => {
 					</ul>
 				</div>
 				<div className='w-3/4 flex flex-col justify-between my-8'>
-					<img src={photo1} alt='photo1' className=' rounded-md mb-4' />
-					<img src={photo2} alt='photo2' className=' rounded-md mb-4' />
-					<img src={photo3} alt='photo3' className=' rounded-md mb-4' />
-				</div>
-			</div>
-			<div className='w-3/4 flex flex-col items-center justify-between'>
-				<p className='font-bold text-2xl my-4 text-center'>YOU MAY ALSO LIKE</p>
-				<div>
-					<img src={shared1} alt='shared1' className='rounded-md mt-8' />
-					<p className='font-bold text-2xl my-8 text-center'>ZX7 SPEAKER</p>
-					<button className='h-25 w-1/2 my-2 py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
-						SEE PRODUCT
-					</button>
-				</div>
-				<div>
-					<img src={shared2} alt='shared1' className='rounded-md mt-8' />
-					<p className='font-bold text-2xl my-8 text-center'>XX99 MARK I</p>
-					<button className='h-25 w-1/2 my-2 py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
-						SEE PRODUCT
-					</button>
-				</div>
-				<div>
-					<img src={shared3} alt='shared1' className='rounded-md mt-8' />
-					<p className='font-bold text-2xl my-8 text-center'>XX59</p>
-					<button className='h-25 w-1/2 my-2 py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
-						SEE PRODUCT
-					</button>
+					<img
+						src={product?.photoGalleryMobile1}
+						srcSet={`${product?.photoGalleryMobile1} 1024w, ${product?.photoGalleryDesktop1} 1280w`}
+						alt='photo1'
+						className=' rounded-md mb-4'
+					/>
+					<img
+						src={product?.photoGalleryMobile2}
+						srcSet={`${product?.photoGalleryMobile2} 1024w, ${product?.photoGalleryDesktop2} 1280w`}
+						alt='photo2'
+						className=' rounded-md mb-4'
+					/>
+					<img
+						src={product?.photoGalleryMobile3}
+						srcSet={`${product?.photoGalleryMobile3} 1024w, ${product?.photoGalleryDesktop3} 1280w`}
+						alt='photo3'
+						className=' rounded-md mb-4'
+					/>
 				</div>
 			</div>
 			<CategoryLink />

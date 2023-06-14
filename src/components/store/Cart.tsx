@@ -58,53 +58,31 @@ const cart = createSlice({
 			sessionStorage.setItem('cartItems', JSON.stringify(state.products));
 			return state;
 		},
-		addItemToCart: (state: State, action: PayloadAction<number>) => {
+		increaseItem: (state: State, action: PayloadAction<number>) => {
 			const itemId = action.payload;
-			const cartItemIndex: number = state.products.findIndex(
-				(item) => item._id === itemId
-			);
-			const cartItem = state.products[cartItemIndex];
-			if (!cartItem) {
-				return state;
-			}
-			const newState = JSON.parse(JSON.stringify(state)) as State;
-			newState.products[cartItemIndex] = {
-				...cartItem,
-				quantity: cartItem.quantity + 1,
-			};
+			const cartItem = state.products.find((item) => item._id === itemId);
 
-			return newState;
+			if (cartItem) {
+				cartItem.quantity += 1;
+			}
 		},
 		removeItem: (state: State, action: PayloadAction<number>) => {
 			const itemId = action.payload;
-
-			const cartItemIndex: number = state.products.findIndex(
+			const cartItemIndex = state.products.findIndex(
 				(item) => item._id === itemId
 			);
-			const cartItem = state.products[cartItemIndex];
-			if (!cartItem) {
-				return state;
+
+			if (cartItemIndex !== -1) {
+				const cartItem = state.products[cartItemIndex];
+				if (cartItem.quantity > 1) {
+					cartItem.quantity -= 1;
+				} else {
+					state.products.splice(cartItemIndex, 1);
+				}
 			}
-
-			const newState = JSON.parse(JSON.stringify(state)) as State;
-
-			if (cartItem.quantity === 1)
-				newState.products = newState.products.filter(
-					(product) => product._id !== cartItem._id
-				);
-			else
-				newState.products[cartItemIndex] = {
-					...cartItem,
-					quantity: cartItem.quantity - 1,
-				};
-
-			return newState;
 		},
 		removeAll: (state: State) => {
-			return {
-				...state,
-				products: [],
-			};
+			state.products = [];
 		},
 	},
 });

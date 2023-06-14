@@ -40,27 +40,27 @@ export default {
       title: 'Feature2',
     },
     {
-      "name": "contents",
-      "type": "array",
-      "of": [
+      name: 'contents',
+      type: 'array',
+      of: [
         {
-          "name": "content",
-          "title": "Product",
-          "type": "object",
-          "fields": [
+          name: 'content',
+          title: 'Product',
+          type: 'object',
+          fields: [
             {
-              "name": "name",
-              "title": "Name",
-              "type": "string"
+              name: 'name',
+              title: 'Name',
+              type: 'string',
             },
             {
-              "name": "quantity",
-              "title": "Quantity",
-              "type": "number"
-            }
-          ]
-        }
-      ]
+              name: 'quantity',
+              title: 'Quantity',
+              type: 'number',
+            },
+          ],
+        },
+      ],
     },
     {
       title: 'Slug',
@@ -98,6 +98,54 @@ export default {
     {
       name: 'imageCart',
       title: 'image-cart',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'photoGalleryDesktop1',
+      title: 'photo-gallery-desktop1',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'photoGalleryDesktop2',
+      title: 'photo-gallery-desktop2',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'photoGalleryDesktop3',
+      title: 'photo-gallery-desktop3',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'photoGalleryMobile1',
+      title: 'photo-gallery-mobile1',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'photoGalleryMobile2',
+      title: 'photo-gallery-mobile2',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'photoGalleryMobile3',
+      title: 'photo-gallery-mobile3',
       type: 'image',
       options: {
         hotspot: true,
