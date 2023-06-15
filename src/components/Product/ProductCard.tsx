@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'components/hooks/useTypedSelector';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from 'components/hooks/useTypedSelector';
 
 import { Cart } from 'components/Cart/Cart';
 import { CategoryLink } from 'components/CategoryLink/CategoryLink';
@@ -33,24 +36,40 @@ type Product = {
 	category: {
 		name: string;
 	};
+	slug: {
+		current: string;
+	};
 };
 
 export const ProductCard = () => {
-	const [product, setProduct] = useState<Product | undefined>(undefined);
+	// const [product, setProduct] = useState<Product | undefined>(undefined);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const { productName } = useParams();
-	const [quantity, setQuantity] = useState(1);
+	console.log('111', productName);
+	const product = useAppSelector(
+		(state) => productName && state.cm.products.get(productName)
+	) as unknown as Product;
+
+	const quantity: number = useAppSelector(
+		(state) => (productName && state.cm.cartInfo.get(productName)) || 0
+	);
 	const dispatch = useAppDispatch();
 	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
 	const navigate = useNavigate();
 
-	const addToCart = () => {
+	const addToCart = (incr: boolean) => {
 		if (product) {
-			dispatch(cartActions.addItem({ quantity, product: product as Product }));
-			setQuantity(1);
+			dispatch(
+				cartActions.addItem({
+					quantity: quantity + (incr ? 1 : -1),
+					productName: productName as string,
+				})
+			);
 		}
 	};
+
+	console.log('ProductCard:', productName, product);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -83,7 +102,7 @@ export const ProductCard = () => {
 				setError(true);
 				setIsLoading(false);
 			} else {
-				setProduct(response);
+				dispatch(cartActions.addProducts([response] as Product[]));
 				setIsLoading(false);
 			}
 		};
@@ -134,7 +153,7 @@ export const ProductCard = () => {
 					<div className='flex justify-between w-1/3 bg-[#F1F1F1] space-x-2'>
 						<button
 							className='px-2 py-1 bg-[#F1F1F1]'
-							onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev - 1))}
+							onClick={() => addToCart(false)}
 						>
 							-
 						</button>
@@ -143,7 +162,7 @@ export const ProductCard = () => {
 						</div>
 						<button
 							className='px-2 py-1 bg-[#F1F1F1] '
-							onClick={() => setQuantity((prev) => prev + 1)}
+							onClick={() => addToCart(true)}
 						>
 							+
 						</button>
@@ -151,7 +170,7 @@ export const ProductCard = () => {
 					<div className=' flex justify-start w-2/4'>
 						<button
 							className='w-full py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'
-							onClick={addToCart}
+							onClick={() => addToCart(true)}
 						>
 							<p>Add to cart</p>
 						</button>

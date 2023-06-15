@@ -4,27 +4,27 @@ import { useAppSelector } from 'components/hooks/useTypedSelector';
 import { Link } from 'react-router-dom';
 
 export const PaymentFinalization = () => {
-	const { products } = useAppSelector((state) => state.cm);
-	const navigate = useNavigate();
+	// const { products } = useAppSelector((state) => state.cm);
+	// const navigate = useNavigate();
 
-	const [totalPrice, setTotalPrice] = useState<number>(0);
-	const [payment, setPayment] = useState('emoney');
+	// const [totalPrice, setTotalPrice] = useState<number>(0);
+	// const [payment, setPayment] = useState('emoney');
 
-	useEffect(() => {
-		const sum = products.reduce((acc, product) => {
-			acc += product.price * product.quantity;
-			return acc;
-		}, 0);
-		setTotalPrice(sum);
-	}, [products]);
+	// useEffect(() => {
+	// 	const sum = products.reduce((acc, product) => {
+	// 		acc += product.price * product.quantity;
+	// 		return acc;
+	// 	}, 0);
+	// 	setTotalPrice(sum);
+	// }, [products]);
 
-	const shippingCost = 50;
-	const vatIncluded = totalPrice * 0.23;
-	const grandTotal = totalPrice + shippingCost + vatIncluded;
+	// const shippingCost = 50;
+	// const vatIncluded = totalPrice * 0.23;
+	// const grandTotal = totalPrice + shippingCost + vatIncluded;
 
 	return (
 		<div className='flex flex-col w-full justify-center items-center bg-[#F1F1F1] py-4'>
-			<div className='flex w-full items-center justify-center py-4'>
+			{/* <div className='flex w-full items-center justify-center py-4'>
 				<button
 					onClick={() => navigate(-1)}
 					className='w-3/4 text-[#808080] text-sm text-left'
@@ -246,7 +246,7 @@ export const PaymentFinalization = () => {
 						</Link>
 					</div>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 };

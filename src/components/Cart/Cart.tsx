@@ -7,16 +7,21 @@ import { CartItem } from './CartItem';
 
 export const Cart = () => {
 	const [totalPrice, setTotalPrice] = useState<number>(0);
-	const { products } = useAppSelector((state) => state.cm);
+	const cartInfo = useAppSelector((state) => state.cm.cartInfo);
+	const products = useAppSelector((state) => state.cm.products);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		const sum = products.reduce((acc, product) => {
-			acc += product.price * product.quantity;
+		const productNames = Array.from(cartInfo.keys());
+
+		const sum = productNames.reduce((acc, productName) => {
+			const product = products.get(productName);
+			const quantity = cartInfo.get(productName);
+			if (product && quantity) acc += product.price * quantity;
 			return acc;
 		}, 0);
 		setTotalPrice(sum);
-	}, [products]);
+	}, [products, cartInfo]);
 
 	const removeAllItemsFromCart = useCallback(() => {
 		dispatch(cartActions.removeAll());
@@ -27,7 +32,7 @@ export const Cart = () => {
 			<div className=' w-80 h-max bg-white mx-48 my-10 rounded-md flex flex-col px-5 py-5'>
 				<div className='flex'>
 					<div className='w-1/2 text-left'>
-						<p className='font-bold tracking-wide'>CART ({products.length})</p>
+						<p className='font-bold tracking-wide'>CART ({cartInfo.size})</p>
 					</div>
 					<div className='w-1/2 text-right'>
 						<button
