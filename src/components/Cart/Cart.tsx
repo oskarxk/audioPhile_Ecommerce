@@ -20,7 +20,7 @@ export const Cart = () => {
 
 	const removeAllItemsFromCart = useCallback(() => {
 		dispatch(cartActions.removeAll());
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<div className='w-full bg-slate-500/25 h-screen absolute z-10  flex justify-end'>

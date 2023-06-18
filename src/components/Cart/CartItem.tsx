@@ -10,14 +10,14 @@ export const CartItem = () => {
 		(productId: number) => {
 			dispatch(cartActions.removeItem(productId));
 		},
-		[dispatch]
+		[]
 	);
 
 	const increaseItem = useCallback(
 		(productId: number) => {
 			dispatch(cartActions.increaseItem(productId));
 		},
-		[dispatch]
+		[]
 	);
 
 	return (

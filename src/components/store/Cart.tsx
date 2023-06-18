@@ -40,23 +40,12 @@ const cart = createSlice({
 			const existingProduct = state.products.find(
 				(item) => item._id === product._id
 			);
+
 			if (!existingProduct) {
-				state = {
-					...state,
-					products: [...state.products, { ...product, quantity }],
-				};
+				state.products.push({ ...product, quantity });
 			} else {
-				state = {
-					...state,
-					products: [
-						...state.products.filter((item) => item._id !== product._id),
-						{ ...existingProduct, quantity },
-					],
-				};
+				existingProduct.quantity = quantity;
 			}
-			console.log(state);
-			sessionStorage.setItem('cartItems', JSON.stringify(state.products));
-			return state;
 		},
 		increaseItem: (state: State, action: PayloadAction<number>) => {
 			const itemId = action.payload;

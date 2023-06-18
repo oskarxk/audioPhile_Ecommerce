@@ -1,4 +1,9 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+	combineReducers,
+	configureStore,
+} from '@reduxjs/toolkit';
+import { sessionStorageSyncMiddleware } from './sessionStorageSyncMiddleware';
+
 import cart from './Cart';
 import uiSlice from './CartVisibility';
 import type { PreloadedState } from '@reduxjs/toolkit';
@@ -9,6 +14,8 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
 	return configureStore({
 		reducer: rootReducer,
 		preloadedState,
+		middleware: (applyMiddleware) =>
+		applyMiddleware().concat(sessionStorageSyncMiddleware),
 	});
 };
 

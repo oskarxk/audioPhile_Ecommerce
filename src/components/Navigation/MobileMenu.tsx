@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { HiMenu } from 'react-icons/hi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Logo } from './Logo/Logo';
@@ -49,26 +49,46 @@ export const MobileMenu = () => {
 				}`}
 			>
 				<div className='flex flex-col space-y-4 px-4 py-8'>
-					<Link to={HOME_ROUTE} aria-label='Home'>
-						<p className='text-white' onClick={handleMenuClick}>
-							HOME
-						</p>
-					</Link>
-					<Link to={SPEAKERS_ROUTE} aria-label='SPEAKERS'>
-						<p className='text-white' onClick={handleMenuClick}>
-							SPEAKERS
-						</p>
-					</Link>
-					<Link to={HEADPHONES_ROUTE} aria-label='HEADPHONES'>
-						<p className='text-white' onClick={handleMenuClick}>
-							HEADPHONES
-						</p>
-					</Link>
-					<Link to={EARPHONES_ROUTE} aria-label='EARPHONES'>
-						<p className='text-white' onClick={handleMenuClick}>
-							EARPHONES
-						</p>
-					</Link>
+					<NavLink
+						to={HOME_ROUTE}
+						aria-label='Home'
+						style={({ isActive }) => ({
+							color: isActive ? '#D87D4A' : 'white',
+						})}
+						onClick={handleMenuClick}
+					>
+						HOME
+					</NavLink>
+					<NavLink
+						to={SPEAKERS_ROUTE}
+						aria-label='SPEAKERS'
+						style={({ isActive }) => ({
+							color: isActive ? '#D87D4A' : 'white',
+						})}
+						onClick={handleMenuClick}
+					>
+						SPEAKERS
+					</NavLink>
+					<NavLink
+						to={HEADPHONES_ROUTE}
+						aria-label='HEADPHONES'
+						style={({ isActive }) => ({
+							color: isActive ? '#D87D4A' : 'white',
+						})}
+						onClick={handleMenuClick}
+					>
+						HEADPHONES
+					</NavLink>
+					<NavLink
+						to={EARPHONES_ROUTE}
+						aria-label='EARPHONES'
+						style={({ isActive }) => ({
+							color: isActive ? '#D87D4A' : 'white',
+						})}
+						onClick={handleMenuClick}
+					>
+						EARPHONES
+					</NavLink>
 				</div>
 			</div>
 		</nav>
