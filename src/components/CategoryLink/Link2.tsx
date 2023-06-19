@@ -1,0 +1,27 @@
+import React from 'react';
+
+import { AiOutlineRight } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+
+import { SPEAKERS_ROUTE } from '../Navigation/routes';
+
+const itemSpeakers = require('../../Assets/home/cart/image-removebg-speaker.png');
+
+export const Link2 = () => {
+	return (
+		<div className='h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl'>
+			<img
+				className='absolute left-1/2 transform -translate-x-1/2 -translate-y-24'
+				src={itemSpeakers}
+				alt='speakers'
+			/>
+			<h2 className='text-[#101010] font-bold tracking-wider	'>SPEAKERS</h2>
+			<div className='flex flex-row items-center'>
+				<Link className='py-4' to={SPEAKERS_ROUTE}>
+					<p className=' text-[#808080] font-bold'>SHOP</p>
+				</Link>
+				<AiOutlineRight className=' text-[#D87D4A] font-bold' />
+			</div>
+		</div>
+	);
+};
