@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+type Props = {
+	msgs: string[];
+};
 
-export const MessageList = () => {
-	const [messages, setMessages] = useState([]);
-
+export const MessageList = (props: Props) => {
 	return (
 		<div>
-			{messages.map((message, index) => {
-				<div key={index}>{message.text}</div>;
-			})}
+			{props.msgs.map((message, index) => (
+				<div key={index}>{message}</div>
+			))}
 		</div>
 	);
 };

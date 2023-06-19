@@ -5,6 +5,7 @@ import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { Cart } from 'components/Cart/Cart';
 
 import { useSelector } from 'react-redux';
+import { Chat } from 'components/Chat/Chat';
 
 const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg');
 const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg');
@@ -49,6 +50,7 @@ export const Home = () => {
 				/>
 			</div>
 			<CategoryLink />
+			<Chat />
 			<div className='flex flex-col justify-around lg:justify-between items-center mt-4 lg:mt-0'>
 				<div className='w-3/4  bg-[#fbaf85] my-8 lg:my-0 lg:pt-16 flex lg:flex-row flex-col justify-evenly items-center rounded-xl'>
 					<img
@@ -105,7 +107,7 @@ export const Home = () => {
 						</button>
 					</div>
 				</div>
-				<AboutUs />
+				<AboutUs />C
 			</div>
 		</div>
 	);

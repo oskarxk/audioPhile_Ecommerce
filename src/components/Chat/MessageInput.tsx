@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent } from 'react';
 
-type Props = {};
+type Props = {
+	sendMessage: (ev: ChangeEvent<HTMLInputElement>) => void;
+};
 
 export const MessageInput = (props: Props) => {
-	const [inputValue, setInputValue] = useState('');
-
-	const handleMessageSend = () => {
-		setInputValue('');
-	};
-
-	return <div>...</div>;
+	return (
+		<div>
+			<input
+				placeholder='Type message'
+				type='text'
+				onBlur={props.sendMessage}
+			></input>
+		</div>
+	);
 };
