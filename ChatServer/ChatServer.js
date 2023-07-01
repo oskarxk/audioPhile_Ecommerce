@@ -1,73 +1,37 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-const knex = require('knex')({
-	client: 'sqlite3',
-	connection: {
-		filename: './db.sql', //specify the path to your sqlite database file
-	},
-	useNullAsDefault: true,
-});
-const socketIO = require('socket.io');
-const server = http.Server(app);
-const io = socketIO(server, {
-	cors: {
-		origin: 'http://localhost:3000',
-	},
-});
 const cors = require('cors');
-
+const { Server } = require('socket.io');
 app.use(cors());
 
-const messages = [];
+const server = http.createServer(app);
+
+
+const io = new Server(server, {
+	cors: {
+		origin: 'http://localhost:3000',
+		methods: ['GET', 'POST'],
+	},
+});
 
 io.on('connection', (socket) => {
-	console.log('SOMEBODY HAS CONENCTED');
+	console.log(`User connected: ${socket.id}`);
 
-	socket.on('join', (data) => {
+	socket.on('join_room', (data) => {
 		console.log(`${data} it is a user data`);
+		socket.join(data);
+		console.log(`User with ID: ${socket.id} joined room ${data}`);
 	});
 
-	socket.on('message', (message) => {
-		console.log(`Server has received message: ${message}`);
-		messages.push(message);
-		io.emit('message', messages);
+	socket.on('send_message', (data) => {
+		socket.to(data.room).emit('receive_message', data);
 	});
 
 	socket.on('disconnect', () => {
-		console.log('Somebody has disconnected');
+		console.log(`User disconnected: ${socket.id}`);
 	});
 });
-
-// create the message table if doesnt exits
-
-// knex.schema
-// 	.createTableIfNotExists('messages', (table) => {
-// 		table.increments('id');
-// 		table.string('content');
-// 	})
-// 	.then(() => {
-// 		console.log('Table created succesfully');
-// 	})
-// 	.catch((error) => {
-// 		console.log('Error creating table:', error);
-// 	});
-
-// app.get(`/api/messages`, (req, res) => {
-// 	knex('messages')
-// 		.select()
-// 		.then((messages) => {
-// 			res.json(messages);
-// 		})
-// 		.catch((error) => {
-// 			console.log('Error retrieving messages:', error);
-// 			res.sendStatus(500);
-// 		});
-// });
-
-// app.get('/', (req, res) => {
-// 	res.send("I'm working");
-// });
 
 //START THE SERVER
 const port = 4000;

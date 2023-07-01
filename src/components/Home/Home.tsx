@@ -37,7 +37,7 @@ export const Home = () => {
 				onClick={toggleCartHandler}
 				className='cursor-pointer fixed right-4 bottom-4 z-10'
 			>
-				<BsFillChatDotsFill className='text-white text-3xl' />
+				<BsFillChatDotsFill className='text-white text-3xl animate-bounce' />
 			</div>
 			{showChat && <Chat />}
 			<div className='relative lg:mb-8'>
@@ -124,7 +124,8 @@ export const Home = () => {
 						</button>
 					</div>
 				</div>
-				<AboutUs />C
+				<AboutUs />
+				<h1>ss</h1>
 			</div>
 		</div>
 	);
