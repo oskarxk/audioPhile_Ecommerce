@@ -14,7 +14,6 @@ export const Chat = () => {
 		if (username !== '' && room !== '') {
 			socket.emit('join_room', room);
 			setIsUserJoined(true);
-			
 		}
 	};
 
@@ -25,7 +24,7 @@ export const Chat = () => {
 	};
 
 	return (
-		<div className='fixed right-16 bottom-4 z-10 w-70 bg-white rounded-md flex flex-col px-4 py-5'>
+		<div className='flex flex-col fixed w-72 right-1/2 transform lg:transform-none translate-x-1/2 lg:right-16  bottom-4 bg-white rounded-md px-4 py-5'>
 			{isUserJoined ? (
 				<ChatRoom socket={socket} username={username} room={room} />
 			) : (

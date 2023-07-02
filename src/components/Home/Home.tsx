@@ -125,7 +125,6 @@ export const Home = () => {
 					</div>
 				</div>
 				<AboutUs />
-				<h1>ss</h1>
 			</div>
 		</div>
 	);

@@ -21,15 +21,19 @@ export const MessageList = (props: Props) => {
 					}`}
 				>
 					<div
-						className={`flex rounded-lg ${
+						className={`flex rounded-lg text-left ${
 							message.author === props.author
 								? 'bg-green-600 text-white items-end'
 								: 'bg-blue-500 text-white items-start'
 						}`}
 					>
-						<p className='px-4 py-2'>{message.message}</p>
+						<p className='px-4 py-2 break-all'>{message.message}</p>
 					</div>
-					<div className='flex flex-col justify-start items-start mt-2 text-sm text-gray-500'>
+					<div
+						className={`flex flex-col justify-start items-start mt-2 text-sm text-gray-500 ${
+							message.author === props.author ? 'items-end' : 'items-start'
+						}`}
+					>
 						<p>{message.time}</p>
 						<p>{message.author}</p>
 					</div>

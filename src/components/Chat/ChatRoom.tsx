@@ -50,7 +50,7 @@ export const ChatRoom = (props: Props) => {
 
 	return (
 		<div>
-			<div className='flex flex-col w-full h-72'>
+			<div className='flex flex-col justify-end w-full h-52'>
 				<ScrollToBottom className='w-full overflow-x-hidden'>
 					<MessageList messageList={messageList} author={props.username} />
 				</ScrollToBottom>
