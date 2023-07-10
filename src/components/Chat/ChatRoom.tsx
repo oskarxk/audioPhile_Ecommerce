@@ -21,10 +21,10 @@ export const ChatRoom = (props: Props) => {
 				room: props.room,
 				author: props.username,
 				message: currentMessage,
-				time:
-					new Date(Date.now()).getHours() +
-					':' +
-					new Date(Date.now()).getMinutes(),
+				time: new Date().toLocaleTimeString([], {
+					hour: '2-digit',
+					minute: '2-digit',
+				}),
 			};
 			await props.socket.emit('send_message', messageData);
 			setMessageList((list) => [...list, messageData]);

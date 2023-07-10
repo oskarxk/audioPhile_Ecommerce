@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import io, { Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 import { ChatRoom } from './ChatRoom';
 
-const socket: Socket = io('http://localhost:4000');
+
+const socket = io('http://localhost:4000');
 
 export const Chat = () => {
-	// const [msgs, setMessages] = useState<string[]>([]);
 	const [isUserJoined, setIsUserJoined] = useState<boolean>(false);
 	const [username, setUsername] = useState<string>('');
 	const [room, setRoom] = useState<string>('');
@@ -28,7 +28,7 @@ export const Chat = () => {
 			{isUserJoined ? (
 				<ChatRoom socket={socket} username={username} room={room} />
 			) : (
-				<div>
+				<form>
 					<h3 className='pb-2 font-bold tracking-wide'>Join a chat</h3>
 					<p className=' text-left text-sm font-semibold'>Username</p>
 					<input
@@ -55,7 +55,7 @@ export const Chat = () => {
 					>
 						JOIN
 					</button>
-				</div>
+				</form>
 			)}
 		</div>
 	);

@@ -7,7 +7,6 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-
 const io = new Server(server, {
 	cors: {
 		origin: 'http://localhost:3000',
@@ -18,10 +17,10 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
 	console.log(`User connected: ${socket.id}`);
 
-	socket.on('join_room', (data) => {
-		console.log(`${data} it is a user data`);
-		socket.join(data);
-		console.log(`User with ID: ${socket.id} joined room ${data}`);
+	socket.on('join_room', (roomName) => {
+		console.log(`${roomName} it is a user data`);
+		socket.join(roomName);
+		console.log(`User with ID: ${socket.id} joined room ${roomName}`);
 	});
 
 	socket.on('send_message', (data) => {

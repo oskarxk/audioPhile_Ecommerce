@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type State = {
+type chatState = {
 	chatIsVisible: boolean;
 };
 
-const initialState: State = {
+const initialState: chatState = {
 	chatIsVisible: false,
 };
 
-const chSlice = createSlice({
+const chatSlice = createSlice({
 	name: 'ch',
 	initialState,
 	reducers: {
@@ -18,6 +18,6 @@ const chSlice = createSlice({
 	},
 });
 
-export const chActions = chSlice.actions;
+export const chActions = chatSlice.actions;
 
-export default chSlice;
+export default chatSlice;
