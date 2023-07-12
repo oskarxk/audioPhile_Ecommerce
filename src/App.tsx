@@ -7,6 +7,11 @@ import { Footer } from 'components/Footer/Footer';
 import { CategoryPage } from 'components/Category/CategoryPage';
 import { ProductCard } from 'components/Product/ProductCard';
 import { PaymentFinalization } from 'components/PaymentFinalization/PaymentFinalization';
+import { AdminLogin } from 'components/AdminPanel/AdminLogin';
+
+import { Orders } from 'components/AdminPanel/Orders';
+import { QuestionChat } from 'components/AdminPanel/QuestionChat';
+import AdminPrivateRoutes from 'components/AdminPanel/AdminPrivateRoutes';
 
 function App() {
 	return (
@@ -17,6 +22,11 @@ function App() {
 				<Route path='/:categoryName' element={<CategoryPage />} />
 				<Route path='/:categoryName/:productName' element={<ProductCard />} />
 				<Route path='/payment' element={<PaymentFinalization />} />
+				<Route element={<AdminPrivateRoutes />}>
+					<Route element={<Orders />} path='/orders' />
+					<Route element={<QuestionChat />} path='/questionchat' />
+				</Route>
+				<Route path='/adminLogin' element={<AdminLogin />} />
 			</Routes>
 			<Footer />
 		</div>
