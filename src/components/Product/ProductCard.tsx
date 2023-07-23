@@ -8,6 +8,7 @@ import { Cart } from 'components/Cart/Cart';
 import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { cartActions } from 'components/store/Cart';
 import { AboutUs } from 'components/Aboutus/AboutUs';
+import { Chat } from 'components/Chat/Chat';
 
 type Product = {
 	_id: number;
@@ -39,6 +40,7 @@ export const ProductCard = () => {
 	const [product, setProduct] = useState<Product | undefined>(undefined);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
+	const [questionModal, setquestionModal] = useState<boolean>(false);
 	const { productName } = useParams();
 	const [quantity, setQuantity] = useState(1);
 	const dispatch = useAppDispatch();
@@ -111,90 +113,102 @@ export const ProductCard = () => {
 				</button>
 			</div>
 			<div className='flex flex-col w-full justify-between items-center'>
-				<div className=' w-3/4 flex flex-col justify-center items-center rounded-xl'>
+				<div className=' w-3/4 flex flex-col lg:flex-row justify-center items-center rounded-xl'>
 					<img
 						src={product?.imageMobile}
 						alt='Zdjecie produktu'
-						className='mt-4 rounded-xl'
+						className='mt-4 rounded-xl w-full lg:w-1/2'
 					/>
-					<div className='flex flex-col items-start'>
+					<div className='flex flex-col items-start lg:mx-16'>
 						<p className='py-4  text-[#fbaf85] tracking-widest'>NEW PRODUCT</p>
-						<p className='text-[#101010] text-2xl font-bold pb-4 text-left'>
+						<p className='text-[#101010] text-2xl font-bold pb-4 text-left lg:w-1/4 uppercase'>
 							{product?.name}
 						</p>
-						<p className='text-[#808080] text-sm text-left'>
+						<p className='text-[#808080] text-sm text-left lg:w-3/4'>
 							{product?.description}
 						</p>
 						<p className='text-[#101010] text-2xl font-bold pt-4'>
 							$ {product?.price?.toLocaleString('en-US')}
 						</p>
-					</div>
-				</div>
-				<div className='flex w-3/4 justify-between mt-4 mb-20'>
-					<div className='flex justify-between w-1/3 bg-[#F1F1F1] space-x-2'>
-						<button
-							className='px-2 py-1 bg-[#F1F1F1]'
-							onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev - 1))}
-						>
-							-
-						</button>
-						<div className='flex justify-center items-center'>
-							<p className='px-2 py-1'>{quantity}</p>
+						<div className='flex w-full lg:w-3/4 justify-between mt-4 mb-10'>
+							<div className='flex justify-between lg:evenly-around w-1/4 lg:w-1/4 bg-[#F1F1F1] space-x-2'>
+								<button
+									className='px-2 py-1 bg-[#F1F1F1]'
+									onClick={() =>
+										setQuantity((prev) => (prev === 1 ? 1 : prev - 1))
+									}
+								>
+									-
+								</button>
+								<div className='flex justify-center items-center'>
+									<p className='px-2 py-1'>{quantity}</p>
+								</div>
+								<button
+									className='px-2 py-1 bg-[#F1F1F1] '
+									onClick={() => setQuantity((prev) => prev + 1)}
+								>
+									+
+								</button>
+							</div>
+							<div className=' flex justify-start w-2/4 lg:w-2/4'>
+								<button
+									className='w-full py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'
+									onClick={addToCart}
+								>
+									<p>Add to cart</p>
+								</button>
+							</div>
 						</div>
-						<button
-							className='px-2 py-1 bg-[#F1F1F1] '
-							onClick={() => setQuantity((prev) => prev + 1)}
-						>
-							+
-						</button>
-					</div>
-					<div className=' flex justify-start w-2/4'>
-						<button
-							className='w-full py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'
-							onClick={addToCart}
-						>
-							<p>Add to cart</p>
-						</button>
+						<div className='w-full lg:w-3/4 py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
+							<button onClick={() => setquestionModal(!questionModal)}>
+								<p>Ask our consultant about the {product?.name}</p>
+							</button>
+						</div>
+						{questionModal && <Chat product={product} />}
 					</div>
 				</div>
-				<div className='w-3/4 flex flex-col'>
-					<p className='font-bold text-2xl text-left'>FEATURES</p>
-					<p className='text-left text-[#808080] my-4 text-base'>
-						{product?.feature1}
-					</p>
-					<p className='text-left text-[#808080] my-4 text-base'>
-						{product?.feature2}
-					</p>
+				<div className='w-3/4 flex flex-col justify-between lg:flex-row my-4'>
+					<div className='w-full lg:w-1/2 flex flex-col'>
+						<p className='font-bold text-2xl text-left'>FEATURES</p>
+						<p className='text-left text-[#808080] my-4 text-base'>
+							{product?.feature1}
+						</p>
+						<p className='text-left text-[#808080] my-4 text-base'>
+							{product?.feature2}
+						</p>
+					</div>
+					<div className='w-3/4 lg:w-1/3 flex flex-col'>
+						<p className='font-bold text-2xl text-left my-2'>IN THE BOX</p>
+						<ul>
+							{product?.contents.map((item) => (
+								<li className='flex justify-between mb-2'>
+									<p className='w-1/5 text-left text-[#fbaf85]'>{`${item.quantity}x`}</p>
+									<p className='w-full text-left text-[#808080]'>{item.name}</p>
+								</li>
+							))}
+						</ul>
+					</div>
 				</div>
-				<div className='w-3/4 flex flex-col'>
-					<p className='font-bold text-2xl text-left my-2'>IN THE BOX</p>
-					<ul>
-						{product?.contents.map((item) => (
-							<li className='flex justify-between mb-2'>
-								<p className='w-1/5 text-left text-[#fbaf85]'>{`${item.quantity}x`}</p>
-								<p className='w-4/5 text-left text-[#808080]'>{item.name}</p>
-							</li>
-						))}
-					</ul>
-				</div>
-				<div className='w-3/4 flex flex-col justify-between my-8'>
-					<img
-						src={product?.photoGalleryMobile1}
-						srcSet={`${product?.photoGalleryMobile1} 1024w, ${product?.photoGalleryDesktop1} 1280w`}
-						alt='photo1'
-						className=' rounded-md mb-4'
-					/>
-					<img
-						src={product?.photoGalleryMobile2}
-						srcSet={`${product?.photoGalleryMobile2} 1024w, ${product?.photoGalleryDesktop2} 1280w`}
-						alt='photo2'
-						className=' rounded-md mb-4'
-					/>
+				<div className='w-3/4 flex flex-col lg:flex-row justify-between my-8'>
+					<div className='w-full flex flex-col'>
+						<img
+							src={product?.photoGalleryMobile1}
+							srcSet={`${product?.photoGalleryMobile1} 1024w, ${product?.photoGalleryDesktop1} 1280w`}
+							alt='photo1'
+							className=' rounded-md mb-4 lg:w-3/4'
+						/>
+						<img
+							src={product?.photoGalleryMobile2}
+							srcSet={`${product?.photoGalleryMobile2} 1024w, ${product?.photoGalleryDesktop2} 1280w`}
+							alt='photo2'
+							className=' rounded-md mb-4 lg:w-3/4'
+						/>
+					</div>
 					<img
 						src={product?.photoGalleryMobile3}
 						srcSet={`${product?.photoGalleryMobile3} 1024w, ${product?.photoGalleryDesktop3} 1280w`}
 						alt='photo3'
-						className=' rounded-md mb-4'
+						className=' rounded-md mb-4 lg:w-1/2'
 					/>
 				</div>
 			</div>

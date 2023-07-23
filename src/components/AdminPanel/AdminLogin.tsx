@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {adminThunks} from '../store/adminThunks'
+import { AppDispatch } from 'components/store';
+import { adminThunks } from '../store/adminThunks';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
 
 export const AdminLogin = () => {
-	const dispatch = useDispatch();
-	const [username, setUsername] = useState<string>();
-	const [userpassword, setUserPassword] = useState<string>();
+	const dispatch = useDispatch<AppDispatch>();
+	const [username, setUsername] = useState<string>('');
+	const [userpassword, setUserPassword] = useState<string>('');
 
 	const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		dispatch(adminThunks({ userName: username, password: userpassword }));
+		console.log('Nastapila zmiana state');
 	};
+
+	const isAuthenticated = useSelector(
+		(state: any) => state.auth.isAuthenticated
+	);
+
+	if (isAuthenticated) {
+		return <Navigate to='/questionchat' />;
+	}
 
 	return (
 		<div className='flex flex-col w-full mb-4'>
@@ -19,7 +31,7 @@ export const AdminLogin = () => {
 					ADMIN PANEL
 				</p>
 			</div>
-			<div className='flex'>
+			<div className='flex justify-center items-center'>
 				<div className='w-1/2 my-32'>GRAFICZKA</div>
 				<form className='w-1/2'>
 					<h3 className='pb-2 font-bold tracking-wide'>Join to Admin panel</h3>
@@ -34,7 +46,7 @@ export const AdminLogin = () => {
 					/>
 					<p className='text-left text-sm font-semibold'>Password</p>
 					<input
-						type='text'
+						type='password'
 						placeholder='999'
 						className='w-full border-2 border-[#D87D4A] focus:outline-none mb-2 rounded-lg placeholder-black pl-2'
 						onChange={(event) => {
@@ -43,7 +55,6 @@ export const AdminLogin = () => {
 					/>
 					<button
 						onClick={handleSubmit}
-						// onKeyDown={handleKeyDown}
 						className='w-full h-8 bg-[#D87D4A] text-white text-xs  hover:bg-[#fbaf85] rounded-lg'
 					>
 						LOG IN

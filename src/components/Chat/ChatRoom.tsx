@@ -1,11 +1,16 @@
-import React, { ChangeEvent, useState, useMemo } from 'react';
+import React, {
+	ChangeEvent,
+	useState,
+	useEffect,
+	useCallback,
+} from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { MessageList } from './MessageList';
 import { Socket } from 'socket.io-client';
 
 type Props = { socket: Socket; username: string; room: string };
 
-export const ChatRoom = (props: Props) => {
+export const ChatRoom = ({ socket, username, room }: Props) => {
 	type Message = {
 		room: string;
 		author: string;
@@ -18,15 +23,15 @@ export const ChatRoom = (props: Props) => {
 	const sendMessage = async () => {
 		if (currentMessage !== '') {
 			const messageData = {
-				room: props.room,
-				author: props.username,
+				room: room,
+				author: username,
 				message: currentMessage,
 				time: new Date().toLocaleTimeString([], {
 					hour: '2-digit',
 					minute: '2-digit',
 				}),
 			};
-			await props.socket.emit('send_message', messageData);
+			await socket.emit('send_message', messageData);
 			setMessageList((list) => [...list, messageData]);
 		}
 		setCurrentMessage('');
@@ -42,17 +47,23 @@ export const ChatRoom = (props: Props) => {
 		}
 	};
 
-	useMemo(() => {
-		props.socket.on('receive_message', (data) => {
-			setMessageList((list) => [...list, data]);
-		});
-	}, [props.socket]);
+	const handleReceiveMsg = useCallback((data: Message) => {
+		setMessageList((list) => [...list, data]);
+	}, []);
+
+	useEffect(() => {
+		socket.on('receive_message', handleReceiveMsg);
+
+		return () => {
+			socket.off('receive_message', handleReceiveMsg);
+		};
+	}, []);
 
 	return (
 		<div>
-			<div className='flex flex-col justify-end w-full h-52'>
+			<div className='flex flex-col justify-end w-full h-52 '>
 				<ScrollToBottom className='w-full overflow-x-hidden'>
-					<MessageList messageList={messageList} author={props.username} />
+					<MessageList messageList={messageList} author={username} />
 				</ScrollToBottom>
 				<div className='flex w-full my-2'>
 					<input

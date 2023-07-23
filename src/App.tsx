@@ -26,7 +26,7 @@ function App() {
 					<Route element={<Orders />} path='/orders' />
 					<Route element={<QuestionChat />} path='/questionchat' />
 				</Route>
-				<Route path='/adminLogin' element={<AdminLogin />} />
+				<Route element={<AdminLogin />} path='/adminLogin' />
 			</Routes>
 			<Footer />
 		</div>

@@ -14,13 +14,28 @@ const io = new Server(server, {
 	},
 });
 
+const rooms = [];
+
 io.on('connection', (socket) => {
 	console.log(`User connected: ${socket.id}`);
 
-	socket.on('join_room', (roomName) => {
+	socket.on('get_all_chats', () => {
+		const allChats = Array.from(rooms);
+		socket.emit('all_chats', allChats);
+	});
+
+	socket.on('join_room', (roomName, productName, productPhoto) => {
 		console.log(`${roomName} it is a user data`);
+
+		rooms.push({ roomName, productName, productPhoto, userId: socket.id });
+
 		socket.join(roomName);
 		console.log(`User with ID: ${socket.id} joined room ${roomName}`);
+	});
+
+	socket.on('leave_room', (roomName) => {
+		console.log(`${roomName} it is a user data`);
+		console.log(`User with ID: ${socket.id} leaved room ${roomName}`);
 	});
 
 	socket.on('send_message', (data) => {

@@ -10,6 +10,8 @@ import type { AppStore, RootState } from '../components/store';
 import uiSlice from '../components/store/CartVisibility';
 import chSlice from 'components/store/ChatVisibility';
 import cart from '../components/store/Cart';
+import adminAuth from '../components/store/adminAuth';
+
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -24,7 +26,7 @@ export function renderWithProviders(
 		preloadedState = {},
 		// Automatically create a store instance if no store was passed in
 		store = configureStore({
-			reducer: { ui: uiSlice.reducer,ch: chSlice.reducer, cm: cart.reducer },
+			reducer: { ui: uiSlice.reducer,ch: chSlice.reducer, cm: cart.reducer, auth: adminAuth.reducer },
 			preloadedState,
 		}),
 		...renderOptions

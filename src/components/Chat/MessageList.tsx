@@ -15,11 +15,11 @@ export const MessageList = (props: Props) => {
 		<div>
 			{props.messageList.map((message, index) => {
 				const containerClass =
-					message.author === props.author ? 'items-end' : 'items-start';
+					message.author === props.author ? 'items-end mr-4' : 'items-start ml-4';
 				const messageClass =
 					message.author === props.author
-						? 'bg-green-600 text-white items-end'
-						: 'bg-blue-500 text-white items-start';
+						? 'bg-green-600 text-white items-end mr-4'
+						: 'bg-blue-500 text-white items-start ml-4';
 				return (
 					<div
 						key={index}

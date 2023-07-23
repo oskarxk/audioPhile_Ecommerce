@@ -6,7 +6,7 @@ export const AdminPrivateRoutes = () => {
 		(state: any) => state.auth.isAuthenticated
 	);
 
-	return isAuthenticated ? <Outlet /> : <Navigate to='adminLogin' />;
+	return isAuthenticated ? <Outlet /> : <Navigate to='/adminLogin' />;
 };
 
 export default AdminPrivateRoutes;

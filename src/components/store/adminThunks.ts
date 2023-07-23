@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchUserData } from 'components/AdminPanel/authApi';
-import { authaActions } from './Adminauth';
+import { authaActions } from './adminAuth';
 
 interface LoginData {
 	userName: string;
@@ -17,8 +17,9 @@ export const adminThunks = createAsyncThunk(
 				userData &&
 				loginData.userName === userData.userName &&
 				loginData.password === userData.password
-			) {
-				dispatch(authaActions.toggle());
+				) {
+					dispatch(authaActions.toggle());
+					console.log('dane sie zgadzaja');
 			} else {
 				console.log('Dupa blada koleżko');
 			}
