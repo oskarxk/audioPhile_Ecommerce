@@ -1,16 +1,22 @@
-import React, {
-	ChangeEvent,
-	useState,
-	useEffect,
-	useCallback,
-} from 'react';
+import React, { ChangeEvent, useState, useEffect, useCallback } from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { MessageList } from './MessageList';
 import { Socket } from 'socket.io-client';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
-type Props = { socket: Socket; username: string; room: string };
+type Props = {
+	socket: Socket;
+	username: string;
+	room: string;
+	setIsUserJoined: (isJoined: boolean) => void;
+};
 
-export const ChatRoom = ({ socket, username, room }: Props) => {
+export const ChatRoom = ({
+	socket,
+	username,
+	room,
+	setIsUserJoined,
+}: Props) => {
 	type Message = {
 		room: string;
 		author: string;
@@ -19,6 +25,7 @@ export const ChatRoom = ({ socket, username, room }: Props) => {
 	};
 	const [currentMessage, setCurrentMessage] = useState<string>('');
 	const [messageList, setMessageList] = useState<Message[]>([]);
+	const [isAdminJoined, setIsAdminJoined] = useState<boolean>(false);
 
 	const sendMessage = async () => {
 		if (currentMessage !== '') {
@@ -48,24 +55,51 @@ export const ChatRoom = ({ socket, username, room }: Props) => {
 	};
 
 	const handleReceiveMsg = useCallback((data: Message) => {
+		if (data.author === 'Admin') {
+			setIsAdminJoined(true);
+		}
 		setMessageList((list) => [...list, data]);
 	}, []);
 
+	const closeChat = (room: string) => {
+		socket.emit('leave_room', room);
+		setIsUserJoined(false);
+	};
+
 	useEffect(() => {
 		socket.on('receive_message', handleReceiveMsg);
-
 		return () => {
 			socket.off('receive_message', handleReceiveMsg);
 		};
 	}, []);
 
+	useEffect(() => {
+		if (isAdminJoined) {
+			const adminJoinMessage = {
+				room: room,
+				author: 'SYSTEM',
+				message: 'Admin joined the chat',
+				time: new Date().toLocaleTimeString([], {
+					hour: '2-digit',
+					minute: '2-digit',
+				}),
+			};
+			setMessageList((list) => [...list, adminJoinMessage]);
+		}
+	}, [isAdminJoined, room]);
+
 	return (
 		<div>
-			<div className='flex flex-col justify-end w-full h-52 '>
+			<div className='flex justify-end bg-[#F1F1F1] rounded-tl-lg rounded-tr-lg overflow-hidden'>
+				<button onClick={() => closeChat(room)}>
+					<AiFillCloseCircle className='text-red-600 text-2xl my-4 mx-4' />
+				</button>
+			</div>
+			<div className='flex flex-col justify-end w-full h-52 border-2 border-[#F1F1F1]'>
 				<ScrollToBottom className='w-full overflow-x-hidden'>
 					<MessageList messageList={messageList} author={username} />
 				</ScrollToBottom>
-				<div className='flex w-full my-2'>
+				<div className='flex w-full'>
 					<input
 						placeholder='Type message'
 						type='text'

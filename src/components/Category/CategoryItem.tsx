@@ -39,7 +39,7 @@ export const CategoryItem = ({
 					<p className='text-[#808080] text-sm lg:text-left lg:w-4/5'>
 						{description}
 					</p>
-					<Link to={`/:categoryName/${router}`}>
+					<Link to={`./${router}`}>
 						<button className='h-25 w-1/2 lg:w-full my-4 py-2 lg:px-4 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
 							SEE PRODUCT
 						</button>

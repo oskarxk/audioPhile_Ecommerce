@@ -29,7 +29,7 @@ export const MessageList = (props: Props) => {
 							<p className='px-4 py-2 break-all'>{message.message}</p>
 						</div>
 						<div
-							className={`flex flex-col justify-start items-start mt-2 text-sm text-gray-500 ${containerClass}`}
+							className={`flex flex-col justify-start items-start my-2 text-sm text-gray-500 ${containerClass}`}
 						>
 							<p>{message.time}</p>
 							<p>{message.author}</p>

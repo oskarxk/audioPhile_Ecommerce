@@ -15,35 +15,53 @@ const io = new Server(server, {
 });
 
 const rooms = [];
+const admin = {
+	adminUserName: 'oskar',
+	adminPassword: '123',
+};
+
+let adminUniqueId = '';
 
 io.on('connection', (socket) => {
 	console.log(`User connected: ${socket.id}`);
 
-	socket.on('get_all_chats', () => {
-		const allChats = Array.from(rooms);
-		socket.emit('all_chats', allChats);
+	socket.on('get_all_chats', (token) => {
+		if (token === adminUniqueId) {
+			const allChats = Array.from(rooms);
+			socket.emit('all_chats', allChats);
+		}
 	});
 
 	socket.on('join_room', (roomName, productName, productPhoto) => {
 		console.log(`${roomName} it is a user data`);
-
-		rooms.push({ roomName, productName, productPhoto, userId: socket.id });
+		const isInArray = rooms.findIndex((el) => el.roomName === roomName) > -1;
+		if (!isInArray) {
+			rooms.push({ roomName, productName, productPhoto, userId: socket.id });
+			socket.broadcast.emit('all_chats', Array.from(rooms));
+		}
 
 		socket.join(roomName);
 		console.log(`User with ID: ${socket.id} joined room ${roomName}`);
-	});
-
-	socket.on('leave_room', (roomName) => {
-		console.log(`${roomName} it is a user data`);
-		console.log(`User with ID: ${socket.id} leaved room ${roomName}`);
 	});
 
 	socket.on('send_message', (data) => {
 		socket.to(data.room).emit('receive_message', data);
 	});
 
-	socket.on('disconnect', () => {
-		console.log(`User disconnected: ${socket.id}`);
+	socket.on('login', (userName, password, callback) => {
+		if (userName === admin.adminUserName && password === admin.adminPassword) {
+			adminUniqueId = new Date().getTime().toString(16);
+			callback(adminUniqueId);
+		} else {
+			callback(false);
+		}
+	});
+
+	socket.on('leave_room', (roomName) => {
+		console.log(`${roomName} to dane użytkownika`);
+		console.log(`User with ID: ${socket.id} leaved room ${roomName}`);
+		socket.leave(roomName); // Rozłącz użytkownika z konkretnym pokojem
+		socket.disconnect(true); // Natychmiastowe rozłączenie użytkownika
 	});
 });
 

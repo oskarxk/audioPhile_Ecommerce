@@ -1,8 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { ChatRoom } from './ChatRoom';
 
-const socket = io('http://localhost:4000');
+const socket = io('http://localhost:4000', {
+	autoConnect: false,
+});
 
 type Product = {
 	_id: number;
@@ -38,8 +40,8 @@ export const Chat = ({ product }: Props) => {
 	const [room, setRoom] = useState('');
 	const roomRef = useRef('');
 
-	const productName = product?.name
-	const productPhoto = product?.imageCart
+	const productName = product?.name;
+	const productPhoto = product?.imageCart;
 
 	const joinRoom = () => {
 		if (username !== '' && username !== 'Admin') {
@@ -58,10 +60,19 @@ export const Chat = ({ product }: Props) => {
 		}
 	};
 
+	useEffect(() => {
+		socket.connect();
+	}, []);
+
 	return (
-		<div className='flex flex-col w-3/4 right-1/2 transform lg:transform-none translate-x-1/2 lg:right-16  bottom-4 bg-white rounded-md px-4 py-5'>
+		<div className='flex flex-col w-full lg:w-3/4 bottom-4 bg-white rounded-md  py-5'>
 			{isUserJoined ? (
-				<ChatRoom socket={socket} username={username} room={room} />
+				<ChatRoom
+					socket={socket}
+					username={username}
+					room={room}
+					setIsUserJoined={setIsUserJoined}
+				/>
 			) : (
 				<form>
 					<p className=' text-left text-sm font-semibold'>Name</p>
