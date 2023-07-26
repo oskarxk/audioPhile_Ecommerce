@@ -22,6 +22,14 @@ const admin = {
 
 let adminUniqueId = '';
 
+function delete_chat(roomName) {
+	const index = rooms.findIndex((room) => room.roomName === roomName);
+	if (index !== -1) {
+		rooms.splice(index, 1);
+		io.emit('all_chats', Array.from(rooms)); // Powiadom wszystkich klientów o zaktualizowanej liście pokojów
+	}
+}
+
 io.on('connection', (socket) => {
 	console.log(`User connected: ${socket.id}`);
 
@@ -61,7 +69,12 @@ io.on('connection', (socket) => {
 		console.log(`${roomName} to dane użytkownika`);
 		console.log(`User with ID: ${socket.id} leaved room ${roomName}`);
 		socket.leave(roomName); // Rozłącz użytkownika z konkretnym pokojem
-		socket.disconnect(true); // Natychmiastowe rozłączenie użytkownika
+	});
+
+	socket.on('delete_chat', (roomName, token) => {
+		if (token === adminUniqueId) {
+			delete_chat(roomName);
+		}
 	});
 });
 

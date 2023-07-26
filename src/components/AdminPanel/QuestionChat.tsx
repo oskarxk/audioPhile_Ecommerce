@@ -2,6 +2,8 @@ import { ChatRoom } from 'components/Chat/ChatRoom';
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import { TbMoodEmpty } from 'react-icons/tb';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const socket = io('http://localhost:4000', {
 	autoConnect: false,
@@ -43,42 +45,52 @@ export const QuestionChat = () => {
 	};
 
 	return (
-		<div className='w-full'>
+		<div className='w-full h-full'>
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
 				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
 					ADMIN PANEL QUESTION CHAT
 				</p>
 			</div>
 			<div className='flex justify-between items-start'>
-				<div className=' w-3/4 flex flex-col  bg-[#FFFFFF] mx-4 my-4'>
-					{chats.map((chat) => (
-						<div
-							className='w-full flex justify-between bg-[#F1F1F1] rounded-xl my-2'
-							key={chat.roomName}
-						>
-							<div className='flex flex-col justify-center items-center w-3/4'>
-								<p className=' text-black'>TICKET {chat.roomName}</p>
-								<p className=' text-black'>USER ID: {chat.userId}</p>
+				{chats.length < 1 ? (
+					<div className='flex justify-center items-center'>
+						<TbMoodEmpty className='text-black text-9xl my-4 mx-4' />
+						<p className='text-black text-center font-bold'>
+							Actual number of chats is currently: {chats.length}
+						</p>
+					</div>
+				) : (
+					<ScrollToBottom className='w-full h-96 overflow-x-hidden'>
+						{chats.map((chat) => (
+							<div
+								className='w-full flex justify-between bg-[#F1F1F1] rounded-xl mb-2'
+								key={chat.roomName}
+							>
+								<div className='flex flex-col justify-center items-center w-3/4'>
+									<p className=' text-black'>TICKET {chat.roomName}</p>
+									<p className=' text-black'>USER ID: {chat.userId}</p>
+								</div>
+								<div className='flex flex-col justify-center items-center w-1/4 my-2'>
+									<img src={chat.productPhoto} alt={chat.productName} />
+									<button
+										className=' uppercase font-bold text-l text-[#FFFFFF] bg-red-600 px-2 py-2 rounded-xl'
+										onClick={() => joinRoom(chat.roomName)}
+									>
+										Join chat
+									</button>
+								</div>
 							</div>
-							<div className='flex flex-col justify-center items-center w-1/4 my-2'>
-								<img src={chat.productPhoto} alt={chat.productName} />
-								<button
-									className=' uppercase font-bold text-l text-[#FFFFFF] bg-red-600 px-2 py-2 rounded-xl'
-									onClick={() => joinRoom(chat.roomName)}
-								>
-									Join chat
-								</button>
-							</div>
-						</div>
-					))}
-				</div>
-				<div className=' w-1/3 flex flex-col rounded-xl mx-4 my-6'>
+						))}
+					</ScrollToBottom>
+				)}
+				<div className=' w-1/3 rounded-xl my-4 mx-4'>
 					{isUserJoined && (
 						<ChatRoom
 							socket={socket}
 							username={username}
 							room={room}
 							setIsUserJoined={setIsUserJoined}
+							isUserJoined={isUserJoined}
 						/>
 					)}
 				</div>

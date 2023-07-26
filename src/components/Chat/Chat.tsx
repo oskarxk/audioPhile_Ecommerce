@@ -71,6 +71,7 @@ export const Chat = ({ product }: Props) => {
 					socket={socket}
 					username={username}
 					room={room}
+					isUserJoined={isUserJoined}
 					setIsUserJoined={setIsUserJoined}
 				/>
 			) : (
