@@ -28,7 +28,7 @@ export const ChatRoom = ({
 }: Props) => {
 	const [currentMessage, setCurrentMessage] = useState<string>('');
 	const [messageList, setMessageList] = useState<Message[]>([]);
-	const [isAdminJoined, setIsAdminJoined] = useState<boolean>(false);
+
 
 	const tokenCallback = useSelector((state: any) => state.auth.token);
 
@@ -60,11 +60,8 @@ export const ChatRoom = ({
 	};
 
 	const handleReceiveMsg = useCallback((data: Message) => {
-		if (data.author === 'Admin') {
-			setIsAdminJoined(true);
-		}
 		setMessageList((list) => [...list, data]);
-	}, []);
+	  }, []);
 
 	useEffect(() => {
 		socket.on('receive_message', handleReceiveMsg);
@@ -75,24 +72,19 @@ export const ChatRoom = ({
 
 	const closeChat = (room: string) => {
 		socket.emit('leave_room', room);
+		const userLeftChat = {
+			room: room,
+			author: 'SYSTEM',
+			message: `${username} left the chat`,
+			time: new Date().toLocaleTimeString([], {
+				hour: '2-digit',
+				minute: '2-digit',
+			}),
+		};
+		socket.emit('send_message', userLeftChat); 
 		socket.emit('delete_chat', room, tokenCallback);
 		setIsUserJoined(false);
 	};
-
-	useEffect(() => {
-		if (isAdminJoined) {
-			const adminJoinMessage = {
-				room: room,
-				author: 'SYSTEM',
-				message: 'Admin joined the chat',
-				time: new Date().toLocaleTimeString([], {
-					hour: '2-digit',
-					minute: '2-digit',
-				}),
-			};
-			setMessageList((list) => [...list, adminJoinMessage]);
-		}
-	}, [isAdminJoined, room]);
 
 	return (
 		<div>

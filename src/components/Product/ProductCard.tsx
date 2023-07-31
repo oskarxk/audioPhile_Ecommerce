@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import sanityClient from '../../client';
 import { useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { useAppDispatch } from 'components/hooks/useTypedSelector';
 
 import { Cart } from 'components/Cart/Cart';
@@ -9,6 +9,8 @@ import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { cartActions } from 'components/store/Cart';
 import { AboutUs } from 'components/Aboutus/AboutUs';
 import { Chat } from 'components/Chat/Chat';
+import { Navigation } from 'components/Navigation/Navigation';
+import { Footer } from 'components/Footer/Footer';
 
 type Product = {
 	_id: number;
@@ -98,11 +100,12 @@ export const ProductCard = () => {
 	}
 
 	if (error) {
-		return <h1>Mordo, nie mam takiego produktu</h1>;
+		return <Navigate to='*' />;
 	}
 
 	return (
-		<div className='flex flex-col items-center w-full mb-4'>
+		<div className='flex flex-col w-full  mb-4'>
+			<Navigation />
 			{showCart && <Cart />}
 			<div className='flex w-full items-center justify-center py-4'>
 				<button
@@ -216,6 +219,7 @@ export const ProductCard = () => {
 			<div className='flex flex-col justify-evenly items-center '>
 				<AboutUs />
 			</div>
+			<Footer/>
 		</div>
 	);
 };

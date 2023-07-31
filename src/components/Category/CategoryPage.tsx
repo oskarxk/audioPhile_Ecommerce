@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import sanityClient from '../../client';
 
@@ -7,6 +7,8 @@ import { Cart } from 'components/Cart/Cart';
 import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { AboutUs } from 'components/Aboutus/AboutUs';
 import { CategoryItem } from './CategoryItem';
+import { Navigation } from 'components/Navigation/Navigation';
+import { Footer } from 'components/Footer/Footer';
 
 type Props = {};
 
@@ -64,11 +66,12 @@ export const CategoryPage = (props: Props) => {
 	}
 
 	if (error || !category) {
-		return <h1>Mordo, nie mam takiego produktu</h1>;
+		return <Navigate to='*' />;
 	}
 
 	return (
 		<div className='flex flex-col w-full mb-4'>
+			<Navigation />
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
 				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
 					{category?.name}
@@ -88,6 +91,7 @@ export const CategoryPage = (props: Props) => {
 			))}
 			<CategoryLink />
 			<AboutUs />
+			<Footer />
 		</div>
 	);
 };

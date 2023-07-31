@@ -21,7 +21,7 @@ export const AdminLogin = () => {
 	);
 
 	if (isAuthenticated) {
-		return <Navigate to='/questionchat' />;
+		return <Navigate to='/onlineChats' />;
 	}
 
 	return (

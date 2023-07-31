@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Navigation } from 'components/Navigation/Navigation';
+import { Footer } from 'components/Footer/Footer';
 import { AboutUs } from 'components/Aboutus/AboutUs';
 import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { Cart } from 'components/Cart/Cart';
@@ -21,6 +23,7 @@ export const Home = () => {
 
 	return (
 		<div className='flex flex-col relative'>
+			<Navigation/>
 			{showCart && <Cart />}
 			<div className='relative lg:mb-8'>
 				<div className='absolute inset-0 flex flex-col justify-center lg:px-40'>
@@ -107,6 +110,7 @@ export const Home = () => {
 					</div>
 				</div>
 				<AboutUs />
+				<Footer />
 			</div>
 		</div>
 	);

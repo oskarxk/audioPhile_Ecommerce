@@ -1,5 +1,6 @@
-import { ChatRoom } from 'components/Chat/ChatRoom';
 import React, { useEffect, useState } from 'react';
+import { ChatRoom } from 'components/Chat/ChatRoom';
+import { AdminPanelNav } from './AdminPanelNav';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { TbMoodEmpty } from 'react-icons/tb';
@@ -16,7 +17,7 @@ type Chat = {
 	productPhoto: string;
 };
 
-export const QuestionChat = () => {
+export const OnlineChats = () => {
 	const [chats, setChats] = useState<Chat[]>([]);
 	const [room, setRoom] = useState<string>(''); // Dodaj stan dla wybranego pokoju
 	const [isUserJoined, setIsUserJoined] = useState<boolean>(false);
@@ -41,16 +42,24 @@ export const QuestionChat = () => {
 	const joinRoom = (room: string) => {
 		setRoom(room);
 		socket.emit('join_room', room);
+
+		const adminJoinMessage = {
+			room: room,
+			author: 'SYSTEM',
+			message: 'Admin joined the chat',
+			time: new Date().toLocaleTimeString([], {
+				hour: '2-digit',
+				minute: '2-digit',
+			}),
+		};
+		socket.emit('send_message', adminJoinMessage);
+
 		setIsUserJoined(true);
 	};
 
 	return (
 		<div className='w-full h-full'>
-			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
-				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
-					ADMIN PANEL QUESTION CHAT
-				</p>
-			</div>
+			<AdminPanelNav />
 			<div className='flex justify-between items-start'>
 				{chats.length < 1 ? (
 					<div className='flex justify-center items-center'>
