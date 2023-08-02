@@ -33,7 +33,7 @@ export const Home = () => {
 					<h2 className='text-3xl lg:text-5xl font-bold text-center lg:text-left mb-4 lg:w-1/2 text-[#FFFFFF]'>
 						XX99 MARK II HEADPHONES
 					</h2>
-					<p className='text-center lg:text-left lg:px-0 lg:text-lg lg:w-1/3 px-8 pt-2 text-[#F1F1F1]'>
+					<p className='text-center lg:text-left lg:px-0 lg:text-lg lg:w-1/3 px-4 pt-2 text-[#F1F1F1]'>
 						Experience natural, lifelike audio and exceptional build quality
 						made for the passionate music enthusiast
 					</p>

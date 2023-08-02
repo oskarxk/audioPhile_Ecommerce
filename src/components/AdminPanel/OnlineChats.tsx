@@ -19,7 +19,7 @@ type Chat = {
 
 export const OnlineChats = () => {
 	const [chats, setChats] = useState<Chat[]>([]);
-	const [room, setRoom] = useState<string>(''); // Dodaj stan dla wybranego pokoju
+	const [room, setRoom] = useState<string>('');
 	const [isUserJoined, setIsUserJoined] = useState<boolean>(false);
 	const tokenCallback = useSelector((state: any) => state.auth.token);
 
@@ -27,15 +27,14 @@ export const OnlineChats = () => {
 
 	useEffect(() => {
 		socket.connect();
-		socket.emit('get_all_chats', tokenCallback); // Wysyła zdarzenie, aby pobrać listę wszystkich chatów
+		socket.emit('get_all_chats', tokenCallback);
 
 		socket.on('all_chats', (allChats: Chat[]) => {
-			console.log('AllChats: ', allChats);
 			setChats(allChats);
 		});
 
 		return () => {
-			socket.disconnect(); // Rozłącza socket przy odmontowaniu komponentu
+			socket.disconnect();
 		};
 	}, []);
 
@@ -58,7 +57,7 @@ export const OnlineChats = () => {
 	};
 
 	return (
-		<div className='w-full h-full'>
+		<div className='w-full'>
 			<AdminPanelNav />
 			<div className='flex justify-between items-start'>
 				{chats.length < 1 ? (

@@ -10,6 +10,8 @@ import { CategoryItem } from './CategoryItem';
 import { Navigation } from 'components/Navigation/Navigation';
 import { Footer } from 'components/Footer/Footer';
 
+import { ClipLoader } from 'react-spinners';
+
 type Props = {};
 
 type Category = {
@@ -62,10 +64,14 @@ export const CategoryPage = (props: Props) => {
 	}, [categoryName]);
 
 	if (isLoading) {
-		return <h1>Loading...............</h1>;
+		return (
+			<div className='flex justify-center items-center my-48'>
+				<ClipLoader color='#D87D4A' loading={isLoading} size={100} />
+			</div>
+		);
 	}
 
-	if (error || !category) {
+	if (error) {
 		return <Navigate to='*' />;
 	}
 

@@ -5,6 +5,8 @@ import { useAppSelector, useAppDispatch } from '../hooks/useTypedSelector';
 import { cartActions } from '../store/Cart';
 import { CartItem } from './CartItem';
 
+import { uiActions } from '../store/CartVisibility';
+
 export const Cart = () => {
 	const [totalPrice, setTotalPrice] = useState<number>(0);
 	const { products } = useAppSelector((state) => state.cm);
@@ -22,9 +24,13 @@ export const Cart = () => {
 		dispatch(cartActions.removeAll());
 	}, []);
 
+	const toggleCartHandler = useCallback(() => {
+		dispatch(uiActions.toggle());
+	}, []);
+
 	return (
-		<div className='w-full bg-slate-500/25 h-screen absolute z-10  flex justify-end'>
-			<div className=' w-80 h-max bg-white mx-48 my-10 rounded-md flex flex-col px-5 py-5'>
+		<div className=' absolute z-10 top-28 right-32'>
+			<div className=' w-80 h-max bg-[#F1F1F1] rounded-md flex flex-col px-5 py-5'>
 				<div className='flex'>
 					<div className='w-1/2 text-left'>
 						<p className='font-bold tracking-wide'>CART ({products.length})</p>
@@ -49,7 +55,7 @@ export const Cart = () => {
 				</div>
 				<div className='w-full'>
 					<Link to={`/payment`}>
-						<button className='bg-[#D87D4A] text-white w-full py-2 font-bold text-sm'>
+						<button className='bg-[#D87D4A] text-white w-full py-2 font-bold text-sm' onClick={toggleCartHandler}>
 							CHECKOUT
 						</button>
 					</Link>

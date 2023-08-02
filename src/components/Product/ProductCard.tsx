@@ -12,6 +12,8 @@ import { Chat } from 'components/Chat/Chat';
 import { Navigation } from 'components/Navigation/Navigation';
 import { Footer } from 'components/Footer/Footer';
 
+import { ClipLoader } from 'react-spinners';
+
 type Product = {
 	_id: number;
 	name: string;
@@ -96,7 +98,11 @@ export const ProductCard = () => {
 	}, [productName]);
 
 	if (isLoading) {
-		return <h1>Loading...............</h1>;
+		return (
+			<div className='flex justify-center items-center my-48'>
+				<ClipLoader color='#D87D4A' loading={isLoading} size={100} />
+			</div>
+		);
 	}
 
 	if (error) {
@@ -219,7 +225,7 @@ export const ProductCard = () => {
 			<div className='flex flex-col justify-evenly items-center '>
 				<AboutUs />
 			</div>
-			<Footer/>
+			<Footer />
 		</div>
 	);
 };

@@ -8,7 +8,7 @@ export const AdminPanelNav = () => {
 		<div>
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
 				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
-					ADMIN PANEL QUESTION CHAT
+					ADMIN PANEL
 				</p>
 			</div>
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>

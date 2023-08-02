@@ -18,8 +18,6 @@ function App() {
 		<div className='App'>
 			<Routes>
 				<Route path='/' element={<Home />} />
-				<Route path='/:categoryName' element={<CategoryPage />} />
-				<Route path='/:categoryName/:productName' element={<ProductCard />} />
 				<Route path='/payment' element={<PaymentFinalization />} />
 				<Route element={<AdminPrivateRoutes />}>
 					<Route element={<OnlineChats />} path='/onlineChats' />
@@ -27,6 +25,8 @@ function App() {
 					<Route element={<Orders />} path='/orders' />
 				</Route>
 				<Route element={<AdminLogin />} path='/adminLogin' />
+				<Route path='/:categoryName/:productName' element={<ProductCard />} />
+				<Route path='/:categoryName' element={<CategoryPage />} />
 				<Route element={<NotFoundPage />} path='*' />
 			</Routes>
 		</div>

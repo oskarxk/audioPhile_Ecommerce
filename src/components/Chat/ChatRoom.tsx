@@ -29,7 +29,6 @@ export const ChatRoom = ({
 	const [currentMessage, setCurrentMessage] = useState<string>('');
 	const [messageList, setMessageList] = useState<Message[]>([]);
 
-
 	const tokenCallback = useSelector((state: any) => state.auth.token);
 
 	const sendMessage = async () => {
@@ -61,7 +60,7 @@ export const ChatRoom = ({
 
 	const handleReceiveMsg = useCallback((data: Message) => {
 		setMessageList((list) => [...list, data]);
-	  }, []);
+	}, []);
 
 	useEffect(() => {
 		socket.on('receive_message', handleReceiveMsg);
@@ -81,7 +80,7 @@ export const ChatRoom = ({
 				minute: '2-digit',
 			}),
 		};
-		socket.emit('send_message', userLeftChat); 
+		socket.emit('send_message', userLeftChat);
 		socket.emit('delete_chat', room, tokenCallback);
 		setIsUserJoined(false);
 	};
