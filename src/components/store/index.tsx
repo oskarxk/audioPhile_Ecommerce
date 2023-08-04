@@ -1,21 +1,23 @@
-import {
-	combineReducers,
-	configureStore,
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { sessionStorageSyncMiddleware } from './sessionStorageSyncMiddleware';
 
 import cart from './Cart';
 import uiSlice from './CartVisibility';
+import chSlice from './ChatVisibility';
 import type { PreloadedState } from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({ ui: uiSlice.reducer, cm: cart.reducer });
+const rootReducer = combineReducers({
+	ui: uiSlice.reducer,
+	ch: chSlice.reducer,
+	cm: cart.reducer,
+});
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
 	return configureStore({
 		reducer: rootReducer,
 		preloadedState,
 		middleware: (applyMiddleware) =>
-		applyMiddleware().concat(sessionStorageSyncMiddleware),
+			applyMiddleware().concat(sessionStorageSyncMiddleware),
 	});
 };
 

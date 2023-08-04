@@ -17,7 +17,7 @@ export const DesktopMenu = () => {
 	const dispatch = useDispatch();
 	const toggleCartHandler = useCallback(() => {
 		dispatch(uiActions.toggle());
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<nav className={`flex items-center justify-around bg-[#101010] py-6`}>

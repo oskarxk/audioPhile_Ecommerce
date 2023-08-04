@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { AboutUs } from 'components/Aboutus/AboutUs';
 import { CategoryLink } from 'components/CategoryLink/CategoryLink';
 import { Cart } from 'components/Cart/Cart';
 
 import { useSelector } from 'react-redux';
+import { Chat } from 'components/Chat/Chat';
+import { BsFillChatDotsFill } from 'react-icons/bs';
+
+import { useDispatch } from 'react-redux';
+import { chActions } from 'components/store/ChatVisibility';
 
 const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg');
 const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg');
@@ -18,9 +23,23 @@ const photoEarphonesDesktop = require('../../Assets/home/desktop/image-earphones
 
 export const Home = () => {
 	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
+	const showChat = useSelector((state: any) => state.ch.chatIsVisible);
+
+	const dispatch = useDispatch();
+	const toggleCartHandler = useCallback(() => {
+		dispatch(chActions.toggle());
+	}, []);
+
 	return (
 		<div className='flex flex-col relative'>
 			{showCart && <Cart />}
+			<div
+				onClick={toggleCartHandler}
+				className='cursor-pointer fixed right-4 bottom-4 z-10'
+			>
+				<BsFillChatDotsFill className='text-white text-3xl animate-bounce' />
+			</div>
+			{showChat && <Chat />}
 			<div className='relative lg:mb-8'>
 				<div className='absolute inset-0 flex flex-col justify-center lg:px-40'>
 					<p className='text-sm lg:text-5xl font-semibold lg:font-bold text-center lg:text-left mb-2 lg:mb-4 tracking-widest text-[#808080]'>
