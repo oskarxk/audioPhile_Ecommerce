@@ -56,17 +56,19 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('send_message', (data) => {
-		const selectedChat = archivedChats.find((chat) => chat.roomName === data.room);
+		const selectedChat = archivedChats.find(
+			(chat) => chat.roomName === data.room
+		);
 		if (selectedChat) {
-		  selectedChat.messages.push({
-			room: data.room,
-			author: data.author,
-			message: data.message,
-			time: data.time,
-		  });
+			selectedChat.messages.push({
+				room: data.room,
+				author: data.author,
+				message: data.message,
+				time: data.time,
+			});
 		}
 		socket.to(data.room).emit('receive_message', data);
-	  });
+	});
 
 	socket.on('login', (userName, password, callback) => {
 		if (userName === admin.adminUserName && password === admin.adminPassword) {
@@ -75,6 +77,11 @@ io.on('connection', (socket) => {
 		} else {
 			callback(false);
 		}
+	});
+
+	socket.on('logout', (callback) => {
+		adminUniqueId = null;
+		callback(true);
 	});
 
 	socket.on('leave_room', (roomName) => {
@@ -96,14 +103,16 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('get_historical_messages', (roomName) => {
-		const selectedChat = archivedChats.find((chat) => chat.roomName === roomName);
+		const selectedChat = archivedChats.find(
+			(chat) => chat.roomName === roomName
+		);
 		if (selectedChat) {
-		  const messages = selectedChat.messages;
-		  socket.emit('historical_messages', messages);
+			const messages = selectedChat.messages;
+			socket.emit('historical_messages', messages);
 		} else {
-		  socket.emit('historical_messages', []);
+			socket.emit('historical_messages', []);
 		}
-	  });
+	});
 });
 
 //START THE SERVER

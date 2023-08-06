@@ -1,10 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
-
 import { ONLINE_CHATS, RESOLVED_CHATS, ORDERS } from '../Navigation/routes';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'components/store';
+import { logoutAdmin } from 'components/store/adminThunks';
 
 export const AdminPanelNav = () => {
+	const dispatch = useDispatch<AppDispatch>();
 	return (
 		<div>
 			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
@@ -50,7 +53,12 @@ export const AdminPanelNav = () => {
 					</NavLink>
 				</div>
 				<div className='flex justify-center items-center w-1/2'>
-					<button className='text-xl text-white'>LOGOUT</button>
+					<button
+						className='text-xl text-white'
+						onClick={() => dispatch(logoutAdmin())}
+					>
+						LOGOUT
+					</button>
 					<BiLogOut className='text-xl text-white' />
 				</div>
 			</div>

@@ -11,6 +11,7 @@ type Props = {
 	room: string;
 	isUserJoined: boolean;
 	setIsUserJoined: (isJoined: boolean) => void;
+	setquestionModal?: (isJoined: boolean) => void;
 };
 type Message = {
 	room: string;
@@ -25,6 +26,7 @@ export const ChatRoom = ({
 	room,
 	isUserJoined,
 	setIsUserJoined,
+	setquestionModal,
 }: Props) => {
 	const [currentMessage, setCurrentMessage] = useState<string>('');
 	const [messageList, setMessageList] = useState<Message[]>([]);
@@ -83,6 +85,9 @@ export const ChatRoom = ({
 		socket.emit('send_message', userLeftChat);
 		socket.emit('delete_chat', room, tokenCallback);
 		setIsUserJoined(false);
+		if (setquestionModal) {
+			setquestionModal(false);
+		}
 	};
 
 	return (

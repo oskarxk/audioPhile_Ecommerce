@@ -56,10 +56,10 @@ export const ProductCard = () => {
 	const addToCart = () => {
 		if (product) {
 			dispatch(cartActions.addItem({ quantity, product: product as Product }));
-			setQuantity(1);
 			setAddedToCart(true);
 			setTimeout(() => {
 				setAddedToCart(false);
+				setQuantity(1);
 			}, 3000);
 		}
 	};
@@ -191,14 +191,23 @@ export const ProductCard = () => {
 								</button>
 							</div>
 						</div>
-						<div className='w-full lg:w-3/4 py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85]'>
-							<button onClick={() => setquestionModal(!questionModal)}>
+						<div className='w-full lg:w-3/4 py-2 bg-[#D87D4A] text-white hover:bg-[#fbaf85] cursor-pointer'>
+							<button
+								onClick={() => setquestionModal(!questionModal)}
+								className='w-full'
+							>
 								<p>Ask our consultant about the {product?.name}</p>
 							</button>
 						</div>
 					</div>
 				</div>
-				{questionModal && <Chat product={product} />}
+				{questionModal && (
+					<Chat
+						name={product?.name}
+						imageCart={product?.imageCart}
+						setquestionModal={setquestionModal}
+					/>
+				)}
 				<div className='w-3/4 flex flex-col justify-between lg:flex-row my-4'>
 					<div className='w-full lg:w-1/2 flex flex-col'>
 						<p className='font-bold text-2xl text-left'>FEATURES</p>

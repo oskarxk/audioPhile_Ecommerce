@@ -6,26 +6,25 @@ const socket = io('http://localhost:4000', {
 	autoConnect: false,
 });
 
-type Product = {
-	name: string;
-	imageCart: string;
+type Props = {
+	name?: string;
+	imageCart?: string;
+	setquestionModal?: (isJoined: boolean) => void;
 };
 
-type Props = { product: Product | undefined };
-
-export const Chat = ({ product }: Props) => {
+export const Chat = ({ name, imageCart, setquestionModal }: Props) => {
 	const [isUserJoined, setIsUserJoined] = useState<boolean>(false);
 	const [username, setUsername] = useState<string>('');
 	const [room, setRoom] = useState('');
 	const roomRef = useRef('');
 
-	const productName = product?.name;
-	const productPhoto = product?.imageCart;
+	const productName = name;
+	const productPhoto = imageCart;
 
 	const joinRoom = () => {
 		if (username !== '' && username !== 'Admin') {
 			const randomNumber = Math.floor(Math.random() * 900) + 100;
-			const generatedRoom = `#${randomNumber} ${product?.name}`;
+			const generatedRoom = `#${randomNumber} ${name}`;
 			setRoom(generatedRoom);
 			roomRef.current = generatedRoom;
 			socket.emit('join_room', generatedRoom, productName, productPhoto);
@@ -52,6 +51,7 @@ export const Chat = ({ product }: Props) => {
 					room={room}
 					isUserJoined={isUserJoined}
 					setIsUserJoined={setIsUserJoined}
+					setquestionModal={setquestionModal}
 				/>
 			) : (
 				<form>
