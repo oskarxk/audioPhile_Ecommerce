@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { TbMoodEmpty } from 'react-icons/tb';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import 'animate.css';
 
 const socket = io('http://localhost:4000', {
 	autoConnect: false,
@@ -71,7 +72,7 @@ export const OnlineChats = () => {
 					<ScrollToBottom className='w-full h-96 overflow-x-hidden'>
 						{chats.map((chat) => (
 							<div
-								className='w-full flex justify-between bg-[#F1F1F1] rounded-xl mb-2'
+								className='w-full flex justify-between bg-[#F1F1F1] rounded-xl mb-2 animate__animated animate__backInLeft animate__slow'
 								key={chat.roomName}
 							>
 								<div className='flex flex-col justify-center items-center w-3/4'>

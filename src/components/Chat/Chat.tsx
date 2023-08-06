@@ -44,7 +44,7 @@ export const Chat = ({ product }: Props) => {
 	}, []);
 
 	return (
-		<div className='flex flex-col w-full lg:w-3/4 bottom-4 bg-white rounded-md  py-5'>
+		<div className='flex flex-col w-3/4 bottom-4 bg-white rounded-md  py-5'>
 			{isUserJoined ? (
 				<ChatRoom
 					socket={socket}

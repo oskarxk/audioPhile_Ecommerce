@@ -5,6 +5,9 @@ import { adminThunks } from '../store/adminThunks';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 
+const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg');
+const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg');
+
 export const AdminLogin = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [username, setUsername] = useState<string>('');
@@ -25,14 +28,21 @@ export const AdminLogin = () => {
 	}
 
 	return (
-		<div className='flex flex-col w-full mb-4'>
-			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
+		<div className='flex flex-col justify-center items-center w-full mb-4'>
+			<div className={`flex items-center justify-center bg-[#101010] py-6 w-full`}>
 				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
 					ADMIN PANEL
 				</p>
 			</div>
-			<div className='flex justify-center items-center'>
-				<div className='w-1/2 my-32'>GRAFICZKA</div>
+			<div className='flex justify-center items-center w-3/4'>
+				<div className='w-1/2 my-32 mx-8'>
+				<img
+					className='block w-full rounded-xl'
+					src={headerImageMobile}
+					srcSet={`${headerImageMobile} 1024w, ${headerImageDesktop} 1280w`}
+					alt='Hero'
+				/>
+				</div>
 				<form className='w-1/2'>
 					<h3 className='pb-2 font-bold tracking-wide'>Join to Admin panel</h3>
 					<p className=' text-left text-sm font-semibold'>Username</p>

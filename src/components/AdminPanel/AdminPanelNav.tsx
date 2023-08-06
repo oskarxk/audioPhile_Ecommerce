@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { BiLogOut } from 'react-icons/bi';
 
 import { ONLINE_CHATS, RESOLVED_CHATS, ORDERS } from '../Navigation/routes';
 
@@ -47,6 +48,10 @@ export const AdminPanelNav = () => {
 					>
 						ORDERS
 					</NavLink>
+				</div>
+				<div className='flex justify-center items-center w-1/2'>
+					<button className='text-xl text-white'>LOGOUT</button>
+					<BiLogOut className='text-xl text-white' />
 				</div>
 			</div>
 		</div>

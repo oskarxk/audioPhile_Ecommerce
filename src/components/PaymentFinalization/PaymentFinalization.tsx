@@ -36,8 +36,8 @@ export const PaymentFinalization = () => {
 				</button>
 			</div>
 			<div className='flex flex-col w-full justify-center items-center bg-[#F1F1F1] py-4'>
-				<div className='flex w-3/4 items-start justify-between bg-[#F1F1F1] '>
-					<div className='w-8/12 bg-white rounded-md px-8 py-8'>
+				<div className='flex flex-col lg:flex-row w-full lg:w-3/4 items-center lg:items-start justify-between bg-[#F1F1F1] '>
+					<div className='w-3/4 lg:w-8/12 bg-white rounded-md px-8 py-8'>
 						<div className='w-full'>
 							<p className='text-black text-left text-3xl font-bold mb-8'>
 								CHECKOUT
@@ -49,8 +49,8 @@ export const PaymentFinalization = () => {
 									BILLING DETAILS
 								</p>
 							</div>
-							<div className='flex w-full justify-between'>
-								<div className='w-5/12	'>
+							<div className='flex flex-col lg:flex-row w-full justify-between'>
+								<div className='w-full lg:w-5/12'>
 									<div className='flex flex-col'>
 										<p className='text-left font-semibold py-2'>Name</p>
 										<input
@@ -68,7 +68,7 @@ export const PaymentFinalization = () => {
 										/>
 									</div>
 								</div>
-								<div className='w-5/12	'>
+								<div className='w-full lg:w-5/12	'>
 									<div className='flex flex-col'>
 										<p className='text-left font-semibold py-2'>Email Adress</p>
 										<input
@@ -98,8 +98,8 @@ export const PaymentFinalization = () => {
 									</div>
 								</div>
 							</div>
-							<div className='flex w-full justify-between'>
-								<div className='w-5/12	'>
+							<div className='flex flex-col lg:flex-row w-full justify-between'>
+								<div className='w-full lg:w-5/12'>
 									<div className='flex flex-col'>
 										<p className='text-left font-semibold py-2'>ZIP Code</p>
 										<input
@@ -115,7 +115,7 @@ export const PaymentFinalization = () => {
 										/>
 									</div>
 								</div>
-								<div className='w-5/12	'>
+								<div className='w-full lg:w-5/12'>
 									<div className='flex flex-col'>
 										<p className='text-left font-semibold py-2'>City</p>
 										<input
@@ -132,15 +132,15 @@ export const PaymentFinalization = () => {
 									PAYMENT DETAILS
 								</p>
 							</div>
-							<div className='flex w-full justify-between'>
-								<div className='w-5/12	'>
+							<div className='flex flex-col lg:flex-row w-full justify-between'>
+								<div className='w-full lg:w-5/12'>
 									<div className='flex flex-col'>
 										<p className='text-left font-semibold py-2'>
 											Payment Method
 										</p>
 									</div>
 								</div>
-								<div className='w-5/12	'>
+								<div className='w-full lg:w-5/12'>
 									<div className='flex flex-col'>
 										<div
 											className={`flex items-center py-6 my-2 border-2 ${
@@ -177,9 +177,25 @@ export const PaymentFinalization = () => {
 									</div>
 								</div>
 							</div>
+							<div className='flex flex-col lg:flex-row justify-between w-full'>
+								<div className='flex flex-col w-full lg:w-5/12'>
+									<p className='text-left font-semibold py-2'>e-Money Number</p>
+									<input
+										className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
+										type='number'
+									/>
+								</div>
+								<div className='flex flex-col w-full lg:w-5/12'>
+									<p className='text-left font-semibold py-2'>e-Money PIN</p>
+									<input
+										className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
+										type='number'
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div className='w-3/12 h-max bg-white rounded-md flex flex-col px-5 py-5'>
+					<div className='w-3/4 lg:w-3/12 h-max bg-white rounded-md flex flex-col px-5 py-5 mt-4 lg:mt-0'>
 						<div className='flex'>
 							<div className='w-1/2 text-left'>
 								<p className='font-bold tracking-wide'>SUMMARY</p>
@@ -247,7 +263,7 @@ export const PaymentFinalization = () => {
 						<div className='w-full'>
 							<Link to={`/payment`}>
 								<button className='bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm'>
-									CHECKOUT
+									CONTINUE & PAY
 								</button>
 							</Link>
 						</div>

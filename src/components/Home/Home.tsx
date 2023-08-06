@@ -53,23 +53,24 @@ export const Home = () => {
 				/>
 			</div>
 			<CategoryLink />
-			<div className='flex flex-col justify-around lg:justify-between items-center mt-4 lg:mt-0'>
-				<div className='w-3/4  bg-[#fbaf85] my-8 lg:my-0 lg:pt-16 flex lg:flex-row flex-col justify-evenly items-center rounded-xl'>
+			<div className='flex flex-col justify-around lg:justify-between items-center lg:mt-0'>
+				<div className='w-3/4  bg-[#fbaf85] my-2 lg:my-0 lg:pt-16 flex lg:flex-row flex-col justify-evenly items-center rounded-xl'>
 					<img
 						src={itemSpeakersMobile}
 						srcSet={`${itemSpeakersMobile} 1024w, ${itemSpeakersDesktop} 1280w`}
 						alt='speakers'
+						className='w-1/2 lg:w-1/3'
 					/>
-					<div className='w-1/3 flex flex-col justify-center items-center lg:items-start'>
-						<p className='text-2xl lg:text-5xl px-16 lg:px-0 lg:w-1/2 lg:text-left lg:tracking-wider font-bold text-[#FFFFFF]'>
+					<div className='w-3/4 lg:w-1/3 flex flex-col justify-center items-center lg:items-start'>
+						<p className='text-2xl lg:text-5xl px-2 lg:px-0 py-2 w-full lg:w-1/2 text-center lg:text-left lg:tracking-wider font-bold text-[#FFFFFF]'>
 							ZX9 SPEAKER
 						</p>
-						<p className='text-[#FFFFFF] lg:text-2xl lg:text-left lg:py-4'>
+						<p className='text-[#FFFFFF] text-sm lg:text-2xl text-center lg:text-left lg:py-4'>
 							Upgrade to premium speakers that are phenomenally built to deliver
 							truly remarkable sound.
 						</p>
-						<Link className='py-4' to={'/speakers/zx9'}>
-							<button className='h-12 lg:h-16 w-1/2 lg:w-full lg:px-4 bg-[#101010] text-white font-bold text-sm'>
+						<Link className='w-full my-4' to={'/speakers/zx9'}>
+							<button className='h-12 lg:h-16 w-3/4 lg:w-full lg:px-4 bg-[#101010] text-white font-bold text-sm'>
 								SEE PRODUCT
 							</button>
 						</Link>
@@ -91,17 +92,17 @@ export const Home = () => {
 						</button>
 					</Link>
 				</div>
-				<div className='flex flex-col lg:flex-row w-3/4 lg:w-3/4 justify-center lg:justify-between items-center'>
-					<div className='w-3/4 lg:w-full my-2 lg:my-0 flex flex-col justify-center items-center rounded-xl relative'>
+				<div className='flex flex-col lg:flex-row w-full lg:w-3/4 justify-center lg:justify-between items-center'>
+					<div className='w-3/4 lg:w-full my-2 lg:my-0 mr-0 lg:mr-2 flex flex-col justify-center items-center rounded-xl relative'>
 						<img
 							src={photoEarphones}
 							srcSet={`${photoEarphones} 1024w, ${photoEarphonesDesktop} 1280w`}
 							alt='speakers'
-							className='rounded-xl'
+							className='w-full rounded-xl'
 						/>
 					</div>
-					<div className='w-3/4 lg:w-4/6 lg:h-full bg-[#F1F1F1] my-2 lg:my-0 flex flex-col justify-evenly lg:justify-center items-left relative rounded-xl'>
-						<p className='text-[#101010] font-bold tracking-wider	text-left ml-4 lg:ml-16 text-2xl lg:text-3xl'>
+					<div className='w-3/4 lg:w-4/6 lg:h-full bg-[#F1F1F1] my-2 lg:my-0 flex flex-col justify-evenly lg:justify-center items-left relative rounded-xl ml-0 lg:ml-2'>
+						<p className='text-[#101010] font-bold tracking-wider	text-left ml-4 lg:ml-16 text-2xl lg:text-3xl mt-4 lg:mt-0'>
 							YX1 EARPHONES
 						</p>
 						<button className='h-12 w-1/2 bg-transparent border border-[#101010] text-[#101010] font-bold text-sm ml-4 lg:ml-16 my-4'>

@@ -173,9 +173,9 @@ export const ProductCard = () => {
 								<p>Ask our consultant about the {product?.name}</p>
 							</button>
 						</div>
-						{questionModal && <Chat product={product} />}
 					</div>
 				</div>
+				{questionModal && <Chat product={product} />}
 				<div className='w-3/4 flex flex-col justify-between lg:flex-row my-4'>
 					<div className='w-full lg:w-1/2 flex flex-col'>
 						<p className='font-bold text-2xl text-left'>FEATURES</p>
@@ -198,7 +198,7 @@ export const ProductCard = () => {
 						</ul>
 					</div>
 				</div>
-				<div className='w-3/4 flex flex-col lg:flex-row justify-between my-8'>
+				<div className='w-3/4 flex flex-col lg:flex-row justify-between '>
 					<div className='w-full flex flex-col'>
 						<img
 							src={product?.photoGalleryMobile1}
@@ -213,18 +213,18 @@ export const ProductCard = () => {
 							className=' rounded-md mb-4 lg:w-3/4'
 						/>
 					</div>
-					<img
-						src={product?.photoGalleryMobile3}
-						srcSet={`${product?.photoGalleryMobile3} 1024w, ${product?.photoGalleryDesktop3} 1280w`}
-						alt='photo3'
-						className=' rounded-md mb-4 lg:w-1/2'
-					/>
+					<div className='w-full flex'>
+						<img
+							src={product?.photoGalleryMobile3}
+							srcSet={`${product?.photoGalleryMobile3} 1024w, ${product?.photoGalleryDesktop3} 1280w`}
+							alt='photo3'
+							className=' rounded-md mb-4 w-full'
+						/>
+					</div>
 				</div>
 			</div>
 			<CategoryLink />
-			<div className='flex flex-col justify-evenly items-center '>
-				<AboutUs />
-			</div>
+			<AboutUs />
 			<Footer />
 		</div>
 	);

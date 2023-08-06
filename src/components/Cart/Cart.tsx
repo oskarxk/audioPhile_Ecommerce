@@ -29,7 +29,7 @@ export const Cart = () => {
 	}, []);
 
 	return (
-		<div className=' absolute z-10 top-28 right-32'>
+		<div className='absolute z-10 top-20 left-1/2 lg:left-0 transform lg:transform-none -translate-x-1/2 lg:-translate-x-0 lg:top-28 lg:right-32'>
 			<div className=' w-80 h-max bg-[#F1F1F1] rounded-md flex flex-col px-5 py-5'>
 				<div className='flex'>
 					<div className='w-1/2 text-left'>

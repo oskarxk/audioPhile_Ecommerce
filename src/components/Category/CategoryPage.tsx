@@ -76,9 +76,9 @@ export const CategoryPage = (props: Props) => {
 	}
 
 	return (
-		<div className='flex flex-col w-full mb-4'>
+		<div className='flex flex-col justify-center items-center w-full mb-4'>
 			<Navigation />
-			<div className={`flex items-center justify-center bg-[#101010] py-6`}>
+			<div className={`flex items-center justify-center bg-[#101010] py-6 w-full`}>
 				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
 					{category?.name}
 				</p>
