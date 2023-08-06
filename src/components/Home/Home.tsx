@@ -23,8 +23,14 @@ export const Home = () => {
 
 	return (
 		<div className='flex flex-col relative'>
-			<Navigation/>
-			{showCart && <Cart />}
+			<Navigation />
+			{showCart && (
+				<div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30'>
+					<div className='flex justify-center lg:justify-end items-start lg:items-start h-full'>
+						<Cart />
+					</div>
+				</div>
+			)}
 			<div className='relative lg:mb-8'>
 				<div className='absolute inset-0 flex flex-col justify-center lg:px-40'>
 					<p className='text-sm lg:text-5xl font-semibold lg:font-bold text-center lg:text-left mb-2 lg:mb-4 tracking-widest text-[#808080]'>

@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { HiMenu } from 'react-icons/hi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Logo } from './Logo/Logo';
-import { Cart } from '../Cart/Cart';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from '../store/CartVisibility';
@@ -18,16 +17,20 @@ import {
 export const MobileMenu = () => {
 	const [showMenu, setShowMenu] = useState(false);
 
+	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
+
 	const handleMenuClick = () => {
 		setShowMenu(!showMenu);
+		if (showCart === true) {
+			dispatch(uiActions.toggle());
+		}
 	};
 
 	const dispatch = useDispatch();
 	const toggleCartHandler = useCallback(() => {
 		dispatch(uiActions.toggle());
+		setShowMenu(false);
 	}, [dispatch]);
-
-	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
 
 	return (
 		<nav className={`flex items-center justify-around bg-[#101010] py-6`}>
@@ -42,7 +45,6 @@ export const MobileMenu = () => {
 			<div onClick={toggleCartHandler} className='cursor-pointer'>
 				<AiOutlineShoppingCart className='text-white text-2xl' />
 			</div>
-			{showCart && <Cart />}
 			<div
 				className={`absolute w-full left-0 top-16 bg-[#101010] z-10 ${
 					showMenu ? 'block' : 'hidden'

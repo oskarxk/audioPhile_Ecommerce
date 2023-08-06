@@ -78,13 +78,21 @@ export const CategoryPage = (props: Props) => {
 	return (
 		<div className='flex flex-col justify-center items-center w-full mb-4'>
 			<Navigation />
-			<div className={`flex items-center justify-center bg-[#101010] py-6 w-full`}>
+			<div
+				className={`flex items-center justify-center bg-[#101010] py-6 w-full z-40`}
+			>
 				<p className='text-[#FFFFFF] font-bold text-2xl lg:text-2xl tracking-widest uppercase'>
 					{category?.name}
 				</p>
 			</div>
-			{showCart && <Cart />}
-			{category?.categories.map((item) => (
+			{showCart && (
+				<div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30'>
+					<div className='flex justify-center lg:justify-end items-start lg:items-start h-full'>
+						<Cart />
+					</div>
+				</div>
+			)}
+			<div className='flex flex-col justify-center items-center'>{category?.categories.map((item) => (
 				<CategoryItem
 					key={item.router}
 					name={item.name}
@@ -94,7 +102,8 @@ export const CategoryPage = (props: Props) => {
 					imageDesktop={item.imageDesktop}
 					imageTablet={item.imageTablet}
 				/>
-			))}
+			))}</div>
+			
 			<CategoryLink />
 			<AboutUs />
 			<Footer />

@@ -18,7 +18,7 @@ export const Footer = () => {
 	const date = getCurrentYear();
 
 	return (
-		<div className='w-full  flex flex-col items-center lg:items-start justify-around bg-[#101010]'>
+		<div className='w-full  flex flex-col items-center lg:items-start justify-around bg-[#101010] z-40'>
 			<div className='w-1/6 h-1 bg-[#D87D4A] lg:ml-20'></div>
 			<div className='flex justify-center items-center w-full mt-6 lg:justify-start lg:pl-20'>
 				<Logo />

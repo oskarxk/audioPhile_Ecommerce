@@ -13,6 +13,7 @@ import { Navigation } from 'components/Navigation/Navigation';
 import { Footer } from 'components/Footer/Footer';
 
 import { ClipLoader } from 'react-spinners';
+import { ProductNotification } from './ProductNotification';
 
 type Product = {
 	_id: number;
@@ -45,6 +46,7 @@ export const ProductCard = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const [questionModal, setquestionModal] = useState<boolean>(false);
+	const [addedToCart, setAddedToCart] = useState<boolean>(false);
 	const { productName } = useParams();
 	const [quantity, setQuantity] = useState(1);
 	const dispatch = useAppDispatch();
@@ -55,6 +57,10 @@ export const ProductCard = () => {
 		if (product) {
 			dispatch(cartActions.addItem({ quantity, product: product as Product }));
 			setQuantity(1);
+			setAddedToCart(true);
+			setTimeout(() => {
+				setAddedToCart(false);
+			}, 3000);
 		}
 	};
 
@@ -112,7 +118,22 @@ export const ProductCard = () => {
 	return (
 		<div className='flex flex-col w-full  mb-4'>
 			<Navigation />
-			{showCart && <Cart />}
+			{showCart && (
+				<div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30'>
+					<div className='flex justify-center lg:justify-end items-start lg:items-start h-full'>
+						<Cart />
+					</div>
+				</div>
+			)}
+			<div className='flex justify-center'>
+				{addedToCart && product && (
+					<ProductNotification
+						quantity={quantity}
+						name={product.name}
+						imageCart={product.imageCart}
+					/>
+				)}
+			</div>
 			<div className='flex w-full items-center justify-center py-4'>
 				<button
 					onClick={() => navigate(-1)}
@@ -126,17 +147,19 @@ export const ProductCard = () => {
 					<img
 						src={product?.imageMobile}
 						alt='Zdjecie produktu'
-						className='mt-4 rounded-xl w-full lg:w-1/2'
+						className='mt-4 rounded-xl w-full lg:w-3/4'
 					/>
-					<div className='flex flex-col items-start lg:mx-16'>
-						<p className='py-4  text-[#fbaf85] tracking-widest'>NEW PRODUCT</p>
-						<p className='text-[#101010] text-2xl font-bold pb-4 text-left lg:w-1/4 uppercase'>
+					<div className='flex flex-col items-center lg:items-end'>
+						<p className='py-4  text-[#fbaf85] tracking-widest w-full lg:w-3/4 text-left'>
+							NEW PRODUCT
+						</p>
+						<p className='text-[#101010] text-2xl font-bold pb-4 text-left w-full lg:w-3/4 uppercase'>
 							{product?.name}
 						</p>
-						<p className='text-[#808080] text-sm text-left lg:w-3/4'>
+						<p className='text-[#808080] text-sm text-left w-full lg:w-3/4'>
 							{product?.description}
 						</p>
-						<p className='text-[#101010] text-2xl font-bold pt-4'>
+						<p className='text-[#101010] text-2xl font-bold pt-4 w-full lg:w-3/4 text-left'>
 							$ {product?.price?.toLocaleString('en-US')}
 						</p>
 						<div className='flex w-full lg:w-3/4 justify-between mt-4 mb-10'>
