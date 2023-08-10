@@ -1,9 +1,4 @@
-type Message = {
-	room: string;
-	author: string;
-	message: string;
-	time: string;
-};
+import { Message } from 'types/chat';
 
 type Props = {
 	messageList: Message[];
@@ -15,7 +10,9 @@ export const MessageList = (props: Props) => {
 		<div>
 			{props.messageList.map((message, index) => {
 				const containerClass =
-					message.author === props.author ? 'items-end mr-4' : 'items-start ml-4';
+					message.author === props.author
+						? 'items-end mr-4'
+						: 'items-start ml-4';
 				const messageClass =
 					message.author === props.author
 						? 'bg-green-600 text-white items-end mr-4'

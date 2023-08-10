@@ -1,9 +1,16 @@
-import React, { ChangeEvent, useState, useEffect, useCallback } from 'react';
+import React, {
+	ChangeEvent,
+	useState,
+	useEffect,
+	useCallback,
+	useMemo,
+} from 'react';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { MessageList } from './MessageList';
 import { Socket } from 'socket.io-client';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+import { Message } from 'types/chat';
 
 type Props = {
 	socket: Socket;
@@ -11,20 +18,13 @@ type Props = {
 	room: string;
 	isUserJoined: boolean;
 	setIsUserJoined: (isJoined: boolean) => void;
-	setquestionModal?: (isJoined: boolean) => void;
-};
-type Message = {
-	room: string;
-	author: string;
-	message: string;
-	time: string;
+	setquestionModal?: (questionModal: boolean) => void;
 };
 
 export const ChatRoom = ({
 	socket,
 	username,
 	room,
-	isUserJoined,
 	setIsUserJoined,
 	setquestionModal,
 }: Props) => {
@@ -60,12 +60,26 @@ export const ChatRoom = ({
 		}
 	};
 
+	const isUserAdmin = useMemo(() => {
+		return username === 'Admin';
+	}, [username]);
+
 	const handleReceiveMsg = useCallback((data: Message) => {
 		setMessageList((list) => [...list, data]);
 	}, []);
 
+	const handleReceiveHistoricalMessages = useCallback((data: Message[]) => {
+		setMessageList(data);
+	}, []);
+
 	useEffect(() => {
 		socket.on('receive_message', handleReceiveMsg);
+		if (isUserAdmin)
+			socket.emit(
+				'get_historical_messages',
+				room,
+				handleReceiveHistoricalMessages
+			);
 		return () => {
 			socket.off('receive_message', handleReceiveMsg);
 		};

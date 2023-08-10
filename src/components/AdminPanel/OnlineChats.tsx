@@ -6,17 +6,11 @@ import { useSelector } from 'react-redux';
 import { TbMoodEmpty } from 'react-icons/tb';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import 'animate.css';
+import { Chat } from 'types/chat';
 
 const socket = io('http://localhost:4000', {
 	autoConnect: false,
 });
-
-type Chat = {
-	roomName: string;
-	userId: string;
-	productName: string;
-	productPhoto: string;
-};
 
 export const OnlineChats = () => {
 	const [chats, setChats] = useState<Chat[]>([]);

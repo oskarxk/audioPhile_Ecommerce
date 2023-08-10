@@ -5,18 +5,11 @@ import { useSelector } from 'react-redux';
 import { HistoricalChat } from './HistoricalChat';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { TbMoodEmpty } from 'react-icons/tb';
+import { Chat } from 'types/chat';
 
 const socket = io('http://localhost:4000', {
 	autoConnect: false,
 });
-
-type Chat = {
-	roomName: string;
-	userId: string;
-	productName: string;
-	productPhoto: string;
-	archivedAt?: string;
-};
 
 export const ResolvedChats = () => {
 	const [archivedChats, setArchivedChats] = useState<Chat[]>([]);
@@ -83,7 +76,7 @@ export const ResolvedChats = () => {
 				)}
 				<div className='w-1/3 rounded-xl my-4 mx-4'>
 					{isAdminJoin && selectedChat !== null && (
-						<HistoricalChat chat={selectedChat} />
+						<HistoricalChat chat={selectedChat} setisAdminJoin={setisAdminJoin}/>
 					)}
 				</div>
 			</div>

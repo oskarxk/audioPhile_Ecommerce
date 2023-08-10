@@ -57,9 +57,9 @@ export const ProductCard = () => {
 		if (product) {
 			dispatch(cartActions.addItem({ quantity, product: product as Product }));
 			setAddedToCart(true);
+			setQuantity(1);
 			setTimeout(() => {
 				setAddedToCart(false);
-				setQuantity(1);
 			}, 3000);
 		}
 	};
@@ -126,11 +126,12 @@ export const ProductCard = () => {
 				</div>
 			)}
 			<div className='flex justify-center'>
-				{addedToCart && product && (
+				{product && (
 					<ProductNotification
 						quantity={quantity}
 						name={product.name}
 						imageCart={product.imageCart}
+						isVisible={addedToCart}
 					/>
 				)}
 			</div>
