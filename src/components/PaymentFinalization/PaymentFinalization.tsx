@@ -4,25 +4,109 @@ import { useAppSelector } from 'components/hooks/useTypedSelector';
 import { Link } from 'react-router-dom';
 import { Navigation } from 'components/Navigation/Navigation';
 import { Footer } from 'components/Footer/Footer';
+import axios from 'axios';
+import { Product } from 'types/product';
 
 export const PaymentFinalization = () => {
 	const { products } = useAppSelector((state) => state.cm);
 	const navigate = useNavigate();
 
-	const [totalPrice, setTotalPrice] = useState<number>(0);
-	const [payment, setPayment] = useState('emoney');
+	type Price = {
+		total?: number;
+		shippingCost?: number;
+		vatIncluded?: number;
+		grandTotal?: number;
+	};
+
+	const [totalPrice, setTotalPrice] = useState<Price>({
+		total: 0,
+		shippingCost: 0,
+		vatIncluded: 0,
+		grandTotal: 0,
+	});
+	const [payment, setPayment] = useState<string>('emoney');
 
 	useEffect(() => {
 		const sum = products.reduce((acc, product) => {
 			acc += product.price * product.quantity;
 			return acc;
 		}, 0);
-		setTotalPrice(sum);
+
+		const calculatedShippingCost = 50;
+		const calculatedVatIncluded = sum * 0.23;
+		const calculatedGrandTotal =
+			sum + calculatedShippingCost + calculatedVatIncluded;
+
+		setTotalPrice({
+			total: sum,
+			shippingCost: calculatedShippingCost,
+			vatIncluded: calculatedVatIncluded,
+			grandTotal: calculatedGrandTotal,
+		});
+
+		// setOrderInfo((prevOrderInfo) => ({
+		// 	...prevOrderInfo,
+		// 	total: totalPrice.total,
+		// 	shipping: totalPrice.shippingCost,
+		// 	vat: totalPrice.vatIncluded,
+		// 	grandTotal: totalPrice.grandTotal,
+		// }));
+		console.log(totalPrice);
 	}, [products]);
 
-	const shippingCost = 50;
-	const vatIncluded = totalPrice * 0.23;
-	const grandTotal = totalPrice + shippingCost + vatIncluded;
+	type OrderItem = Product & {
+		quantity: number;
+	};
+
+	type Order = {
+		name: string;
+		email: string;
+		phoneNumber: string;
+		address: string;
+		zipCode: string;
+		city: string;
+		country: string;
+		paymentMethod: string;
+		emoneyNumber: string;
+		emoneyPIN: string;
+		total: number | undefined;
+		shipping: number | undefined;
+		vat: number | undefined;
+		grandTotal: number | undefined;
+		items: OrderItem[];
+	};
+
+	const [orderInfo, setOrderInfo] = useState<Order>({
+		name: '',
+		phoneNumber: '',
+		email: '',
+		address: '',
+		zipCode: '',
+		country: '',
+		city: '',
+		paymentMethod: payment,
+		emoneyNumber: '',
+		emoneyPIN: '',
+		total: totalPrice.total,
+		shipping: totalPrice.shippingCost,
+		vat: totalPrice.vatIncluded,
+		grandTotal: totalPrice.grandTotal,
+		items: products,
+	});
+
+	console.log(orderInfo);
+
+	const handleOrderConfirmation = async () => {
+		try {
+			await axios.post('http://localhost:5000/createOrder', orderInfo);
+
+			// przejscie do innej strony STRIPE
+			navigate('/order-confirmation');
+		} catch (error) {
+			// przejscie do innej strony - obsługa błędu
+			console.error('Error sending order:', error);
+		}
+	};
 
 	return (
 		<div className='flex flex-col w-full justify-center bg-[#F1F1F1]'>
@@ -56,15 +140,25 @@ export const PaymentFinalization = () => {
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 											type='text'
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													name: event.target.value,
+												})
+											}
 										/>
 									</div>
 									<div className='flex flex-col'>
 										<p className='text-left font-semibold py-2'>Phone Number</p>
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
-											type='number'
-											name=''
-											id=''
+											type='tel'
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													phoneNumber: event.target.value,
+												})
+											}
 										/>
 									</div>
 								</div>
@@ -73,9 +167,14 @@ export const PaymentFinalization = () => {
 										<p className='text-left font-semibold py-2'>Email Adress</p>
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
-											type='email'
-											name=''
-											id=''
+											type='text'
+											value={orderInfo.email}
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													email: event.target.value,
+												})
+											}
 										/>
 									</div>
 								</div>
@@ -94,6 +193,13 @@ export const PaymentFinalization = () => {
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 											type='text'
+											value={orderInfo.address}
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													address: event.target.value,
+												})
+											}
 										/>
 									</div>
 								</div>
@@ -105,6 +211,13 @@ export const PaymentFinalization = () => {
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 											type='text'
+											value={orderInfo.zipCode}
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													zipCode: event.target.value,
+												})
+											}
 										/>
 									</div>
 									<div className='flex flex-col'>
@@ -112,6 +225,13 @@ export const PaymentFinalization = () => {
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 											type='text'
+											value={orderInfo.country}
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													country: event.target.value,
+												})
+											}
 										/>
 									</div>
 								</div>
@@ -121,6 +241,13 @@ export const PaymentFinalization = () => {
 										<input
 											className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 											type='text'
+											value={orderInfo.city}
+											onChange={(event) =>
+												setOrderInfo({
+													...orderInfo,
+													city: event.target.value,
+												})
+											}
 										/>
 									</div>
 								</div>
@@ -183,6 +310,13 @@ export const PaymentFinalization = () => {
 									<input
 										className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 										type='number'
+										value={orderInfo.emoneyNumber}
+										onChange={(event) =>
+											setOrderInfo({
+												...orderInfo,
+												emoneyNumber: event.target.value,
+											})
+										}
 									/>
 								</div>
 								<div className='flex flex-col w-full lg:w-5/12'>
@@ -190,6 +324,13 @@ export const PaymentFinalization = () => {
 									<input
 										className='py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4'
 										type='number'
+										value={orderInfo.emoneyPIN}
+										onChange={(event) =>
+											setOrderInfo({
+												...orderInfo,
+												emoneyPIN: event.target.value,
+											})
+										}
 									/>
 								</div>
 							</div>
@@ -229,7 +370,7 @@ export const PaymentFinalization = () => {
 								<p className='text-[#808080] text-sm'>TOTAL:</p>
 							</div>
 							<div className='w-1/2 text-right'>
-								<p className='font-bold tracking-wide'>$ {totalPrice}</p>
+								<p className='font-bold tracking-wide'>$ {totalPrice.total}</p>
 							</div>
 						</div>
 						<div className='flex my-2'>
@@ -237,7 +378,9 @@ export const PaymentFinalization = () => {
 								<p className='text-[#808080] text-sm'>SHIPPING</p>
 							</div>
 							<div className='w-1/2 text-right'>
-								<p className='font-bold tracking-wide'>$ {shippingCost}</p>
+								<p className='font-bold tracking-wide'>
+									$ {totalPrice.shippingCost}
+								</p>
 							</div>
 						</div>
 						<div className='flex my-2'>
@@ -246,7 +389,10 @@ export const PaymentFinalization = () => {
 							</div>
 							<div className='w-1/2 text-right'>
 								<p className='font-bold tracking-wide'>
-									$ {vatIncluded.toFixed(2)}
+									${' '}
+									{totalPrice.total !== undefined
+										? totalPrice.total.toFixed(2)
+										: 'N/A'}
 								</p>
 							</div>
 						</div>
@@ -256,13 +402,19 @@ export const PaymentFinalization = () => {
 							</div>
 							<div className='w-1/2 text-right'>
 								<p className='font-bold tracking-wide'>
-									$ {grandTotal.toFixed(2)}
+									${' '}
+									{totalPrice.grandTotal !== undefined
+										? totalPrice.grandTotal.toFixed(2)
+										: 'N/A'}
 								</p>
 							</div>
 						</div>
 						<div className='w-full'>
 							<Link to={`/payment`}>
-								<button className='bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm'>
+								<button
+									className='bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm'
+									onClick={handleOrderConfirmation}
+								>
 									CONTINUE & PAY
 								</button>
 							</Link>

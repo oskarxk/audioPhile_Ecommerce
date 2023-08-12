@@ -15,30 +15,12 @@ const io = new Server(server, {
 });
 
 const chats = [];
-// Chat = {
-// 	roomName,
-// 	productName,
-// 	productPhoto,
-// 	userId,
-// 	archived: false
-// }
-// const archivedChats = [];
 const admin = {
 	adminUserName: 'oskar',
 	adminPassword: '123',
 };
 
 let adminUniqueId = '';
-
-// function archive_chat(roomName) {
-// 	const index = rooms.findIndex((room) => room.roomName === roomName);
-// 	if (index !== -1) {
-// 		const archivedChat = rooms.splice(index, 1)[0];
-// 		archivedChats.push(archivedChat);
-// 		io.emit('all_chats', Array.from(rooms));
-// 		io.emit('archived_chats', archivedChats);
-// 	}
-// }
 
 io.on('connection', (socket) => {
 	console.log(`User connected: ${socket.id}`);

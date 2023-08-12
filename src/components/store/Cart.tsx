@@ -1,20 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type Product = {
-	_id: number;
-	name: string;
-	shortName: string;
-	price: number;
-	description: string;
-	feature1: string;
-	feature2: string;
-	imageDesktop: string;
-	imageMobile: string;
-	imageCart: string;
-	category: {
-		name: string;
-	};
-};
+import { Product } from 'types/product';
 
 type ProductState = Product & {
 	quantity: number;
