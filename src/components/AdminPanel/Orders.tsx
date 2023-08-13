@@ -1,13 +1,103 @@
-import React from 'react'
-import { AdminPanelNav } from './AdminPanelNav'
+import React, { useEffect, useState } from 'react';
+import { AdminPanelNav } from './AdminPanelNav';
+import axios from 'axios';
+import { OrderDetails } from './OrderDetails';
 
-type Props = {}
+type Props = {};
 
 export const Orders = (props: Props) => {
-  return (
-    <div className='w-full'>
-      <AdminPanelNav />
-      <p>Orders history near future</p>
-    </div>
-  )
-}
+	type Order = [
+		{
+			orderNumber: string;
+			orderDate: string;
+			orderTime: string;
+			name: string;
+			email: string;
+			phoneNumber: string;
+			address: string;
+			zipCode: string;
+			city: string;
+			country: string;
+			paymentMethod: string;
+			emoneyNumber: string;
+			emoneyPIN: string;
+			total: number;
+			shipping: number;
+			vat: number;
+			grandTotal: number;
+			items: Array<{
+				_id: number;
+				name: string;
+				price: number;
+				quantity: number;
+				imageCart: string;
+			}>;
+		}
+	];
+
+	const [orders, setOrders] = useState<Order>();
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:5000/orders')
+			.then((response) => {
+				setOrders(response.data);
+			})
+			.catch((error) => {
+				console.error('Error fetching orders:', error);
+			});
+	}, []);
+
+	useEffect(() => {
+		// Inicjalizacja stanów widoczności na podstawie ilości zamówień
+		setOrderViews(new Array(orders?.length).fill(false));
+	}, [orders]);
+
+	const [orderViews, setOrderViews] = useState<boolean[]>([]);
+
+	return (
+		<div className='w-full'>
+			<AdminPanelNav />
+			<div className='flex w-full items-center bg-[#101010] text-[#FFFFFF] py-6'>
+				<div className='w-4/5 flex justify-around'>
+					<p className='w-1/4'>ORDER NUMBER</p>
+					<p className='w-1/4'>ORDER NAME</p>
+					<p className='w-1/4'>ORDER TOTAL</p>
+					<p className='w-1/4'>ORDER DATE</p>
+					<p className='w-1/4'>ORDER TIME</p>
+				</div>
+			</div>
+			{orders?.map((order, index) => (
+				<div
+					className='w-full flex flex-col justify-between bg-[#F1F1F1] rounded-xl my-2'
+					key={order.orderNumber}
+				>
+					<div className='w-full flex'>
+						<div className='flex w-4/5 justify-around items-center'>
+							<p className=' text-black w-1/4'>{order.orderNumber}</p>
+							<p className=' text-black w-1/4'>{order.name}</p>
+							<p className=' text-black w-1/4'>
+								$ {order.grandTotal.toFixed(2)}
+							</p>
+							<p className=' text-black w-1/4'>{order.orderDate}</p>
+							<p className=' text-black w-1/4'>{order.orderTime}</p>
+						</div>
+						<div className='flex flex-col justify-center items-center w-1/5 my-2'>
+							<button
+								className=' uppercase font-bold text-l text-[#FFFFFF] bg-red-600 px-2 py-2 my-2 rounded-xl'
+								onClick={() => {
+									const updatedViews = [...orderViews];
+									updatedViews[index] = !updatedViews[index];
+									setOrderViews(updatedViews);
+								}}
+							>
+								SEE MORE
+							</button>
+						</div>
+					</div>
+					{orderViews[index] && <OrderDetails order={order} />}
+				</div>
+			))}
+		</div>
+	);
+};

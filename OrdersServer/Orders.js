@@ -12,7 +12,9 @@ const orders = [];
 
 app.post('/createOrder', (req, res) => {
 	const newOrder = {
-		orderNumber: `#${new Date().toISOString().slice(0, 10).replace(/-/g, '')}`,
+		orderNumber: `#${Math.floor(100000 + Math.random() * 900000)}`,
+		orderDate: `${new Date().toLocaleDateString().slice(0, 10)}`,
+		orderTime: `${new Date().toLocaleTimeString()}`,
 		name: req.body.name,
 		email: req.body.email,
 		phoneNumber: req.body.phoneNumber,
@@ -23,7 +25,7 @@ app.post('/createOrder', (req, res) => {
 		paymentMethod: req.body.paymentMethod,
 		emoneyNumber: req.body.emoneyNumber,
 		emoneyPIN: req.body.emoneyPIN,
-		total: req.body.emoneyPIN,
+		total: req.body.total,
 		shipping: req.body.shipping,
 		vat: req.body.vat,
 		grandTotal: req.body.grandTotal,

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'components/hooks/useTypedSelector';
+import {
+	useAppDispatch,
+	useAppSelector,
+} from 'components/hooks/useTypedSelector';
 import { Link } from 'react-router-dom';
 import { Navigation } from 'components/Navigation/Navigation';
 import { Footer } from 'components/Footer/Footer';
 import axios from 'axios';
 import { Product } from 'types/product';
+import { cartActions } from 'components/store/Cart';
 
 export const PaymentFinalization = () => {
 	const { products } = useAppSelector((state) => state.cm);
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	type Price = {
@@ -16,46 +21,6 @@ export const PaymentFinalization = () => {
 		shippingCost?: number;
 		vatIncluded?: number;
 		grandTotal?: number;
-	};
-
-	const [totalPrice, setTotalPrice] = useState<Price>({
-		total: 0,
-		shippingCost: 0,
-		vatIncluded: 0,
-		grandTotal: 0,
-	});
-	const [payment, setPayment] = useState<string>('emoney');
-
-	useEffect(() => {
-		const sum = products.reduce((acc, product) => {
-			acc += product.price * product.quantity;
-			return acc;
-		}, 0);
-
-		const calculatedShippingCost = 50;
-		const calculatedVatIncluded = sum * 0.23;
-		const calculatedGrandTotal =
-			sum + calculatedShippingCost + calculatedVatIncluded;
-
-		setTotalPrice({
-			total: sum,
-			shippingCost: calculatedShippingCost,
-			vatIncluded: calculatedVatIncluded,
-			grandTotal: calculatedGrandTotal,
-		});
-
-		// setOrderInfo((prevOrderInfo) => ({
-		// 	...prevOrderInfo,
-		// 	total: totalPrice.total,
-		// 	shipping: totalPrice.shippingCost,
-		// 	vat: totalPrice.vatIncluded,
-		// 	grandTotal: totalPrice.grandTotal,
-		// }));
-		console.log(totalPrice);
-	}, [products]);
-
-	type OrderItem = Product & {
-		quantity: number;
 	};
 
 	type Order = {
@@ -76,6 +41,47 @@ export const PaymentFinalization = () => {
 		items: OrderItem[];
 	};
 
+	const [totalPrice, setTotalPrice] = useState<Price>({
+		total: 0,
+		shippingCost: 0,
+		vatIncluded: 0,
+		grandTotal: 0,
+	});
+
+	const [payment, setPayment] = useState<string>('emoney');
+
+	useEffect(() => {
+		const sum = products.reduce((acc, product) => {
+			acc += product.price * product.quantity;
+			return acc;
+		}, 0);
+
+		const totalPrice = sum;
+		const calculatedShippingCost = 50;
+		const calculatedVatIncluded = totalPrice * 0.23;
+		const calculatedGrandTotal =
+			totalPrice + calculatedShippingCost + calculatedVatIncluded;
+
+		setTotalPrice({
+			total: totalPrice,
+			shippingCost: calculatedShippingCost,
+			vatIncluded: calculatedVatIncluded,
+			grandTotal: calculatedGrandTotal,
+		});
+
+		setOrderInfo((prevOrderInfo) => ({
+			...prevOrderInfo,
+			total: totalPrice,
+			shipping: calculatedShippingCost,
+			vat: calculatedVatIncluded,
+			grandTotal: calculatedGrandTotal,
+		}));
+	}, [products]);
+
+	type OrderItem = Product & {
+		quantity: number;
+	};
+
 	const [orderInfo, setOrderInfo] = useState<Order>({
 		name: '',
 		phoneNumber: '',
@@ -94,11 +100,10 @@ export const PaymentFinalization = () => {
 		items: products,
 	});
 
-	console.log(orderInfo);
-
 	const handleOrderConfirmation = async () => {
 		try {
 			await axios.post('http://localhost:5000/createOrder', orderInfo);
+			dispatch(cartActions.removeAll());
 
 			// przejscie do innej strony STRIPE
 			navigate('/order-confirmation');
@@ -275,7 +280,13 @@ export const PaymentFinalization = () => {
 													? 'border-[#D87D4A]'
 													: 'border-[#F1F1F1]'
 											} rounded-md outline-none`}
-											onClick={() => setPayment('emoney')}
+											onClick={() => {
+												setPayment('emoney');
+												setOrderInfo({
+													...orderInfo,
+													paymentMethod: 'emoney',
+												});
+											}}
 										>
 											<div className='flex justify-center items-center h-6 w-6 ml-8 rounded-full border-2 border-[#F1F1F1]'>
 												{payment === 'emoney' && (
@@ -292,7 +303,13 @@ export const PaymentFinalization = () => {
 													? 'border-[#D87D4A]'
 													: 'border-[#F1F1F1]'
 											} rounded-md outline-none`}
-											onClick={() => setPayment('cash')}
+											onClick={() => {
+												setPayment('cash');
+												setOrderInfo({
+													...orderInfo,
+													paymentMethod: 'cash',
+												});
+											}}
 										>
 											<div className='flex justify-center items-center h-6 w-6 ml-8 rounded-full border-2 border-[#F1F1F1]'>
 												{payment === 'cash' && (
@@ -389,10 +406,7 @@ export const PaymentFinalization = () => {
 							</div>
 							<div className='w-1/2 text-right'>
 								<p className='font-bold tracking-wide'>
-									${' '}
-									{totalPrice.total !== undefined
-										? totalPrice.total.toFixed(2)
-										: 'N/A'}
+									${totalPrice.total?.toFixed(2)}
 								</p>
 							</div>
 						</div>
@@ -402,10 +416,7 @@ export const PaymentFinalization = () => {
 							</div>
 							<div className='w-1/2 text-right'>
 								<p className='font-bold tracking-wide'>
-									${' '}
-									{totalPrice.grandTotal !== undefined
-										? totalPrice.grandTotal.toFixed(2)
-										: 'N/A'}
+									${totalPrice.grandTotal?.toFixed(2)}
 								</p>
 							</div>
 						</div>
