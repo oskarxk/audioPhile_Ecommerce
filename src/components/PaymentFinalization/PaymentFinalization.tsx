@@ -10,6 +10,7 @@ import { Footer } from 'components/Footer/Footer';
 import axios from 'axios';
 import { Product } from 'types/product';
 import { cartActions } from 'components/store/Cart';
+import { OrderNotification } from './OrderNotification';
 
 export const PaymentFinalization = () => {
 	const { products } = useAppSelector((state) => state.cm);
@@ -100,22 +101,57 @@ export const PaymentFinalization = () => {
 		items: products,
 	});
 
-	const handleOrderConfirmation = async () => {
-		try {
-			await axios.post('http://localhost:5000/createOrder', orderInfo);
-			dispatch(cartActions.removeAll());
+	const [isOrderInfoComplete, setIsOrderInfoComplete] = useState(false);
+	const [infoMessage, setInfoMessage] = useState('');
+	const [showMessage, setShowMessage] = useState(false);
 
-			// przejscie do innej strony STRIPE
-			navigate('/order-confirmation');
-		} catch (error) {
-			// przejscie do innej strony - obsługa błędu
-			console.error('Error sending order:', error);
+	useEffect(() => {
+		const isComplete =
+			orderInfo.name !== '' &&
+			orderInfo.email !== '' &&
+			orderInfo.phoneNumber !== '' &&
+			orderInfo.address !== '' &&
+			orderInfo.zipCode !== '' &&
+			orderInfo.city !== '' &&
+			orderInfo.country !== '' &&
+			orderInfo.emoneyNumber !== '' &&
+			orderInfo.emoneyPIN !== '';
+
+		setIsOrderInfoComplete(isComplete);
+	}, [orderInfo]);
+
+	const handleOrderConfirmation = async () => {
+		if (isOrderInfoComplete && products.length > 0) {
+			try {
+				await axios.post('http://localhost:5000/createOrder', orderInfo);
+				dispatch(cartActions.removeAll());
+
+				// przejście do stripe
+				navigate('/order-confirmation');
+			} catch (error) {
+				// obsługa błędu
+				console.error('Error sending order:', error);
+			}
+		} else {
+			if (!isOrderInfoComplete) {
+				setInfoMessage('Wypełnij wszystkie dane do zamówienia!');
+			} else if (products.length === 0) {
+				setInfoMessage('Nie masz produktów w koszyku!');
+			}
+			setShowMessage(true);
+			setTimeout(() => {
+				setShowMessage(false);
+				setInfoMessage('');
+			}, 3000);
 		}
 	};
 
 	return (
 		<div className='flex flex-col w-full justify-center bg-[#F1F1F1]'>
 			<Navigation />
+			<div className='flex justify-center'>
+				{showMessage && <OrderNotification infoMessage={infoMessage} />}
+			</div>
 			<div className='flex w-full items-center justify-center py-4'>
 				<button
 					onClick={() => navigate(-1)}
@@ -423,7 +459,11 @@ export const PaymentFinalization = () => {
 						<div className='w-full'>
 							<Link to={`/payment`}>
 								<button
-									className='bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm'
+									className={`bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm ${
+										isOrderInfoComplete && products.length > 0
+											? ''
+											: 'cursor-not-allowed opacity-50'
+									}`}
 									onClick={handleOrderConfirmation}
 								>
 									CONTINUE & PAY
