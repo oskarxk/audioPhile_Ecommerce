@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../../hooks/useTypedSelector'
-import { cartActions } from '../../store/Cart'
-import { useAppDispatch } from '../../hooks/useTypedSelector'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-type Props = {}
 
-export const Cart = (props: Props) => {
+import { useAppSelector, useAppDispatch } from 'hooks/useTypedSelector'
+import { cartActions } from 'store/Cart'
+import { CartItem } from './CartItem'
+
+export const Cart = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0)
-  const { products } = useAppSelector((state) => state.cm)
+  const { products } = useAppSelector((state: any) => state.cm)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const sum = products.reduce((acc, product) => {
+    const sum = products.reduce((acc: any, product: any) => {
       acc += product.price * product.quantity
       return acc
     }, 0)
     setTotalPrice(sum)
   }, [products])
+
+  const removeAllItemsFromCart = useCallback(() => {
+    dispatch(cartActions.removeAll())
+  }, [])
 
   return (
     <div className="w-full bg-slate-500/25 h-screen absolute z-10  flex justify-end">
@@ -28,47 +32,13 @@ export const Cart = (props: Props) => {
           <div className="w-1/2 text-right">
             <button
               className="text-[#808080] underline underline-offset-1 text-sm"
-              onClick={() => dispatch(cartActions.removeAll())}
+              onClick={removeAllItemsFromCart}
             >
               Remove All
             </button>
           </div>
         </div>
-        {products &&
-          products.map((product) => (
-            <div className="w-full my-2" key={`product-${product._id}`}>
-              <div className="flex justify-between items-center w-full">
-                <div className="w-1/4">
-                  <img src={product.imageCart} alt="Zdjecie produktu" />
-                </div>
-                <div className="flex flex-col justify-center w-2/4 mx-2">
-                  <p className="font-bold text-left">{product.shortName}</p>
-                  <p className="text-left text-[#808080]">{`$ ${product.price}`}</p>
-                </div>
-                <div className="flex justify-center items-center w-1/4 h-1/2 bg-[#F1F1F1]">
-                  <button
-                    className="px-2 py-1 bg-[#F1F1F1]"
-                    onClick={() =>
-                      dispatch(cartActions.removeItem(product._id))
-                    }
-                  >
-                    -
-                  </button>
-                  <div className="flex justify-center items-center">
-                    <p className="px-2 py-1">{product.quantity}</p>
-                  </div>
-                  <button
-                    className="px-2 py-1 bg-[#F1F1F1] "
-                    onClick={() =>
-                      dispatch(cartActions.addItemToCart(product._id))
-                    }
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+        <CartItem />
         <div className="flex my-6">
           <div className="w-1/2 text-left">
             <p className="text-[#808080]">Total:</p>
