@@ -48,12 +48,20 @@ export const Orders = (props: Props) => {
 			});
 	}, []);
 
-	useEffect(() => {
-		// Inicjalizacja stanów widoczności na podstawie ilości zamówień
-		setOrderViews(new Array(orders?.length).fill(false));
-	}, [orders]);
+	const [orderViews, setOrderViews] = useState<Set<string>>(new Set<string>());
 
-	const [orderViews, setOrderViews] = useState<boolean[]>([]);
+	const handleSeeMoreClick = (orderNumber: string) => {
+		if (orderViews.has(orderNumber))
+			setOrderViews((orderViews) => {
+				orderViews.delete(orderNumber);
+				return new Set(orderViews);
+			});
+		else
+			setOrderViews((orderViews) => {
+				orderViews.add(orderNumber);
+				return new Set(orderViews);
+			});
+	};
 
 	return (
 		<div className='w-full'>
@@ -85,17 +93,13 @@ export const Orders = (props: Props) => {
 						<div className='flex flex-col justify-center items-center w-1/5 my-2'>
 							<button
 								className=' uppercase font-bold text-l text-[#FFFFFF] bg-red-600 px-2 py-2 my-2 rounded-xl'
-								onClick={() => {
-									const updatedViews = [...orderViews];
-									updatedViews[index] = !updatedViews[index];
-									setOrderViews(updatedViews);
-								}}
+								onClick={() => handleSeeMoreClick(order.orderNumber)}
 							>
 								SEE MORE
 							</button>
 						</div>
 					</div>
-					{orderViews[index] && <OrderDetails order={order} />}
+					{orderViews.has(order.orderNumber) && <OrderDetails order={order} />}
 				</div>
 			))}
 		</div>
