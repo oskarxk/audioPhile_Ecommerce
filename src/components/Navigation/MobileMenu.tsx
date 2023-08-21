@@ -4,18 +4,18 @@ import { HiMenu } from 'react-icons/hi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { Logo } from './Logo/Logo';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { uiActions } from '../store/CartVisibility';
+import { useDispatch, useSelector } from 'react-redux'
+import { uiActions } from '../../store/CartVisibility'
 
 import {
-	HOME_ROUTE,
-	SPEAKERS_ROUTE,
-	HEADPHONES_ROUTE,
-	EARPHONES_ROUTE,
-} from './routes';
+  HOME_ROUTE,
+  SPEAKERS_ROUTE,
+  HEADPHONES_ROUTE,
+  EARPHONES_ROUTE,
+} from './routes'
 
 export const MobileMenu = () => {
-	const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false)
 
 	const showCart = useSelector((state: any) => state.ui.cartIsVisible);
 

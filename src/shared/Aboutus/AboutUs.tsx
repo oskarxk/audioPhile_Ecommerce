@@ -1,4 +1,5 @@
-const photoMan = require('../../Assets/home/mobile/image-best-gear.jpg');
+import React from 'react';
+import photoMan from 'Assets/home/mobile/image-best-gear.jpg';
 
 export const AboutUs = () => {
 	return (

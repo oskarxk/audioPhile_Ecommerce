@@ -1,7 +1,6 @@
 import React from 'react';
 import { AiFillFacebook, AiOutlineTwitter } from 'react-icons/ai';
 import { BsInstagram } from 'react-icons/bs';
-import { Logo } from '../Navigation/Logo/Logo';
 import { Link } from 'react-router-dom';
 import {
 	EARPHONES_ROUTE,
@@ -9,6 +8,7 @@ import {
 	HOME_ROUTE,
 	SPEAKERS_ROUTE,
 } from 'components/Navigation/routes';
+import { Logo } from 'components/Navigation/Logo/Logo';
 
 export const Footer = () => {
 	function getCurrentYear(): number {
