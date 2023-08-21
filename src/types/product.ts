@@ -23,3 +23,7 @@ export type Product = {
 		name: string;
 	};
 };
+
+export type ProductState = Product & {
+	quantity: number;
+};
