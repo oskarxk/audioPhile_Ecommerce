@@ -9,7 +9,8 @@ import type { AppStore, RootState } from '../store'
 import cart from 'store/Cart'
 import uiSlice from 'store/CartVisibility'
 // As a basic setup, import your same slice reducers
-import chSlice from 'store/ChatVisibility'
+
+import adminAuth from 'store/adminAuth'
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>
@@ -17,16 +18,20 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
 }
 
 export function renderWithProviders(
-  ui: React.ReactElement,
-  {
-    preloadedState = {},
-    // Automatically create a store instance if no store was passed in
-    store = configureStore({
-      reducer: { ui: uiSlice.reducer, ch: chSlice.reducer, cm: cart.reducer },
-      preloadedState,
-    }),
-    ...renderOptions
-  }: ExtendedRenderOptions = {}
+	ui: React.ReactElement,
+	{
+		preloadedState = {},
+		// Automatically create a store instance if no store was passed in
+		store = configureStore({
+			reducer: {
+				ui: uiSlice.reducer,
+				cm: cart.reducer,
+				auth: adminAuth.reducer,
+			},
+			preloadedState,
+		}),
+		...renderOptions
+	}: ExtendedRenderOptions = {}
 ) {
   function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
     return <Provider store={store}>{children}</Provider>

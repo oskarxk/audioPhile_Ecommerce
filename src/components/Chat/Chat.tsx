@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { ChatRoom } from './ChatRoom';
 
+const socket = io('http://localhost:4000', {
+	autoConnect: false,
+});
 
-const socket = io('http://localhost:4000');
+type Props = {
+	name?: string;
+	imageCart?: string;
+	setquestionModal?: (isJoined: boolean) => void;
+};
 
-export const Chat = () => {
+export const Chat = ({ name, imageCart, setquestionModal }: Props) => {
 	const [isUserJoined, setIsUserJoined] = useState<boolean>(false);
 	const [username, setUsername] = useState<string>('');
-	const [room, setRoom] = useState<string>('');
+	const [room, setRoom] = useState('');
+	const roomRef = useRef('');
+
+	const productName = name;
+	const productPhoto = imageCart;
 
 	const joinRoom = () => {
-		if (username !== '' && room !== '') {
-			socket.emit('join_room', room);
+		if (username !== '' && username !== 'Admin') {
+			const randomNumber = Math.floor(Math.random() * 900) + 100;
+			const generatedRoom = `#${randomNumber} ${name}`;
+			setRoom(generatedRoom);
+			roomRef.current = generatedRoom;
+			socket.emit('join_room', generatedRoom, productName, productPhoto);
 			setIsUserJoined(true);
 		}
 	};
@@ -23,14 +38,24 @@ export const Chat = () => {
 		}
 	};
 
+	useEffect(() => {
+		socket.connect();
+	}, []);
+
 	return (
-		<div className='flex flex-col fixed w-72 right-1/2 transform lg:transform-none translate-x-1/2 lg:right-16  bottom-4 bg-white rounded-md px-4 py-5'>
+		<div className='flex flex-col w-3/4 bottom-4 bg-white rounded-md  py-5'>
 			{isUserJoined ? (
-				<ChatRoom socket={socket} username={username} room={room} />
+				<ChatRoom
+					socket={socket}
+					username={username}
+					room={room}
+					isUserJoined={isUserJoined}
+					setIsUserJoined={setIsUserJoined}
+					setquestionModal={setquestionModal}
+				/>
 			) : (
 				<form>
-					<h3 className='pb-2 font-bold tracking-wide'>Join a chat</h3>
-					<p className=' text-left text-sm font-semibold'>Username</p>
+					<p className=' text-left text-sm font-semibold'>Name</p>
 					<input
 						type='text'
 						placeholder='John...'
@@ -39,21 +64,12 @@ export const Chat = () => {
 							setUsername(event.target.value);
 						}}
 					/>
-					<p className='text-left text-sm font-semibold'>Room ID</p>
-					<input
-						type='text'
-						placeholder='999'
-						className='w-full border-2 border-[#D87D4A] focus:outline-none mb-2 rounded-lg placeholder-black pl-2'
-						onChange={(event) => {
-							setRoom(event.target.value);
-						}}
-					/>
 					<button
 						onClick={joinRoom}
 						onKeyDown={handleKeyDown}
 						className='w-full h-8 bg-[#D87D4A] text-white text-xs  hover:bg-[#fbaf85] rounded-lg'
 					>
-						JOIN
+						Join a live chat
 					</button>
 				</form>
 			)}

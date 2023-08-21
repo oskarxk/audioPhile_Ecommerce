@@ -1,6 +1,13 @@
 import React from 'react';
 import { AiFillFacebook, AiOutlineTwitter } from 'react-icons/ai';
 import { BsInstagram } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import {
+	EARPHONES_ROUTE,
+	HEADPHONES_ROUTE,
+	HOME_ROUTE,
+	SPEAKERS_ROUTE,
+} from 'components/Navigation/routes';
 import { Logo } from 'components/Navigation/Logo/Logo';
 
 export const Footer = () => {
@@ -11,30 +18,60 @@ export const Footer = () => {
 	const date = getCurrentYear();
 
 	return (
-		<div className='w-full  flex flex-col items-center justify-around bg-[#101010]'>
-			<div className='w-1/4 h-1 bg-[#D87D4A]'></div>
-			<div className='mt-6'>
+		<div className='w-full  flex flex-col items-center lg:items-start justify-around bg-[#101010] z-40'>
+			<div className='w-1/6 h-1 bg-[#D87D4A] lg:ml-20'></div>
+			<div className='flex justify-center items-center w-full mt-6 lg:justify-start lg:pl-20'>
 				<Logo />
 			</div>
-			<div className='flex flex-col space-y-4 px-4 py-8'>
-				<p className='text-[#FAFAFA] font-bold'>HOME</p>
-				<p className='text-[#FAFAFA] font-bold'>SPEAKERS</p>
-				<p className='text-[#FAFAFA] font-bold'>HEADPHONES</p>
-				<p className='text-[#FAFAFA] font-bold'>EARPHONES</p>
+			<div className='lg:ml-20'>
+				<div className='flex flex-col w-full lg:flex-row lg:justify-around py-8'>
+					<Link
+						to={HOME_ROUTE}
+						className='text-[#FAFAFA] font-bold py-2 lg:pr-8'
+					>
+						HOME
+					</Link>
+					<Link
+						to={SPEAKERS_ROUTE}
+						className='text-[#FAFAFA] font-bold py-2 lg:pr-8'
+					>
+						SPEAKERS
+					</Link>
+					<Link
+						to={HEADPHONES_ROUTE}
+						className='text-[#FAFAFA] font-bold py-2 lg:pr-8'
+					>
+						HEADPHONES
+					</Link>
+					<Link
+						to={EARPHONES_ROUTE}
+						className='text-[#FAFAFA] font-bold py-2 lg:pr-8'
+					>
+						EARPHONES
+					</Link>
+				</div>
 			</div>
-			<p className='text-[#FAFAFA] mx-7'>
+			<p className='text-[#FAFAFA] mx-7 lg:mx-0 lg:pl-20 lg:w-3/4 lg:text-left'>
 				Audiophile is an all in one stop to fulfill your audio needs. We're a
 				small team of music lovers and sound specialists who are devoted to
 				helping you get the most out of personal audio. Come and visit our demo
 				facility - we're open 7 days a week.
 			</p>
-			<p className='text-[#FAFAFA] my-6'>
-				Copyright <span>{date}</span>. All Rights Reserved
-			</p>
-			<div className='w-1/3 mb-8 flex justify-between'>
-				<AiFillFacebook className='text-[#FAFAFA] text-3xl' />
-				<AiOutlineTwitter className='text-[#FAFAFA] text-3xl' />
-				<BsInstagram className='text-[#FAFAFA] text-3xl' />
+			<div className='flex flex-col lg:flex-row justify-center lg:justify-between items-center w-full'>
+				<p className='text-[#FAFAFA] my-6 lg:pl-20 lg:text-left'>
+					Copyright <span>{date}</span>. All Rights Reserved
+				</p>
+				<div className='mb-8 lg:mb-0 lg:mr-20 flex justify-between'>
+					<Link to={'https://www.facebook.com/'} target='blank'>
+						<AiFillFacebook className='text-[#FAFAFA] text-3xl mx-4' />
+					</Link>
+					<Link to={'https://twitter.com/'} target='blank'>
+						<AiOutlineTwitter className='text-[#FAFAFA] text-3xl mx-4' />
+					</Link>
+					<Link to={'https://www.instagram.com/'} target='blank'>
+						<BsInstagram className='text-[#FAFAFA] text-3xl mx-4' />
+					</Link>
+				</div>
 			</div>
 		</div>
 	);

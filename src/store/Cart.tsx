@@ -1,24 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { current, produce } from 'immer'
-export type Product = {
-  _id: number
-  name: string
-  shortName: string
-  price: number
-  description: string
-  feature1: string
-  feature2: string
-  imageDesktop: string
-  imageMobile: string
-  imageCart: string
-  category: {
-    name: string
-  }
-}
-
-type ProductState = Product & {
-  quantity: number
-}
+import { ProductState, Product } from 'types/product'
 
 type State = {
   products: ProductState[]
@@ -92,10 +73,9 @@ const cart = createSlice({
 
       return newState
     },
-    removeAll: produce((state: State) => {
+    removeAll: (state: State) => {
       state.products = []
-      return state
-    }),
+    },
   },
 })
 
