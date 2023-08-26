@@ -19,6 +19,11 @@ export default {
       title: 'Price',
     },
     {
+      name: 'priceId',
+      type: 'string',
+      title: 'PriceID',
+    },
+    {
       name: 'category',
       title: 'Category',
       type: 'array',

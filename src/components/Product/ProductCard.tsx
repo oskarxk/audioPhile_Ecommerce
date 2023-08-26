@@ -6,7 +6,7 @@ import { useAppDispatch } from 'hooks/useTypedSelector'
 
 import { Cart } from 'components/Cart/Cart'
 import { CategoryLink } from 'components/CategoryLink/CategoryLink'
-import { cartActions } from 'components/store/Cart'
+import { cartActions } from 'store/Cart'
 import { AboutUs } from 'shared/Aboutus/AboutUs'
 import { Chat } from 'components/Chat/Chat'
 import { Navigation } from 'components/Navigation/Navigation'
@@ -47,6 +47,7 @@ export const ProductCard = () => {
       setIsLoading(true)
       const productQuery = `*[_type == "products" && slug.current == "${productName}"]{_id,name,shortName,
 					price,
+          priceId,
 					  slug,
 					description,
 					feature1,

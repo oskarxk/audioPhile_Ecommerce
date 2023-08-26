@@ -6,7 +6,7 @@ import { Navigation } from 'components/Navigation/Navigation'
 import { Footer } from 'shared/Footer/Footer'
 import axios from 'axios'
 import { Product, ProductState } from 'types/product'
-import { cartActions } from 'components/store/Cart'
+import { cartActions } from 'store/Cart'
 import { OrderNotification } from './OrderNotification'
 
 export const PaymentFinalization = () => {
@@ -81,6 +81,7 @@ export const PaymentFinalization = () => {
 
   type OrderItem = Product & {
     quantity: number
+    priceId: string
   }
 
   const [orderInfo, setOrderInfo] = useState<Order>({
@@ -126,8 +127,12 @@ export const PaymentFinalization = () => {
         await axios.post('http://localhost:5000/createOrder', orderInfo)
         dispatch(cartActions.removeAll())
 
-        // przejście do stripe
-        navigate('/order-confirmation')
+        const response = await axios.post('http://localhost:4242/checkout', {
+          items: products,
+          customerEmail: orderInfo.email,
+        })
+        console.log(response.data.url)
+        window.location.href = response.data.url
       } catch (error) {
         // obsługa błędu
         console.error('Error sending order:', error)
