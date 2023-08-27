@@ -184,7 +184,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">Name</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.name === ''
+                          ? ' border-red-600'
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="text"
                       onChange={(event) =>
                         setOrderInfo({
@@ -197,7 +201,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">Phone Number</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.phoneNumber === ''
+                          ? ' border-red-600 '
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="tel"
                       onChange={(event) =>
                         setOrderInfo({
@@ -212,7 +220,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">Email Adress</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.email === ''
+                          ? ' border-red-600 '
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="text"
                       value={orderInfo.email}
                       onChange={(event) =>
@@ -237,7 +249,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">Address</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.address === ''
+                          ? ' border-red-600 '
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="text"
                       value={orderInfo.address}
                       onChange={(event) =>
@@ -255,7 +271,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">ZIP Code</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.zipCode === ''
+                          ? ' border-red-600'
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="text"
                       value={orderInfo.zipCode}
                       onChange={(event) =>
@@ -269,7 +289,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">Country</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.country === ''
+                          ? ' border-red-600 '
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="text"
                       value={orderInfo.country}
                       onChange={(event) =>
@@ -285,7 +309,11 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <p className="text-left font-semibold py-2">City</p>
                     <input
-                      className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                        !isOrderInfoComplete && orderInfo.city === ''
+                          ? ' border-red-600 '
+                          : 'border-[#F1F1F1]'
+                      }`}
                       type="text"
                       value={orderInfo.city}
                       onChange={(event) =>
@@ -366,7 +394,11 @@ export const PaymentFinalization = () => {
                 <div className="flex flex-col w-full lg:w-5/12">
                   <p className="text-left font-semibold py-2">e-Money Number</p>
                   <input
-                    className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                    className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                      !isOrderInfoComplete && orderInfo.emoneyNumber === ''
+                        ? ' border-red-600 '
+                        : 'border-[#F1F1F1]'
+                    }`}
                     type="number"
                     value={orderInfo.emoneyNumber}
                     onChange={(event) =>
@@ -380,7 +412,11 @@ export const PaymentFinalization = () => {
                 <div className="flex flex-col w-full lg:w-5/12">
                   <p className="text-left font-semibold py-2">e-Money PIN</p>
                   <input
-                    className="py-4 border-2 border-[#F1F1F1] rounded-md outline-none pl-4"
+                    className={`py-4 border-2 rounded-md outline-none pl-4 ${
+                      !isOrderInfoComplete && orderInfo.emoneyPIN === ''
+                        ? ' border-red-600 '
+                        : 'border-[#F1F1F1]'
+                    }`}
                     type="number"
                     value={orderInfo.emoneyPIN}
                     onChange={(event) =>
