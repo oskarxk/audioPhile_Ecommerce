@@ -5,6 +5,9 @@ import { Logo } from './Logo/Logo'
 
 import { useDispatch } from 'react-redux'
 import { uiActions } from '../../store/CartVisibility'
+import { useAppSelector } from 'hooks/useTypedSelector'
+
+import { ProductState } from 'types/product'
 
 import {
   HOME_ROUTE,
@@ -14,10 +17,16 @@ import {
 } from './routes'
 
 export const DesktopMenu = () => {
+  const { products } = useAppSelector((state) => state.cm)
   const dispatch = useDispatch()
   const toggleCartHandler = useCallback(() => {
     dispatch(uiActions.toggle())
   }, [])
+
+  const sum = products.reduce<number>((acc: number, product: ProductState) => {
+    acc += product.quantity
+    return acc
+  }, 0)
 
   return (
     <nav className={`flex items-center justify-around bg-[#101010] py-6`}>
@@ -68,8 +77,16 @@ export const DesktopMenu = () => {
           EARPHONES
         </NavLink>
       </div>
-      <div onClick={toggleCartHandler} className="cursor-pointer">
+      <div
+        onClick={toggleCartHandler}
+        className="cursor-pointer flex items-center justify-center"
+      >
         <AiOutlineShoppingCart className="text-white text-2xl" />
+        {products.length > 0 && (
+          <div className=" w-6 h-6 rounded-xl bg-[#D87D4A] text-white font-bold">
+            {sum}
+          </div>
+        )}
       </div>
     </nav>
   )
