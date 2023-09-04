@@ -49,7 +49,10 @@ export const MobileMenu = () => {
           <Logo />
         </Link>
       </div>
-      <div onClick={toggleCartHandler} className="cursor-pointer flex items-center justify-center">
+      <div
+        onClick={toggleCartHandler}
+        className="cursor-pointer flex items-center justify-center"
+      >
         <AiOutlineShoppingCart className="text-white text-2xl" />
         {products.length > 0 && (
           <div className=" w-6 h-6 rounded-xl bg-[#D87D4A] text-white font-bold">

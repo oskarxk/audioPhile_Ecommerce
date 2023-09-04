@@ -93,16 +93,19 @@ export const CategoryPage = (props: Props) => {
         </div>
       )}
       <div className="flex flex-col justify-center items-center">
-        {category?.categories.map((item) => (
-          <CategoryItem
-            key={item.router}
-            name={item.name}
-            description={item.description}
-            router={item.router}
-            imageMobile={item.imageMobile}
-            imageDesktop={item.imageDesktop}
-            imageTablet={item.imageTablet}
-          />
+        {category?.categories.map((item, index) => (
+          <>
+            <CategoryItem
+              key={item.router}
+              name={item.name}
+              description={item.description}
+              router={item.router}
+              imageMobile={item.imageMobile}
+              imageDesktop={item.imageDesktop}
+              imageTablet={item.imageTablet}
+            />
+            {index === 1 && <div>Banner reklamowy</div>}
+          </>
         ))}
       </div>
 
