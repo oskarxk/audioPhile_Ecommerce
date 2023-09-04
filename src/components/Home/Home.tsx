@@ -7,11 +7,14 @@ import { CategoryLink } from 'components/CategoryLink/CategoryLink'
 import { Cart } from 'components/Cart/Cart'
 
 import { useSelector } from 'react-redux'
+import itemSpeakersDesktop from '../../Assets/home//tablet/image-speaker-zx9.png'
+
+import Image from 'next/image'
 
 const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg')
 const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg')
 const itemSpeakersMobile = require('../../Assets/home/cart/image-removebg-speaker.png')
-const itemSpeakersDesktop = require('../../Assets/home//tablet/image-speaker-zx9.png')
+// const itemSpeakersDesktop = require('../../Assets/home//tablet/image-speaker-zx9.png')
 
 const photoSpeaker = require('../../Assets/home/mobile/image-speaker-zx7.jpg')
 const photoSpeakerDesktop = require('../../Assets/home/desktop/image-speaker-zx7.jpg')
@@ -51,19 +54,19 @@ export const Home = () => {
             </Link>
           </div>
         </div>
-        <img
+        <Image
           className="block w-full"
           src={headerImageMobile}
-          srcSet={`${headerImageMobile} 1024w, ${headerImageDesktop} 1280w`}
+          // srcSet={`${headerImageMobile} 1024w, ${headerImageDesktop} 1280w`}
           alt="Hero"
         />
       </div>
       <CategoryLink />
       <div className="flex flex-col justify-around lg:justify-between items-center lg:mt-0">
         <div className="w-3/4  bg-[#fbaf85] my-2 lg:my-0 lg:pt-16 flex lg:flex-row flex-col justify-evenly items-center rounded-xl">
-          <img
+          <Image
             src={itemSpeakersMobile}
-            srcSet={`${itemSpeakersMobile} 1024w, ${itemSpeakersDesktop} 1280w`}
+            // srcSet={`${itemSpeakersMobile} 1024w, ${itemSpeakersDesktop} 1280w`}
             alt="speakers"
             className="w-1/2 lg:w-1/3"
           />
@@ -83,9 +86,9 @@ export const Home = () => {
           </div>
         </div>
         <div className="w-3/4 flex flex-col justify-center lg:justify-around items-center rounded-xl relative lg:my-8">
-          <img
+          <Image
             src={photoSpeaker}
-            srcSet={`${photoSpeaker} 1024w, ${photoSpeakerDesktop} 1280w`}
+            // srcSet={`${photoSpeaker} 1024w, ${photoSpeakerDesktop} 1280w`}
             alt="speakers"
             className="rounded-xl w-full"
           />
@@ -100,9 +103,15 @@ export const Home = () => {
         </div>
         <div className="flex flex-col lg:flex-row w-full lg:w-3/4 justify-center lg:justify-between items-center">
           <div className="w-3/4 lg:w-full my-2 lg:my-0 mr-0 lg:mr-2 flex flex-col justify-center items-center rounded-xl relative">
-            <img
+            <Image
               src={photoEarphones}
-              srcSet={`${photoEarphones} 1024w, ${photoEarphonesDesktop} 1280w`}
+              // srcSet={`${photoEarphones} 1024w, ${photoEarphonesDesktop} 1280w`}
+              alt="speakers"
+              className="w-full rounded-xl"
+            />
+            <Image
+              src={photoEarphones}
+              // srcSet={`${photoEarphones} 1024w, ${photoEarphonesDesktop} 1280w`}
               alt="speakers"
               className="w-full rounded-xl"
             />

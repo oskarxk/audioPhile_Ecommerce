@@ -2,18 +2,19 @@ import React from 'react'
 import { AiOutlineRight } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 
-import itemHeadphones from 'Assets/home/cart/image-removebg-headphones.png'
+// import itemHeadphones from './images/image-removebg-headphones.png'
 import itemSpeakers from 'Assets/home/cart/image-removebg-speaker.png'
 import itemEarphones from 'Assets/home/cart/image-removebg-earphones.png'
 
+import Image from 'next/image'
 export const CategoryLink = () => {
   return (
     <div className="flex justify-center items-center lg:flex-row">
       <div className="flex flex-col lg:flex-row justify-between items-center my-8 w-3/4">
         <div className="h-36 w-3/4 lg:w-1/5 bg-[#F1F1F1] my-8 flex flex-col justify-end items-center relative rounded-xl">
-          <img
+          <Image
             className="absolute left-1/2 transform -translate-x-1/2 -translate-y-24"
-            src={itemHeadphones}
+            src="/images/image-removebg-headphones.png"
             alt="headphones"
           />
           <p className="text-[#101010] font-bold tracking-wider	">HEADPHONES</p>
