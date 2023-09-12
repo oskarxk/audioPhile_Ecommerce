@@ -23,8 +23,6 @@ app.post('/createOrder', (req, res) => {
 		city: req.body.city,
 		country: req.body.country,
 		paymentMethod: req.body.paymentMethod,
-		emoneyNumber: req.body.emoneyNumber,
-		emoneyPIN: req.body.emoneyPIN,
 		total: req.body.total,
 		shipping: req.body.shipping,
 		vat: req.body.vat,

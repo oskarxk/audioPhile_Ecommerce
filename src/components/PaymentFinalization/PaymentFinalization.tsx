@@ -30,8 +30,6 @@ export const PaymentFinalization = () => {
     city: string
     country: string
     paymentMethod: string
-    emoneyNumber: string
-    emoneyPIN: string
     total: number | undefined
     shipping: number | undefined
     vat: number | undefined
@@ -46,7 +44,7 @@ export const PaymentFinalization = () => {
     grandTotal: 0,
   })
 
-  const [payment, setPayment] = useState<string>('emoney')
+  const [payment, setPayment] = useState<string>('stripe')
 
   useEffect(() => {
     const sum = products.reduce<number>(
@@ -93,8 +91,6 @@ export const PaymentFinalization = () => {
     country: '',
     city: '',
     paymentMethod: payment,
-    emoneyNumber: '',
-    emoneyPIN: '',
     total: totalPrice.total,
     shipping: totalPrice.shippingCost,
     vat: totalPrice.vatIncluded,
@@ -102,27 +98,42 @@ export const PaymentFinalization = () => {
     items: products as OrderItem[],
   })
 
-  const [isOrderInfoComplete, setIsOrderInfoComplete] = useState(false)
+  const [isValidated, setIsValidated] = useState(false)
   const [infoMessage, setInfoMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
 
-  useEffect(() => {
-    const isComplete =
-      orderInfo.name !== '' &&
-      orderInfo.email !== '' &&
-      orderInfo.phoneNumber !== '' &&
-      orderInfo.address !== '' &&
-      orderInfo.zipCode !== '' &&
-      orderInfo.city !== '' &&
-      orderInfo.country !== '' &&
-      orderInfo.emoneyNumber !== '' &&
-      orderInfo.emoneyPIN !== ''
-
-    setIsOrderInfoComplete(isComplete)
-  }, [orderInfo])
+  const checkPaymentInputsValidation = () => {
+    if (
+      !orderInfo.name ||
+      !orderInfo.email ||
+      !orderInfo.phoneNumber ||
+      !orderInfo.address ||
+      !orderInfo.zipCode ||
+      !orderInfo.city ||
+      !orderInfo.country
+    ) {
+      setIsValidated(true)
+      if (isValidated === false) {
+        setInfoMessage('Wypełnij wszystkie dane do zamówienia!')
+      } else if (products.length === 0) {
+        setInfoMessage('Nie masz produktów w koszyku!')
+      }
+      setShowMessage(true)
+      setTimeout(() => {
+        setShowMessage(false)
+        setInfoMessage('')
+      }, 3000)
+    } else {
+      handleOrderConfirmation()
+    }
+  }
 
   const handleOrderConfirmation = async () => {
-    if (isOrderInfoComplete && products.length > 0) {
+    if (
+      isValidated &&
+      orderInfo.paymentMethod === 'stripe' &&
+      products.length > 0
+    ) {
       try {
         await axios.post('http://localhost:5000/createOrder', orderInfo)
         dispatch(cartActions.removeAll())
@@ -134,21 +145,21 @@ export const PaymentFinalization = () => {
         console.log(response.data.url)
         window.location.href = response.data.url
       } catch (error) {
-        // obsługa błędu
         console.error('Error sending order:', error)
       }
-    } else {
-      if (!isOrderInfoComplete) {
-        setInfoMessage('Wypełnij wszystkie dane do zamówienia!')
-      } else if (products.length === 0) {
-        setInfoMessage('Nie masz produktów w koszyku!')
+    } else if (
+      isValidated &&
+      orderInfo.paymentMethod === 'cash' &&
+      products.length > 0
+    ) {
+      try {
+        await axios.post('http://localhost:5000/createOrder', orderInfo)
+        dispatch(cartActions.removeAll())
+        navigate('/success')
+      } catch (error) {
+        console.error('Error sending order:', error)
       }
-      setShowMessage(true)
-      setTimeout(() => {
-        setShowMessage(false)
-        setInfoMessage('')
-      }, 3000)
-    }
+    } 
   }
 
   return (
@@ -185,7 +196,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">Name</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.name === ''
+                        isValidated && orderInfo.name.length <= 0
                           ? ' border-red-600'
                           : 'border-[#F1F1F1]'
                       }`}
@@ -202,7 +213,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">Phone Number</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.phoneNumber === ''
+                        isValidated && orderInfo.phoneNumber.length <= 0
                           ? ' border-red-600 '
                           : 'border-[#F1F1F1]'
                       }`}
@@ -221,7 +232,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">Email Adress</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.email === ''
+                        isValidated && orderInfo.email.length <= 0
                           ? ' border-red-600 '
                           : 'border-[#F1F1F1]'
                       }`}
@@ -250,7 +261,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">Address</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.address === ''
+                        isValidated && orderInfo.address.length <= 0
                           ? ' border-red-600 '
                           : 'border-[#F1F1F1]'
                       }`}
@@ -272,7 +283,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">ZIP Code</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.zipCode === ''
+                        isValidated && orderInfo.zipCode.length <= 0
                           ? ' border-red-600'
                           : 'border-[#F1F1F1]'
                       }`}
@@ -290,7 +301,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">Country</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.country === ''
+                        isValidated && orderInfo.country.length <= 0
                           ? ' border-red-600 '
                           : 'border-[#F1F1F1]'
                       }`}
@@ -310,7 +321,7 @@ export const PaymentFinalization = () => {
                     <p className="text-left font-semibold py-2">City</p>
                     <input
                       className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        !isOrderInfoComplete && orderInfo.city === ''
+                        isValidated && orderInfo.city.length <= 0
                           ? ' border-red-600 '
                           : 'border-[#F1F1F1]'
                       }`}
@@ -345,24 +356,24 @@ export const PaymentFinalization = () => {
                   <div className="flex flex-col">
                     <div
                       className={`flex items-center py-6 my-2 border-2 ${
-                        payment === 'emoney'
+                        payment === 'stripe'
                           ? 'border-[#D87D4A]'
                           : 'border-[#F1F1F1]'
                       } rounded-md outline-none`}
                       onClick={() => {
-                        setPayment('emoney')
+                        setPayment('stripe')
                         setOrderInfo({
                           ...orderInfo,
-                          paymentMethod: 'emoney',
+                          paymentMethod: 'stripe',
                         })
                       }}
                     >
                       <div className="flex justify-center items-center h-6 w-6 ml-8 rounded-full border-2 border-[#F1F1F1]">
-                        {payment === 'emoney' && (
+                        {payment === 'stripe' && (
                           <div className=" h-4 w-4 bg-[#D87D4A] rounded-full"></div>
                         )}
                       </div>
-                      <p className="font-bold px-8">e-Money</p>
+                      <p className="font-bold px-8">Stripe</p>
                     </div>
                   </div>
                   <div className="flex flex-col">
@@ -388,44 +399,6 @@ export const PaymentFinalization = () => {
                       <p className="font-bold px-8">Cash on delivery</p>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="flex flex-col lg:flex-row justify-between w-full">
-                <div className="flex flex-col w-full lg:w-5/12">
-                  <p className="text-left font-semibold py-2">e-Money Number</p>
-                  <input
-                    className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                      !isOrderInfoComplete && orderInfo.emoneyNumber === ''
-                        ? ' border-red-600 '
-                        : 'border-[#F1F1F1]'
-                    }`}
-                    type="number"
-                    value={orderInfo.emoneyNumber}
-                    onChange={(event) =>
-                      setOrderInfo({
-                        ...orderInfo,
-                        emoneyNumber: event.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="flex flex-col w-full lg:w-5/12">
-                  <p className="text-left font-semibold py-2">e-Money PIN</p>
-                  <input
-                    className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                      !isOrderInfoComplete && orderInfo.emoneyPIN === ''
-                        ? ' border-red-600 '
-                        : 'border-[#F1F1F1]'
-                    }`}
-                    type="number"
-                    value={orderInfo.emoneyPIN}
-                    onChange={(event) =>
-                      setOrderInfo({
-                        ...orderInfo,
-                        emoneyPIN: event.target.value,
-                      })
-                    }
-                  />
                 </div>
               </div>
             </div>
@@ -501,11 +474,11 @@ export const PaymentFinalization = () => {
               <Link to={`/payment`}>
                 <button
                   className={`bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm ${
-                    isOrderInfoComplete && products.length > 0
+                    isValidated && products.length > 0
                       ? ''
                       : 'cursor-not-allowed opacity-50'
                   }`}
-                  onClick={handleOrderConfirmation}
+                  onClick={checkPaymentInputsValidation}
                 >
                   CONTINUE & PAY
                 </button>
