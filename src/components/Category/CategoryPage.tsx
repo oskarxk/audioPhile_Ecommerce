@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import sanityClient from '../../client'
 
 import { Cart } from 'components/Cart/Cart'
-import { CategoryLink } from 'components/CategoryLink/CategoryLink'
+import { CategoryLink } from 'components/Category/CategoryLink/CategoryLink'
 import { AboutUs } from 'shared/Aboutus/AboutUs'
-import { CategoryItem } from 'containers/Category/CategoryItem'
+import { CategoryItem } from 'components/Category/CategoryItem'
 import { Navigation } from 'components/Navigation/Navigation'
 import { Footer } from 'shared/Footer/Footer'
 

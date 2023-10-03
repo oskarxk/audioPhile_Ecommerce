@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Navigation } from 'components/Navigation/Navigation'
 import { Footer } from 'shared/Footer/Footer'
 import { AboutUs } from 'shared/Aboutus/AboutUs'
-import { CategoryLink } from 'components/CategoryLink/CategoryLink'
+import { CategoryLink } from 'components/Category/CategoryLink/CategoryLink'
 import { Cart } from 'components/Cart/Cart'
 
 import { useSelector } from 'react-redux'

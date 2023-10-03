@@ -5,7 +5,7 @@ import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { useAppDispatch } from 'hooks/useTypedSelector'
 
 import { Cart } from 'components/Cart/Cart'
-import { CategoryLink } from 'components/CategoryLink/CategoryLink'
+import { CategoryLink } from 'components/Category/CategoryLink/CategoryLink'
 import { cartActions } from 'store/Cart'
 import { AboutUs } from 'shared/Aboutus/AboutUs'
 import { Chat } from 'components/Chat/Chat'
