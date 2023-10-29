@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { EARPHONES_ROUTE } from '../../Navigation/routes'
 
-const itemEarphones = '../../Assets/home/cart/image-removebg-earphones.png'
+import itemEarphones from '../../../Assets/home/cart/image-removebg-earphones.png'
 
 export const Link3 = () => {
   return (

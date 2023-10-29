@@ -5,46 +5,101 @@ import { Link } from 'react-router-dom'
 import { Navigation } from 'components/Navigation/Navigation'
 import { Footer } from 'shared/Footer/Footer'
 import axios from 'axios'
-import { Product, ProductState } from 'types/product'
+import { ProductState } from 'types/product'
 import { cartActions } from 'store/Cart'
 import { OrderNotification } from './OrderNotification'
+
+import { useFormik } from 'formik'
+import { PaymentForm } from './PaymentForm'
+import { Input } from './Input'
+import { Order, OrderItem, Price } from './paymentTypes'
+import { PaymentSchema, initialValues } from './formData'
+import { PaymentSummary } from './PaymentSummary'
 
 export const PaymentFinalization = () => {
   const { products } = useAppSelector((state) => state.cm)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  type Price = {
-    total?: number
-    shippingCost?: number
-    vatIncluded?: number
-    grandTotal?: number
+  const handleOrderConfirmation = async () => {
+    if (orderInfo.paymentMethod === 'stripe' && products.length > 0) {
+      try {
+        await axios.post('http://localhost:5000/createOrder', orderInfo)
+        dispatch(cartActions.removeAll())
+
+        const response = await axios.post('http://localhost:4242/checkout', {
+          items: products,
+          customerEmail: orderInfo.email,
+          // tax_rates: orderInfo.country,
+        })
+        console.log(response.data.url)
+        window.location.href = response.data.url
+      } catch (error) {
+        console.error('Error sending order:', error)
+      }
+    } else if (orderInfo.paymentMethod === 'cash' && products.length > 0) {
+      try {
+        await axios.post('http://localhost:5000/createOrder', orderInfo)
+        dispatch(cartActions.removeAll())
+        navigate('/success')
+      } catch (error) {
+        console.error('Error sending order:', error)
+      }
+    }
   }
 
-  type Order = {
-    name: string
-    email: string
-    phoneNumber: string
-    address: string
-    zipCode: string
-    city: string
-    country: string
-    paymentMethod: string
-    total: number | undefined
-    shipping: number | undefined
-    vat: number | undefined
-    grandTotal: number | undefined
-    items: OrderItem[]
-  }
+  const formik = useFormik({
+    initialValues,
+    validationSchema: PaymentSchema,
+    onSubmit: handleOrderConfirmation,
+    isInitialValid: false,
+  })
 
   const [totalPrice, setTotalPrice] = useState<Price>({
     total: 0,
+    totalWithoutVAT: 0,
     shippingCost: 0,
-    vatIncluded: 0,
-    grandTotal: 0,
+    vatIncluded: undefined,
+    grandTotal: undefined,
   })
 
-  const [payment, setPayment] = useState<string>('stripe')
+  const [orderInfo, setOrderInfo] = useState<Order>({
+    name: formik.values.name,
+    phoneNumber: formik.values.phoneNumber,
+    email: formik.values.email,
+    address: formik.values.address,
+    zipCode: formik.values.zipCode,
+    country: formik.values.country,
+    city: formik.values.city,
+    state: formik.values.state,
+    paymentMethod: formik.values.paymentMethod,
+    total: totalPrice.total,
+    totalWithoutVAT: totalPrice.totalWithoutVAT,
+    shipping: totalPrice.shippingCost,
+    vat: totalPrice.vatIncluded,
+    grandTotal: totalPrice.grandTotal,
+    items: products as OrderItem[],
+  })
+
+  useEffect(() => {
+    setOrderInfo((prevOrderInfo) => ({
+      ...prevOrderInfo,
+      name: formik.values.name,
+      phoneNumber: formik.values.phoneNumber,
+      email: formik.values.email,
+      address: formik.values.address,
+      zipCode: formik.values.zipCode,
+      country: formik.values.country,
+      city: formik.values.city,
+      state: formik.values.state,
+      paymentMethod: formik.values.paymentMethod,
+      total: totalPrice.total,
+      totalWithoutVAT: totalPrice.totalWithoutVAT,
+      shipping: totalPrice.shippingCost,
+      vat: totalPrice.vatIncluded,
+      grandTotal: totalPrice.grandTotal,
+    }))
+  }, [formik.values, totalPrice, products])
 
   useEffect(() => {
     const sum = products.reduce<number>(
@@ -55,438 +110,84 @@ export const PaymentFinalization = () => {
       0
     )
 
-    const totalPrice = sum
+    const productsPrice = sum
     const calculatedShippingCost = 50
-    const calculatedVatIncluded = totalPrice * 0.23
-    const calculatedGrandTotal =
-      totalPrice + calculatedShippingCost + calculatedVatIncluded
+    const totalWithoutVAT = productsPrice + calculatedShippingCost
 
     setTotalPrice({
-      total: totalPrice,
+      total: productsPrice,
+      totalWithoutVAT: totalWithoutVAT,
       shippingCost: calculatedShippingCost,
-      vatIncluded: calculatedVatIncluded,
-      grandTotal: calculatedGrandTotal,
     })
-
-    setOrderInfo((prevOrderInfo) => ({
-      ...prevOrderInfo,
-      total: totalPrice,
-      shipping: calculatedShippingCost,
-      vat: calculatedVatIncluded,
-      grandTotal: calculatedGrandTotal,
-    }))
   }, [products])
 
-  type OrderItem = Product & {
-    quantity: number
-    priceId: string
-  }
-
-  const [orderInfo, setOrderInfo] = useState<Order>({
-    name: '',
-    phoneNumber: '',
-    email: '',
-    address: '',
-    zipCode: '',
-    country: '',
-    city: '',
-    paymentMethod: payment,
-    total: totalPrice.total,
-    shipping: totalPrice.shippingCost,
-    vat: totalPrice.vatIncluded,
-    grandTotal: totalPrice.grandTotal,
-    items: products as OrderItem[],
-  })
-
-  const [isValidated, setIsValidated] = useState(false)
-  const [infoMessage, setInfoMessage] = useState('')
-  const [showMessage, setShowMessage] = useState(false)
-
-  const checkPaymentInputsValidation = () => {
-    if (
-      !orderInfo.name ||
-      !orderInfo.email ||
-      !orderInfo.phoneNumber ||
-      !orderInfo.address ||
-      !orderInfo.zipCode ||
-      !orderInfo.city ||
-      !orderInfo.country
-    ) {
-      setIsValidated(true)
-      if (isValidated === false) {
-        setInfoMessage('Wypełnij wszystkie dane do zamówienia!')
-      } else if (products.length === 0) {
-        setInfoMessage('Nie masz produktów w koszyku!')
-      }
-      setShowMessage(true)
-      setTimeout(() => {
-        setShowMessage(false)
-        setInfoMessage('')
-      }, 3000)
+  const validate = ({ address, city, country }: any) => {
+    if (formik.values.address && formik.values.city && formik.values.country) {
+      return true
     } else {
-      handleOrderConfirmation()
+      return false
     }
   }
 
-  const handleOrderConfirmation = async () => {
-    if (
-      isValidated &&
-      orderInfo.paymentMethod === 'stripe' &&
-      products.length > 0
-    ) {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        await axios.post('http://localhost:5000/createOrder', orderInfo)
-        dispatch(cartActions.removeAll())
-
-        const response = await axios.post('http://localhost:4242/checkout', {
-          items: products,
-          customerEmail: orderInfo.email,
+        const response = await axios.post('http://localhost:4242/check-vat', {
+          items: [{ amount: totalPrice.totalWithoutVAT, reference: 'L1' }],
+          address: {
+            line1: orderInfo.address,
+            city: orderInfo.city,
+            state: orderInfo.state,
+            postal_code: orderInfo.zipCode,
+            country: orderInfo.country,
+          },
         })
-        console.log(response.data.url)
-        window.location.href = response.data.url
+
+        const { taxAmount } = response.data
+        console.log(taxAmount)
+        setTotalPrice((prevTotalPrice) => ({
+          ...prevTotalPrice,
+          vatIncluded: taxAmount,
+          grandTotal: totalPrice.totalWithoutVAT + taxAmount,
+        }))
       } catch (error) {
-        console.error('Error sending order:', error)
+        console.error('Błąd podczas pobierania danych z serwera:', error)
+        setTotalPrice((prevTotalPrice) => ({
+          ...prevTotalPrice,
+          vatIncluded: undefined,
+          grandTotal: undefined,
+        }))
       }
-    } else if (
-      isValidated &&
-      orderInfo.paymentMethod === 'cash' &&
-      products.length > 0
-    ) {
-      try {
-        await axios.post('http://localhost:5000/createOrder', orderInfo)
-        dispatch(cartActions.removeAll())
-        navigate('/success')
-      } catch (error) {
-        console.error('Error sending order:', error)
-      }
-    } 
-  }
+    }
+
+    if (validate(formik.values)) {
+      fetchData()
+    }
+  }, [formik.values])
 
   return (
     <div className="flex flex-col w-full justify-center bg-[#F1F1F1]">
       <Navigation />
-      <div className="flex justify-center">
-        {showMessage && <OrderNotification infoMessage={infoMessage} />}
-      </div>
-      <div className="flex w-full items-center justify-center py-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-3/4 text-[#808080] text-sm text-left"
-        >
-          Go Back
-        </button>
-      </div>
-      <div className="flex flex-col w-full justify-center items-center bg-[#F1F1F1] py-4">
-        <div className="flex flex-col lg:flex-row w-full lg:w-3/4 items-center lg:items-start justify-between bg-[#F1F1F1] ">
-          <div className="w-3/4 lg:w-8/12 bg-white rounded-md px-8 py-8">
-            <div className="w-full">
-              <p className="text-black text-left text-3xl font-bold mb-8">
-                CHECKOUT
-              </p>
-            </div>
-            <div className="w-full flex flex-col">
-              <div>
-                <p className="text-[#D87D4A] text-left text-sm font-bold my-4">
-                  BILLING DETAILS
-                </p>
-              </div>
-              <div className="flex flex-col lg:flex-row w-full justify-between">
-                <div className="w-full lg:w-5/12">
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">Name</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.name.length <= 0
-                          ? ' border-red-600'
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="text"
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          name: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">Phone Number</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.phoneNumber.length <= 0
-                          ? ' border-red-600 '
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="tel"
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          phoneNumber: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="w-full lg:w-5/12	">
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">Email Adress</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.email.length <= 0
-                          ? ' border-red-600 '
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="text"
-                      value={orderInfo.email}
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          email: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full flex flex-col">
-              <div>
-                <p className="text-[#D87D4A] text-left text-sm font-bold my-4">
-                  SHIPPING INFO
-                </p>
-              </div>
-              <div className="flex flex-col w-full justify-between">
-                <div className="w-full">
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">Address</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.address.length <= 0
-                          ? ' border-red-600 '
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="text"
-                      value={orderInfo.address}
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          address: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col lg:flex-row w-full justify-between">
-                <div className="w-full lg:w-5/12">
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">ZIP Code</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.zipCode.length <= 0
-                          ? ' border-red-600'
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="text"
-                      value={orderInfo.zipCode}
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          zipCode: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">Country</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.country.length <= 0
-                          ? ' border-red-600 '
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="text"
-                      value={orderInfo.country}
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          country: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="w-full lg:w-5/12">
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">City</p>
-                    <input
-                      className={`py-4 border-2 rounded-md outline-none pl-4 ${
-                        isValidated && orderInfo.city.length <= 0
-                          ? ' border-red-600 '
-                          : 'border-[#F1F1F1]'
-                      }`}
-                      type="text"
-                      value={orderInfo.city}
-                      onChange={(event) =>
-                        setOrderInfo({
-                          ...orderInfo,
-                          city: event.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full flex flex-col">
-              <div>
-                <p className="text-[#D87D4A] text-left text-sm font-bold my-4">
-                  PAYMENT DETAILS
-                </p>
-              </div>
-              <div className="flex flex-col lg:flex-row w-full justify-between">
-                <div className="w-full lg:w-5/12">
-                  <div className="flex flex-col">
-                    <p className="text-left font-semibold py-2">
-                      Payment Method
-                    </p>
-                  </div>
-                </div>
-                <div className="w-full lg:w-5/12">
-                  <div className="flex flex-col">
-                    <div
-                      className={`flex items-center py-6 my-2 border-2 ${
-                        payment === 'stripe'
-                          ? 'border-[#D87D4A]'
-                          : 'border-[#F1F1F1]'
-                      } rounded-md outline-none`}
-                      onClick={() => {
-                        setPayment('stripe')
-                        setOrderInfo({
-                          ...orderInfo,
-                          paymentMethod: 'stripe',
-                        })
-                      }}
-                    >
-                      <div className="flex justify-center items-center h-6 w-6 ml-8 rounded-full border-2 border-[#F1F1F1]">
-                        {payment === 'stripe' && (
-                          <div className=" h-4 w-4 bg-[#D87D4A] rounded-full"></div>
-                        )}
-                      </div>
-                      <p className="font-bold px-8">Stripe</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div
-                      className={`flex items-center py-6 my-2 border-2 ${
-                        payment === 'cash'
-                          ? 'border-[#D87D4A]'
-                          : 'border-[#F1F1F1]'
-                      } rounded-md outline-none`}
-                      onClick={() => {
-                        setPayment('cash')
-                        setOrderInfo({
-                          ...orderInfo,
-                          paymentMethod: 'cash',
-                        })
-                      }}
-                    >
-                      <div className="flex justify-center items-center h-6 w-6 ml-8 rounded-full border-2 border-[#F1F1F1]">
-                        {payment === 'cash' && (
-                          <div className=" h-4 w-4 bg-[#D87D4A] rounded-full"></div>
-                        )}
-                      </div>
-                      <p className="font-bold px-8">Cash on delivery</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-3/4 lg:w-3/12 h-max bg-white rounded-md flex flex-col px-5 py-5 mt-4 lg:mt-0">
-            <div className="flex">
-              <div className="w-1/2 text-left">
-                <p className="font-bold tracking-wide">SUMMARY</p>
-              </div>
-            </div>
-            {products &&
-              products.map((product: ProductState) => (
-                <div className="w-full my-2">
-                  <div className="flex justify-between items-center w-full">
-                    <div className="w-1/4">
-                      <img
-                        src={product.imageCart}
-                        alt="Zdjecie produktu"
-                        className="rounded-md"
-                      />
-                    </div>
-                    <div className="flex flex-col justify-center w-2/4 mx-2">
-                      <p className="font-bold text-left">{product.shortName}</p>
-                      <p className="text-left text-[#808080]">{`$ ${product.price}`}</p>
-                    </div>
-                    <div className="flex justify-center items-center">
-                      <div className="flex justify-center items-center">
-                        <p className="px-2 py-1">x{product.quantity}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            <div className="flex my-2">
-              <div className="w-1/2 text-left">
-                <p className="text-[#808080] text-sm">TOTAL:</p>
-              </div>
-              <div className="w-1/2 text-right">
-                <p className="font-bold tracking-wide">$ {totalPrice.total}</p>
-              </div>
-            </div>
-            <div className="flex my-2">
-              <div className="w-1/2 text-left">
-                <p className="text-[#808080] text-sm">SHIPPING</p>
-              </div>
-              <div className="w-1/2 text-right">
-                <p className="font-bold tracking-wide">
-                  $ {totalPrice.shippingCost}
-                </p>
-              </div>
-            </div>
-            <div className="flex my-2">
-              <div className="w-1/2 text-left">
-                <p className="text-[#808080] text-sm">VAT (INCLUDED)</p>
-              </div>
-              <div className="w-1/2 text-right">
-                <p className="font-bold tracking-wide">
-                  ${totalPrice.total?.toFixed(2)}
-                </p>
-              </div>
-            </div>
-            <div className="flex my-2">
-              <div className="w-1/2 text-left">
-                <p className="text-[#808080] text-sm">GRAND TOTAL</p>
-              </div>
-              <div className="w-1/2 text-right">
-                <p className="font-bold tracking-wide">
-                  ${totalPrice.grandTotal?.toFixed(2)}
-                </p>
-              </div>
-            </div>
-            <div className="w-full">
-              <Link to={`/payment`}>
-                <button
-                  className={`bg-[#D87D4A] hover:bg-[#fbaf85] text-white w-full py-2 font-bold text-sm ${
-                    isValidated && products.length > 0
-                      ? ''
-                      : 'cursor-not-allowed opacity-50'
-                  }`}
-                  onClick={checkPaymentInputsValidation}
-                >
-                  CONTINUE & PAY
-                </button>
-              </Link>
-            </div>
+      <form onSubmit={formik.handleSubmit}>
+        <div className="flex w-full items-center justify-center py-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-3/4 text-[#808080] text-sm text-left"
+          >
+            Go Back
+          </button>
+        </div>
+        <div className="flex flex-col w-full justify-center items-center bg-[#F1F1F1] py-4">
+          <div className="flex flex-col lg:flex-row w-full lg:w-3/4 items-center lg:items-start justify-between bg-[#F1F1F1] ">
+            <PaymentForm formik={formik} />
+            <PaymentSummary
+              products={products}
+              formik={formik}
+              totalPrice={totalPrice}
+            />
           </div>
         </div>
-      </div>
+      </form>
       <Footer />
     </div>
   )

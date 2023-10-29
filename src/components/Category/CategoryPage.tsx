@@ -53,13 +53,11 @@ export const CategoryPage = (props: Props) => {
       const response = await sanityClient.fetch(query)
       if (!response) {
         setError(true)
-        setIsLoading(false)
       } else {
         setCategory(response)
-        setIsLoading(false)
       }
+      setIsLoading(false)
     }
-
     fetchProducts()
   }, [categoryName])
 

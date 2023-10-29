@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { SPEAKERS_ROUTE } from '../../Navigation/routes'
 
-const itemSpeakers = '../../Assets/home/cart/image-removebg-speaker.png'
+import itemSpeakers from '../../../Assets/home/cart/image-removebg-speaker.png'
 
 export const Link2 = () => {
   return (
