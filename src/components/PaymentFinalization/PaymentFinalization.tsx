@@ -11,7 +11,6 @@ import { OrderNotification } from './OrderNotification'
 
 import { useFormik } from 'formik'
 import { PaymentForm } from './PaymentForm'
-import { Input } from './Input'
 import { Order, OrderItem, Price } from './paymentTypes'
 import { PaymentSchema, initialValues } from './formData'
 import { PaymentSummary } from './PaymentSummary'
@@ -24,16 +23,16 @@ export const PaymentFinalization = () => {
   const handleOrderConfirmation = async () => {
     if (orderInfo.paymentMethod === 'stripe' && products.length > 0) {
       try {
+        console.log('ORDER', orderInfo)
         await axios.post('http://localhost:5000/createOrder', orderInfo)
-        dispatch(cartActions.removeAll())
 
         const response = await axios.post('http://localhost:4242/checkout', {
           items: products,
           customerEmail: orderInfo.email,
-          // tax_rates: orderInfo.country,
         })
         console.log(response.data.url)
         window.location.href = response.data.url
+        dispatch(cartActions.removeAll())
       } catch (error) {
         console.error('Error sending order:', error)
       }
@@ -82,6 +81,7 @@ export const PaymentFinalization = () => {
   })
 
   useEffect(() => {
+    console.log('SETORDER')
     setOrderInfo((prevOrderInfo) => ({
       ...prevOrderInfo,
       name: formik.values.name,
@@ -99,7 +99,7 @@ export const PaymentFinalization = () => {
       vat: totalPrice.vatIncluded,
       grandTotal: totalPrice.grandTotal,
     }))
-  }, [formik.values, totalPrice, products])
+  }, [formik.values, products, totalPrice.vatIncluded])
 
   useEffect(() => {
     const sum = products.reduce<number>(
@@ -109,20 +109,23 @@ export const PaymentFinalization = () => {
       },
       0
     )
-
-    const productsPrice = sum
+    console.log(sum)
     const calculatedShippingCost = 50
-    const totalWithoutVAT = productsPrice + calculatedShippingCost
+    const totalWithoutVAT = sum + calculatedShippingCost
 
     setTotalPrice({
-      total: productsPrice,
+      total: sum,
       totalWithoutVAT: totalWithoutVAT,
       shippingCost: calculatedShippingCost,
     })
   }, [products])
 
-  const validate = ({ address, city, country }: any) => {
-    if (formik.values.address && formik.values.city && formik.values.country) {
+  const validate = () => {
+    if (
+      orderInfo.address.length &&
+      orderInfo.city.length &&
+      orderInfo.country.length
+    ) {
       return true
     } else {
       return false
@@ -144,12 +147,13 @@ export const PaymentFinalization = () => {
         })
 
         const { taxAmount } = response.data
-        console.log(taxAmount)
+        console.log('TAX', taxAmount)
         setTotalPrice((prevTotalPrice) => ({
           ...prevTotalPrice,
           vatIncluded: taxAmount,
           grandTotal: totalPrice.totalWithoutVAT + taxAmount,
         }))
+        console.log(totalPrice)
       } catch (error) {
         console.error('Błąd podczas pobierania danych z serwera:', error)
         setTotalPrice((prevTotalPrice) => ({
@@ -160,10 +164,10 @@ export const PaymentFinalization = () => {
       }
     }
 
-    if (validate(formik.values)) {
+    if (validate()) {
       fetchData()
     }
-  }, [formik.values])
+  }, [orderInfo])
 
   return (
     <div className="flex flex-col w-full justify-center bg-[#F1F1F1]">

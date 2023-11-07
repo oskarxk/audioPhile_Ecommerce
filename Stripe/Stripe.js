@@ -38,8 +38,6 @@ app.post('/check-vat', async (req, res) => {
       },
       expand: ['line_items.data.tax_breakdown'],
     })
-
-    console.log('WYNIK', calculation.tax_amount_exclusive)
     res.status(200).json({ taxAmount: calculation.tax_amount_exclusive })
   } catch (error) {
     console.error('Wystąpił błąd:', error)

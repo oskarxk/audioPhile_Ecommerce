@@ -7,7 +7,7 @@ export const PaymentForm: React.FC<{ formik: FormikProps<FormikType> }> = ({
   formik,
 }) => {
   useEffect(() => {
-    console.log(formik.values)
+    // console.log(formik.values)
   }, [formik])
 
   return (
@@ -95,7 +95,7 @@ export const PaymentForm: React.FC<{ formik: FormikProps<FormikType> }> = ({
               />
             </div>
             <div className="flex flex-col">
-              {/* <Input
+              {/* <Input-
                 name={'country'}
                 error={!!(formik.errors.country && formik.touched.country)}
                 errorText={formik.errors.country ? formik.errors.country : ''}
