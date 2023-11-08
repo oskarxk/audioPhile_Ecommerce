@@ -48,14 +48,12 @@ app.post('/check-vat', async (req, res) => {
 app.post('/checkout', async (req, res) => {
   const items = req.body.items
   const customer_email = req.body.customerEmail
-  // const taxRates = req.body.tax_rates
   console.log(items)
   let lineItems = []
   items.forEach((item) => {
     lineItems.push({
       price: item.priceId,
       quantity: item.quantity,
-      // tax_rates: [taxRates],
     })
   })
 

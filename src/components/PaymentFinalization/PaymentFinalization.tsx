@@ -7,7 +7,6 @@ import axios from 'axios'
 import { ProductState } from 'types/product'
 import { cartActions } from 'store/Cart'
 
-
 import { useFormik } from 'formik'
 import { PaymentForm } from './PaymentForm'
 import { Order, OrderItem, Price } from './paymentTypes'
@@ -22,7 +21,6 @@ export const PaymentFinalization = () => {
   const handleOrderConfirmation = async () => {
     if (orderInfo.paymentMethod === 'stripe' && products.length > 0) {
       try {
-        console.log('ORDER', orderInfo)
         await axios.post('http://localhost:5000/createOrder', orderInfo)
 
         const response = await axios.post('http://localhost:4242/checkout', {
@@ -80,7 +78,6 @@ export const PaymentFinalization = () => {
   })
 
   useEffect(() => {
-    console.log('SETORDER')
     setOrderInfo((prevOrderInfo) => ({
       ...prevOrderInfo,
       name: formik.values.name,
@@ -108,7 +105,6 @@ export const PaymentFinalization = () => {
       },
       0
     )
-    console.log(sum)
     const calculatedShippingCost = 50
     const totalWithoutVAT = sum + calculatedShippingCost
 
@@ -146,13 +142,11 @@ export const PaymentFinalization = () => {
         })
 
         const { taxAmount } = response.data
-        console.log('TAX', taxAmount)
         setTotalPrice((prevTotalPrice) => ({
           ...prevTotalPrice,
           vatIncluded: taxAmount,
           grandTotal: totalPrice.totalWithoutVAT + taxAmount,
         }))
-        console.log(totalPrice)
       } catch (error) {
         console.error('Błąd podczas pobierania danych z serwera:', error)
         setTotalPrice((prevTotalPrice) => ({

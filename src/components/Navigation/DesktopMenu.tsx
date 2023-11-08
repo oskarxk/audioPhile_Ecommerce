@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { Logo } from './Logo/Logo'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uiActions } from '../../store/CartVisibility'
 import { useAppSelector } from 'hooks/useTypedSelector'
 
@@ -23,6 +23,16 @@ export const DesktopMenu = () => {
     dispatch(uiActions.toggle())
   }, [])
 
+  const showCart = useSelector((state: any) => state.ui.cartIsVisible)
+
+  const handleNavLinkClick = () => {
+    if (showCart) {
+      dispatch(uiActions.toggle())
+    } else if (!showCart) {
+      return
+    }
+  }
+
   const sum = products.reduce<number>((acc: number, product: ProductState) => {
     acc += product.quantity
     return acc
@@ -31,7 +41,7 @@ export const DesktopMenu = () => {
   return (
     <nav className={`flex items-center justify-around bg-[#101010] py-6`}>
       <div>
-        <Link to={HOME_ROUTE} aria-label="Home">
+        <Link to={HOME_ROUTE} aria-label="Home" onClick={handleNavLinkClick}>
           <Logo />
         </Link>
       </div>
@@ -43,6 +53,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           HOME
         </NavLink>
@@ -53,6 +64,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           SPEAKERS
         </NavLink>
@@ -63,6 +75,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           HEADPHONES
         </NavLink>
@@ -73,6 +86,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           EARPHONES
         </NavLink>

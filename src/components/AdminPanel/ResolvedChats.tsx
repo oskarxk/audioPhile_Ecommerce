@@ -25,7 +25,6 @@ export const ResolvedChats = () => {
 		socket.emit('get_archived_chats', tokenCallback);
 
 		socket.on('archived_chats', (allArchivedChats) => {
-			console.log(allArchivedChats);
 			setArchivedChats(allArchivedChats);
 		});
 		return () => {
