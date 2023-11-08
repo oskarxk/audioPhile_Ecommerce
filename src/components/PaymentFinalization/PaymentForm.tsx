@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormikProps } from 'formik'
 import { Input } from './Input'
 import { FormikType } from './paymentTypes'
@@ -6,9 +6,7 @@ import { FormikType } from './paymentTypes'
 export const PaymentForm: React.FC<{ formik: FormikProps<FormikType> }> = ({
   formik,
 }) => {
-  useEffect(() => {
-    // console.log(formik.values)
-  }, [formik])
+  
 
   return (
     <div className="w-3/4 lg:w-8/12 bg-white rounded-md px-8 py-8">

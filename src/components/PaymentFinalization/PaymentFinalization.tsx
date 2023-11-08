@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector'
-import { Link } from 'react-router-dom'
 import { Navigation } from 'components/Navigation/Navigation'
 import { Footer } from 'shared/Footer/Footer'
 import axios from 'axios'
 import { ProductState } from 'types/product'
 import { cartActions } from 'store/Cart'
-import { OrderNotification } from './OrderNotification'
+
 
 import { useFormik } from 'formik'
 import { PaymentForm } from './PaymentForm'
