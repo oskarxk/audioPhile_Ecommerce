@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { uiActions } from '../../store/CartVisibility'
 import { useAppSelector } from 'hooks/useTypedSelector'
 import { ProductState } from 'types/product'
+import { RootState } from 'store'
 
 import {
   HOME_ROUTE,
@@ -19,7 +20,7 @@ import {
 export const MobileMenu = () => {
   const [showMenu, setShowMenu] = useState(false)
   const { products } = useAppSelector((state) => state.cm)
-  const showCart = useSelector((state: any) => state.ui.cartIsVisible)
+  const showCart = useSelector((state: RootState) => state.ui.cartIsVisible)
 
   const handleMenuClick = () => {
     setShowMenu(!showMenu)

@@ -97,4 +97,4 @@ app.post('/checkout', async (req, res) => {
   )
 })
 
-app.listen(4242, () => console.log('Running on port 4242'))
+app.listen(4001, () => console.log('Running on port 4001'))

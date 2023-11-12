@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import sanityClient from '../../client'
-
-import { Cart } from 'components/Cart/Cart'
-import { CategoryLink } from 'components/Category/CategoryLink/CategoryLink'
-import { AboutUs } from 'shared/Aboutus/AboutUs'
-import { CategoryItem } from 'components/Category/CategoryItem'
-import { Navigation } from 'components/Navigation/Navigation'
-import { Footer } from 'shared/Footer/Footer'
-
 import { ClipLoader } from 'react-spinners'
+import { RootState } from 'store'
 
-type Props = {}
+import {
+  Cart,
+  CategoryLink,
+  AboutUs,
+  CategoryItem,
+  Navigation,
+  Footer,
+} from '../../components/index'
 
 type Category = {
   name: string
@@ -26,12 +26,12 @@ type Category = {
   }[]
 }
 
-export const CategoryPage = (props: Props) => {
+export const CategoryPage = () => {
   const { categoryName } = useParams()
   const [category, setCategory] = useState<Category | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
-  const showCart = useSelector((state: any) => state.ui.cartIsVisible)
+  const showCart = useSelector((state: RootState) => state.ui.cartIsVisible)
 
   useEffect(() => {
     const fetchProducts = async () => {

@@ -6,6 +6,7 @@ import { Logo } from './Logo/Logo'
 import { useDispatch, useSelector } from 'react-redux'
 import { uiActions } from '../../store/CartVisibility'
 import { useAppSelector } from 'hooks/useTypedSelector'
+import { RootState } from 'store'
 
 import { ProductState } from 'types/product'
 
@@ -23,7 +24,7 @@ export const DesktopMenu = () => {
     dispatch(uiActions.toggle())
   }, [])
 
-  const showCart = useSelector((state: any) => state.ui.cartIsVisible)
+  const showCart = useSelector((state: RootState) => state.ui.cartIsVisible)
 
   const handleNavLinkClick = () => {
     if (showCart) {

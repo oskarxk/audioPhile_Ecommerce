@@ -34,7 +34,6 @@ app.post('/createOrder', (req, res) => {
 
   orders.push(newOrder)
   res.status(201).json({ message: 'Order created successfully!' })
-  console.log(orders)
 })
 
 app.get('/orders', (req, res) => {

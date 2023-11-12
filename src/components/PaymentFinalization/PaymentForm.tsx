@@ -93,14 +93,6 @@ export const PaymentForm: React.FC<{ formik: FormikProps<FormikType> }> = ({
               />
             </div>
             <div className="flex flex-col">
-              {/* <Input-
-                name={'country'}
-                error={!!(formik.errors.country && formik.touched.country)}
-                errorText={formik.errors.country ? formik.errors.country : ''}
-                value={formik.values.country}
-                label={'Country'}
-                onChange={formik.handleChange}
-              /> */}
               <label className="text-left font-semibold py-2" htmlFor="country">
                 Country
               </label>

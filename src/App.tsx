@@ -1,19 +1,21 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import { Home } from 'components/Home/Home'
-import { CategoryPage } from 'components/Category/CategoryPage'
-import { ProductCard } from 'components/Product/ProductCard'
-import { PaymentFinalization } from 'components/PaymentFinalization/PaymentFinalization'
-import { AdminLogin } from 'components/AdminPanel/AdminLogin'
-import { OrderSuccess } from 'components/PaymentFinalization/OrderSuccess'
-import { OrderCancel } from 'components/PaymentFinalization/OrderCancel'
 
-import { Orders } from 'components/AdminPanel/Orders'
-import { OnlineChats } from 'components/AdminPanel/OnlineChats'
-import { ResolvedChats } from 'components/AdminPanel/ResolvedChats'
-import { NotFoundPage } from 'components/NotFoundPage/NotFoundPage'
-import AdminPrivateRoutes from 'components/AdminPanel/AdminPrivateRoutes'
+import {
+  Home,
+  CategoryPage,
+  ProductCard,
+  PaymentFinalization,
+  AdminLogin,
+  OrderSuccess,
+  OrderCancel,
+  Orders,
+  OnlineChats,
+  ResolvedChats,
+  NotFoundPage,
+  AdminPrivateRoutes,
+} from './components/index'
 
 function App() {
   return (
