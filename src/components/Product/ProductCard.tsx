@@ -3,17 +3,20 @@ import sanityClient from '../../client'
 import { useSelector } from 'react-redux'
 import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { useAppDispatch } from 'hooks/useTypedSelector'
+import { cartActions } from 'store/Cart'
+import { RootState } from 'store'
 
-import { Cart } from 'components/Cart/Cart'
-import { CategoryLink } from 'components/CategoryLink/CategoryLink'
-import { cartActions } from 'components/store/Cart'
-import { AboutUs } from 'shared/Aboutus/AboutUs'
-import { Chat } from 'components/Chat/Chat'
-import { Navigation } from 'components/Navigation/Navigation'
-import { Footer } from 'shared/Footer/Footer'
+import {
+  Cart,
+  CategoryLink,
+  AboutUs,
+  Navigation,
+  Footer,
+  Chat,
+  ProductNotification,
+} from '../../components/index'
 
 import { ClipLoader } from 'react-spinners'
-import { ProductNotification } from './ProductNotification'
 import { Product } from 'types/product'
 
 export const ProductCard = () => {
@@ -25,7 +28,7 @@ export const ProductCard = () => {
   const { productName } = useParams()
   const [quantity, setQuantity] = useState(1)
   const dispatch = useAppDispatch()
-  const showCart = useSelector((state: any) => state.ui.cartIsVisible)
+  const showCart = useSelector((state: RootState) => state.ui.cartIsVisible)
   const navigate = useNavigate()
 
   const addToCart = () => {
@@ -47,6 +50,7 @@ export const ProductCard = () => {
       setIsLoading(true)
       const productQuery = `*[_type == "products" && slug.current == "${productName}"]{_id,name,shortName,
 					price,
+          priceId,
 					  slug,
 					description,
 					feature1,

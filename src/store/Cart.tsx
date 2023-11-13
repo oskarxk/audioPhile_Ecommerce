@@ -27,13 +27,17 @@ const cart = createSlice({
           products: [...state.products, { ...product, quantity }],
         }
       } else {
+        const updatedProducts = state.products.map((item) => {
+          if (item._id === product._id) {
+            return { ...item, quantity: item.quantity + quantity };
+          }
+          return item;
+        });
+    
         state = {
           ...state,
-          products: [
-            ...state.products.filter((item) => item._id !== product._id),
-            { ...existingProduct, quantity },
-          ],
-        }
+          products: updatedProducts,
+        };
       }
       sessionStorage.setItem('cartItems', JSON.stringify(state.products))
       return state

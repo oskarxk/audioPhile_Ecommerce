@@ -1,25 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Navigation } from 'components/Navigation/Navigation'
-import { Footer } from 'shared/Footer/Footer'
-import { AboutUs } from 'shared/Aboutus/AboutUs'
-import { CategoryLink } from 'components/CategoryLink/CategoryLink'
-import { Cart } from 'components/Cart/Cart'
+
+import {
+  Cart,
+  CategoryLink,
+  AboutUs,
+  Navigation,
+  Footer,
+} from '../../components/index'
 
 import { useSelector } from 'react-redux'
+import { RootState } from 'store'
 
-const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg')
-const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg')
-const itemSpeakersMobile = require('../../Assets/home/cart/image-removebg-speaker.png')
-const itemSpeakersDesktop = require('../../Assets/home//tablet/image-speaker-zx9.png')
-
-const photoSpeaker = require('../../Assets/home/mobile/image-speaker-zx7.jpg')
-const photoSpeakerDesktop = require('../../Assets/home/desktop/image-speaker-zx7.jpg')
-const photoEarphones = require('../../Assets/home/mobile/image-earphones-yx1.jpg')
-const photoEarphonesDesktop = require('../../Assets/home/desktop/image-earphones-yx1.jpg')
+import headerImageMobile from '../../Assets/home/mobile/image-header.jpg'
+import headerImageDesktop from '../../Assets/home/desktop/image-hero.jpg'
+import itemSpeakersMobile from '../../Assets/home/cart/image-removebg-speaker.png'
+import itemSpeakersDesktop from '../../Assets/home//tablet/image-speaker-zx9.png'
+import photoSpeaker from '../../Assets/home/mobile/image-speaker-zx7.jpg'
+import photoSpeakerDesktop from '../../Assets/home/desktop/image-speaker-zx7.jpg'
+import photoEarphones from '../../Assets/home/mobile/image-earphones-yx1.jpg'
+import photoEarphonesDesktop from '../../Assets/home/desktop/image-earphones-yx1.jpg'
 
 export const Home = () => {
-  const showCart = useSelector((state: any) => state.ui.cartIsVisible)
+  const showCart = useSelector((state: RootState) => state.ui.cartIsVisible)
 
   return (
     <div className="flex flex-col relative">

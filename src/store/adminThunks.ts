@@ -21,7 +21,6 @@ export const adminThunks = createAsyncThunk(
 			loginData.password,
 			(resp: string | boolean) => {
 				if (!resp) {
-					console.log('Dupa blada koleżko');
 					return;
 				} else {
 					dispatch(authaActions.toggle(resp as string));
@@ -34,10 +33,9 @@ export const adminThunks = createAsyncThunk(
 export const logoutAdmin = createAsyncThunk('auth/logoutAdmin', async (_, { dispatch }) => {
 	socket.emit('logout', (callback: boolean) => {
 	  if (callback) {
-		console.log('Admin wylogowany');
 		dispatch(authaActions.toggle('')); // Resetujemy stan autoryzacji po wylogowaniu
 	  } else {
-		console.log('Błąd wylogowania');
+		console.log('Error');
 	  }
 	});
   });

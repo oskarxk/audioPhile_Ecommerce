@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useAppSelector, useAppDispatch } from 'hooks/useTypedSelector'
-import { cartActions } from '../store/Cart'
+import { cartActions } from 'store/Cart'
 import { CartItem } from 'modules/Cart/CartItem'
 
 import { uiActions } from 'store/CartVisibility'

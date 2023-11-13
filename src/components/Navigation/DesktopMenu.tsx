@@ -3,8 +3,12 @@ import { Link, NavLink } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { Logo } from './Logo/Logo'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uiActions } from '../../store/CartVisibility'
+import { useAppSelector } from 'hooks/useTypedSelector'
+import { RootState } from 'store'
+
+import { ProductState } from 'types/product'
 
 import {
   HOME_ROUTE,
@@ -14,15 +18,31 @@ import {
 } from './routes'
 
 export const DesktopMenu = () => {
+  const { products } = useAppSelector((state) => state.cm)
   const dispatch = useDispatch()
   const toggleCartHandler = useCallback(() => {
     dispatch(uiActions.toggle())
   }, [])
 
+  const showCart = useSelector((state: RootState) => state.ui.cartIsVisible)
+
+  const handleNavLinkClick = () => {
+    if (showCart) {
+      dispatch(uiActions.toggle())
+    } else if (!showCart) {
+      return
+    }
+  }
+
+  const sum = products.reduce<number>((acc: number, product: ProductState) => {
+    acc += product.quantity
+    return acc
+  }, 0)
+
   return (
     <nav className={`flex items-center justify-around bg-[#101010] py-6`}>
       <div>
-        <Link to={HOME_ROUTE} aria-label="Home">
+        <Link to={HOME_ROUTE} aria-label="Home" onClick={handleNavLinkClick}>
           <Logo />
         </Link>
       </div>
@@ -34,6 +54,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           HOME
         </NavLink>
@@ -44,6 +65,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           SPEAKERS
         </NavLink>
@@ -54,6 +76,7 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           HEADPHONES
         </NavLink>
@@ -64,12 +87,21 @@ export const DesktopMenu = () => {
           style={({ isActive }) => ({
             color: isActive ? '#D87D4A' : 'white',
           })}
+          onClick={handleNavLinkClick}
         >
           EARPHONES
         </NavLink>
       </div>
-      <div onClick={toggleCartHandler} className="cursor-pointer">
+      <div
+        onClick={toggleCartHandler}
+        className="cursor-pointer flex items-center justify-center"
+      >
         <AiOutlineShoppingCart className="text-white text-2xl" />
+        {products.length > 0 && (
+          <div className=" w-6 h-6 rounded-xl bg-[#D87D4A] text-white font-bold">
+            {sum}
+          </div>
+        )}
       </div>
     </nav>
   )
