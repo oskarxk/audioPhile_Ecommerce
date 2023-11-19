@@ -21,7 +21,10 @@ export const PaymentFinalization = () => {
   const handleOrderConfirmation = async () => {
     if (orderInfo.paymentMethod === 'stripe' && products.length > 0) {
       try {
-        await axios.post('http://localhost:5000/createOrder', orderInfo)
+        await axios.post(
+          'https://audio-store-ordersserver-backend.onrender.com/createOrder',
+          orderInfo
+        )
 
         const response = await axios.post('http://localhost:4001/checkout', {
           items: products,
@@ -35,7 +38,10 @@ export const PaymentFinalization = () => {
       }
     } else if (orderInfo.paymentMethod === 'cash' && products.length > 0) {
       try {
-        await axios.post('http://localhost:5000/createOrder', orderInfo)
+        await axios.post(
+          'https://audio-store-ordersserver-backend.onrender.com/createOrder',
+          orderInfo
+        )
         dispatch(cartActions.removeAll())
         navigate('/success')
       } catch (error) {
