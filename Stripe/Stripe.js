@@ -9,8 +9,8 @@ app.use(express.static('public'))
 app.use(cors())
 app.use(express.json())
 
-const SUCCESS = 'http://localhost:3000/success'
-const CANCELED = 'http://localhost:3000/canceled'
+const SUCCESS = 'theaudioonline.store/success'
+const CANCELED = 'theaudioonline.store/canceled'
 
 app.post('/check-vat', async (req, res) => {
   const items = req.body.items
