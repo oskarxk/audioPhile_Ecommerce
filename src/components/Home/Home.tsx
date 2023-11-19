@@ -47,7 +47,7 @@ export const Home = () => {
             made for the passionate music enthusiast
           </p>
           <div className="w-full flex justify-center lg:justify-start mt-14">
-            <Link className="py-4" to={'/headphones/xx99m2'}>
+            <Link className=" lg:py-4" to={'/headphones/xx99m2'}>
               <button className="h-25 bg-[#D87D4A] text-white font-bold py-2 px-4 hover:bg-[#fbaf85]">
                 SEE PRODUCT
               </button>
@@ -55,9 +55,13 @@ export const Home = () => {
           </div>
         </div>
         <img
-          className="block w-full"
+          className="block lg:hidden w-full"
           src={headerImageMobile}
-          srcSet={`${headerImageMobile} 1024w, ${headerImageDesktop} 1280w`}
+          alt="Hero"
+        />
+        <img
+          className="hidden lg:block w-full"
+          src={headerImageDesktop}
           alt="Hero"
         />
       </div>
@@ -68,7 +72,7 @@ export const Home = () => {
             src={itemSpeakersMobile}
             srcSet={`${itemSpeakersMobile} 1024w, ${itemSpeakersDesktop} 1280w`}
             alt="speakers"
-            className="w-1/2 lg:w-1/3"
+            className="w-1/2 lg:w-1/4"
           />
           <div className="w-3/4 lg:w-1/3 flex flex-col justify-center items-center lg:items-start">
             <p className="text-2xl lg:text-5xl px-2 lg:px-0 py-2 w-full lg:w-1/2 text-center lg:text-left lg:tracking-wider font-bold text-[#FFFFFF]">
@@ -85,21 +89,27 @@ export const Home = () => {
             </Link>
           </div>
         </div>
-        <div className="w-3/4 flex flex-col justify-center lg:justify-around items-center rounded-xl relative lg:my-8">
+        <div className="w-3/4 flex justify-start items-center rounded-xl relative lg:my-8">
           <img
+            className="block lg:hidden rounded-xl w-full"
             src={photoSpeaker}
-            srcSet={`${photoSpeaker} 1024w, ${photoSpeakerDesktop} 1280w`}
-            alt="speakers"
-            className="rounded-xl w-full"
+            alt="Hero"
           />
-          <p className="absolute left-3 lg:left-6 top-1/3 transform text-2xl lg:text-4xl font-bold text-[#101010] text-left">
-            ZX7 SPEAKER
-          </p>
-          <Link to={'/speakers/zx7'}>
-            <button className="h-12 w-1/2 lg:w-1/6 bg-transparent border border-[#101010] text-[#101010] font-bold text-sm absolute left-3 lg:left-6 top-1/2 transform -translate-y-1/2 mt-4">
-              SEE PRODUCT
-            </button>
-          </Link>
+          <img
+            className="hidden lg:block rounded-xl w-full"
+            src={photoSpeakerDesktop}
+            alt="Hero"
+          />
+          <div className="flex flex-col items-start rounded-lg absolute">
+            <p className="text-[#101010] font-bold tracking-wider	text-left ml-4 lg:ml-16 text-2xl lg:text-3xl mt-4 lg:mt-0">
+              ZX7 SPEAKER
+            </p>
+            <Link to={'/speakers/zx7'}>
+              <button className="h-12 w-full bg-transparent border border-[#101010] text-[#101010] font-bold text-sm ml-4 lg:ml-16 my-4">
+                SEE PRODUCT
+              </button>
+            </Link>
+          </div>
         </div>
         <div className="flex flex-col lg:flex-row w-full lg:w-3/4 justify-center lg:justify-between items-center">
           <div className="w-3/4 lg:w-full my-2 lg:my-0 mr-0 lg:mr-2 flex flex-col justify-center items-center rounded-xl relative">
