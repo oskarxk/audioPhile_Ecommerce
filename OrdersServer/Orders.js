@@ -31,8 +31,8 @@ app.post('/createOrder', (req, res) => {
     grandTotal: req.body.grandTotal,
     items: req.body.items,
   }
-
   orders.push(newOrder)
+  console.log(orders)
   res.status(201).json({ message: 'Order created successfully!' })
 })
 
