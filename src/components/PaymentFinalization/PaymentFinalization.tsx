@@ -23,7 +23,7 @@ export const PaymentFinalization = () => {
       try {
         await axios.post('http://localhost:5000/createOrder', orderInfo)
 
-        const response = await axios.post('http://localhost:4242/checkout', {
+        const response = await axios.post('http://localhost:4001/checkout', {
           items: products,
           customerEmail: orderInfo.email,
         })
@@ -130,7 +130,7 @@ export const PaymentFinalization = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:4242/check-vat', {
+        const response = await axios.post('http://localhost:4001/check-vat', {
           items: [{ amount: totalPrice.totalWithoutVAT, reference: 'L1' }],
           address: {
             line1: orderInfo.address,
