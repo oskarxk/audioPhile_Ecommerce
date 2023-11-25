@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
 	cors: {
-		origin: 'https://theaudioonline.store/',
+		origin: 'https://full-backend-audio.onrender.com',
 		methods: ['GET', 'POST'],
 	},
 });
