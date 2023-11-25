@@ -7,7 +7,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import { TbMoodEmpty } from 'react-icons/tb';
 import { Chat } from 'types/chat';
 
-const socket = io('http://localhost:4000', {
+const socket = io('https://full-backend-audio.onrender.com', {
 	autoConnect: false,
 });
 

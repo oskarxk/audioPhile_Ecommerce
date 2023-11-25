@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { authaActions } from './adminAuth';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:4000', {
+const socket = io('https://full-backend-audio.onrender.com', {
 	autoConnect: false,
 });
 

@@ -39,7 +39,7 @@ export const Orders = (props: Props) => {
 
   useEffect(() => {
     axios
-      .get('https://audio-store-ordersserver-backend.onrender.com/orders')
+      .get('https://full-backend-audio.onrender.com/orders')
       .then((response) => {
         setOrders(response.data)
       })

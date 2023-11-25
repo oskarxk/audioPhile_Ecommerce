@@ -13,6 +13,8 @@ import { Order, OrderItem, Price } from './paymentTypes'
 import { PaymentSchema, initialValues } from './formData'
 import { PaymentSummary } from './PaymentSummary'
 
+// https://full-backend-audio.onrender.com
+
 export const PaymentFinalization = () => {
   const { products } = useAppSelector((state) => state.cm)
   const dispatch = useAppDispatch()
@@ -22,11 +24,11 @@ export const PaymentFinalization = () => {
     if (orderInfo.paymentMethod === 'stripe' && products.length > 0) {
       try {
         await axios.post(
-          'https://audio-store-ordersserver-backend.onrender.com/createOrder',
+          'https://full-backend-audio.onrender.com/createOrder',
           orderInfo
         )
 
-        const response = await axios.post('http://localhost:4001/checkout', {
+        const response = await axios.post('https://full-backend-audio.onrender.com/checkout', {
           items: products,
           customerEmail: orderInfo.email,
         })
@@ -39,7 +41,7 @@ export const PaymentFinalization = () => {
     } else if (orderInfo.paymentMethod === 'cash' && products.length > 0) {
       try {
         await axios.post(
-          'https://audio-store-ordersserver-backend.onrender.com/createOrder',
+          'https://full-backend-audio.onrender.com/createOrder',
           orderInfo
         )
         dispatch(cartActions.removeAll())
@@ -136,7 +138,7 @@ export const PaymentFinalization = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:4001/check-vat', {
+        const response = await axios.post('https://full-backend-audio.onrender.com/check-vat', {
           items: [{ amount: totalPrice.totalWithoutVAT, reference: 'L1' }],
           address: {
             line1: orderInfo.address,

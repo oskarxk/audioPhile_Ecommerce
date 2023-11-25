@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router'
 import { DesktopNotification } from './DesktopNotification'
 
-const headerImageMobile = require('../../Assets/home/mobile/image-header.jpg')
-const headerImageDesktop = require('../../Assets/home/desktop/image-hero.jpg')
+import headerImageMobile from '../../Assets/home/mobile/image-header.jpg'
+import headerImageDesktop from '../../Assets/home/desktop/image-hero.jpg'
 
 export const AdminLogin = () => {
   const dispatch = useDispatch<AppDispatch>()

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import { ChatRoom } from './ChatRoom';
 
-const socket = io('http://localhost:4000', {
+const socket = io('https://full-backend-audio.onrender.com', {
 	autoConnect: false,
 });
 
