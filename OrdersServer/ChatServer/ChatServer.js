@@ -5,13 +5,16 @@ import { Server } from 'socket.io'
 const app = express()
 app.use(cors())
 
-const server = http.createServer(app)
+const server = http.createServer(app);
+
+console.log('SERVER', server);
 
 const io = new Server(server, {
   cors: {
     origin: 'https://theaudioonline.store',
     methods: ['GET', 'POST'],
   },
+  rejectUnauthorized: false
 })
 
 const chats = []
@@ -21,6 +24,11 @@ const admin = {
 }
 
 let adminUniqueId = ''
+
+io.on("connect_error", (err) => {
+  console.log('ERROR', err);
+  console.log(`connect_error due to ${err.message}`);
+});
 
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`)
