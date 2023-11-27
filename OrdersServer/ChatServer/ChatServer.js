@@ -116,6 +116,6 @@ io.on('connection', (socket) => {
 
 //START THE SERVER
 const port = 4000
-server.listen(port, () => {
+http.listen(port, () => {
   console.log(`Chat message server is running on port ${port}`)
 })
