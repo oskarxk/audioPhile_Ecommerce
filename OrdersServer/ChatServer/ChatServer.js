@@ -9,17 +9,11 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
 	cors: {
-		origin: 'https://full-backend-audio.onrender.com',
+		origin: 'https://theaudioonline.store/',
 		methods: ['GET', 'POST'],
 	},
 });
 
-// const options = {
-//   cors: true,
-//   origins: ['https://full-backend-audio.onrender.com:4000'],
-//   'force new connection': true,
-// }
-// const io = new Server(server, { options })
 
 const chats = []
 const admin = {
