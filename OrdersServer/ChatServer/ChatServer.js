@@ -8,12 +8,11 @@ app.use(cors())
 const server = http.createServer(app)
 
 const io = new Server(server, {
-	cors: {
-		origin: 'https://theaudioonline.store/',
-		methods: ['GET', 'POST'],
-	},
-});
-
+  cors: {
+    origin: 'https://theaudioonline.store',
+    methods: ['GET', 'POST'],
+  },
+})
 
 const chats = []
 const admin = {
@@ -116,6 +115,6 @@ io.on('connection', (socket) => {
 
 //START THE SERVER
 const port = 4000
-http.listen(port, () => {
+server.listen(port, () => {
   console.log(`Chat message server is running on port ${port}`)
 })
