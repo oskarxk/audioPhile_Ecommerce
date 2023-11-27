@@ -9,7 +9,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
 	cors: {
-		origin: 'https://full-backend-audio.onrender.com:4000',
+		origin: 'https://full-backend-audio.onrender.com',
 		methods: ['GET', 'POST'],
 	},
 });
